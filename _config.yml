@@ -4,8 +4,8 @@
 
 url: http://yuxiaopeng.github.com
 title: Roc's Blog
-subtitle: 临乱世而不惊，处方舟而不躁，喜迎阴晴圆缺，笑傲风霜雨雪！
-author: roc
+subtitle: 临乱世而不惊，<br>处方舟而不躁，<br>喜迎阴晴圆缺，<br>笑傲风霜雨雪！
+author: Roc
 simple_search: http://google.com/search
 description:
 
@@ -14,6 +14,12 @@ description:
 # http://www.ruby-doc.org/core-1.9.2/Time.html#method-i-strftime
 # Additionally, %o will give you the ordinal representation of the day
 date_format: "ordinal"
+
+
+# 微博数字 ID 或域名 ID
+weibo_user: rooc
+# 是否开启微博分享按钮
+# weibo_share: true
 
 # RSS / Email (optional) subscription links (change if using something like Feedburner)
 subscribe_rss: /atom.xml
