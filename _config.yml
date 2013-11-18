@@ -4,10 +4,10 @@
 
 url: http://yuxiaopeng.github.com
 title: Roc's Blog
-subtitle: Test<br>
+subtitle: 临乱世而不惊，<br>处方舟而不躁，<br>喜迎阴晴圆缺，<br>笑傲风霜雨雪！
 author: Roc
 simple_search: http://google.com/search
-description: 临乱世而不惊，<br>处方舟而不躁，<br>喜迎阴晴圆缺，<br>笑傲风霜雨雪！
+description: 
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
 # You can customize the format as defined in
@@ -99,7 +99,7 @@ disqus_short_name:
 disqus_show_comment_count: false
 
 # Google Analytics
-google_analytics_tracking_id:
+google_analytics_tracking_id: UA-45732020-1
 
 # Facebook Like
 facebook_like: false
