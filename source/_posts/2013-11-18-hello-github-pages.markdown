@@ -1,12 +1,12 @@
 ---
 layout: post
 title: "Hello Github Pages"
-date: 2013-08-05 11:56
+date: 2013-11-18 11:56
 comments: true
 categories: 
 ---
 
-{% img /images/2013/07/wordpress_logo.png %}
+{% img /images/2013/11/octopress-logo.png %}
 
 ###大家好，我是Roc，欢迎大家关注我的小站！
 
@@ -33,7 +33,7 @@ ruby dk.rb instal
 easy_install pygments
 ```
 
-wi7环境变量：<br>
+win7环境变量：<br>
 LANG=zh_CN.UTF-8
 LC_ALL=zh_CN.UTF-8
 
