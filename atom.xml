@@ -4,7 +4,7 @@
   <title><![CDATA[Roc's Blog]]></title>
   <link href="http://yuxiaopeng.github.com/atom.xml" rel="self"/>
   <link href="http://yuxiaopeng.github.com/"/>
-  <updated>2014-02-11T10:58:45+08:00</updated>
+  <updated>2014-02-11T11:00:05+08:00</updated>
   <id>http://yuxiaopeng.github.com/</id>
   <author>
     <name><![CDATA[Roc]]></name>
@@ -150,7 +150,7 @@ rake setup_github_pages</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>excerpt_link: "继续阅读 &rarr;"
+</pre></td><td class='code'><pre><code class=''><span class='line'>excerpt_link: "继续阅读 &lt;pre&gt;&rarr;&lt;/pre&gt;"
 </span><span class='line'>permalink: /blog/:title.html/</span></code></pre></td></tr></table></div></figure>
 
 
