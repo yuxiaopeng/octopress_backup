@@ -1,12 +1,12 @@
 ---
 layout: post
-title: "create a blog using octopress"
+title: "使用Octopress搭建博客"
 date: 2014-02-10 16:17
 comments: true
 categories: 
 ---
 
-{% img /images/2013/11/octopress-logo.png %}
+{% img /images/2014/12/github_page_and-octopress.png %}
 
 
 ### 1、安装 Git.
@@ -117,34 +117,34 @@ config.yml是博客重要的一个配置文件，在config.yml文件中有三大
 
 注意格式: 配置项:＋空格＋参数，空格一定不能少，否则会报错。
 
-配置日期格式
+* 配置日期格式
 
 ```
 date_format: "%F %a"  		#2014-01-01    
 date_format: "%Y年%m月%d日"	#2014年1月1日
 ```
 
-Jekyll配置
+* Jekyll配置
 
 ```
-excerpt_link: "继续阅读 \&rarr;"  
+excerpt_link: "继续阅读 &amp;rarr; "
 permalink: /blog/:title.html/
 ```
 
-侧边栏
+* 侧边栏
 
 ```
 default_asides: [asides/recent_posts.html, asides/github.html]
 ```
 
-使用本地时区
+* 使用本地时区
 
 将Rakefile里面所有Time.now改为Time.now.localtime
 
-自动打开文件/浏览器
+* 自动打开文件/浏览器（编辑Rakefile）
 
-编辑Rakefile
-rake new_post/page 后使用指定编辑器自动打开生成的文件
+
+rake new_post/page 后使用指定编辑器自动打开生成的文件 
 
 ```
 # Misc Configs 中添加，如果不需要自动打开，则直接使用""
@@ -153,7 +153,7 @@ editor="open"
 # open -a Mou，使用Mou打开
 # open -a Byword，使用Byword打开
 # subl, 使用Sublime Text2打开 
-…
+...
 # task :new_post 和 task :new_page 中添加
 if #{editor}
 	system "sleep 1; #{editor} #{filename}"
@@ -172,3 +172,37 @@ system "sleep 2; open http://localhost:#{server_port}/"
 
 
 ### 6、开始使用Octopress写博客
+
+博客系统搭建好之后，如何撰写博文呢？通过之前的步骤想必你对octopress的精髓有所了解，没有所见即所得的编辑器让你撰写博文，你要做的是使用 rake new_post 命令创建一篇新的文章，然后使用称手的markdown编辑器进行编辑即可。可选择的markdown编辑器很多，vim，sublime text 2，textmate 2，mou等等。我个人喜欢在osx下使用sublime text 2。
+
+终端中输入命令：
+
+```
+rake new_post["title"]
+```
+
+Octopress博文存储在source/_posts目录下，按照Jekyll的命名规范对文章进行命名：YYYY-MM-DD-post-title.markdown。文章的名字会被当做url的一部分，而其中的日期用于对博文的区分和排序。打开这个文件内容如下：
+
+```
+---
+layout: post
+title: "使用Octopress搭建博客"
+date: 2014-02-10 16:17
+comments: true
+categories: 
+---
+```
+
+接着我们就可以在这个文件中写我们的博文啦。完成之后，我们可以预览和部署博文。下面是创建并部署博文的一个完整过程：
+
+```
+rake new_post["New Post"]
+rake generate
+rake preview
+git add .
+git commit -am "Some comment here." 
+git push origin source
+rake deploy
+```
+
+参考：[`Blogging Basics`](http://octopress.org/docs/blogging/)
