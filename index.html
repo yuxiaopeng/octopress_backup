@@ -7,7 +7,8 @@
 	<meta name="author" content="Roc">
 
 	
-	<meta name="description" content="Feb 10th, 2014 使用Octopress搭建博客 1、安装 Git. Mac系统默认已安装Git.在终端输入git &#8211;version，应该可以看到电脑中的git版本 2、安装 Ruby Octopress需要Ruby环境，RVM(Ruby Version Manager) &hellip;">
+	<meta name="description" content="Feb 11th, 2014 Ocotopress个性化配置 1、添加个人域名 octopress目录下，执行命令： 1
+echo 'yourdomain.com' &gt;&gt; source/CNAME 此命令会在octopress的source目录创建一个名为CNAME的文件文件， &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -74,6 +75,199 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-11T14:51:00+08:00" data-updated="true" itemprop="datePublished">Feb 11<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/02/11/ocotopress-personalized-configuration/" itemprop="url">Ocotopress个性化配置</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p><img src="/images/2014/02/octopress.png"></p>
+
+<h3>1、添加个人域名</h3>
+
+<p>octopress目录下，执行命令：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>echo 'yourdomain.com' &gt;&gt; source/CNAME</span></code></pre></td></tr></table></div></figure>
+
+
+<p>此命令会在octopress的source目录创建一个名为CNAME的文件文件，内容为<code>yourdomain.com</code>，完成之后，执行如下命令将CNAME部署到github：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake generate
+</span><span class='line'>git add .
+</span><span class='line'>git commit -am "add CNAME." 
+</span><span class='line'>git push origin source
+</span><span class='line'>rake deploy</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后在你的DNS服务商，如 dnspod.cn，添加相应的CNAME指向 <code>yourname.github.com</code>。如果你要使用顶级域名，如 <a href="http://yuxiaopeng.com"><code>http://yuxiaopeng.com</code></a> 访问你的博客，则需要使用A记录指向 <code>204.232.175.78</code>。</p>
+
+<p>详细内容请参考：<a href="http://octopress.org/docs/deploying/github/"><code>Custom Domains</code></a></p>
+
+<h3>2、安装主题</h3>
+
+<p>本博使用shashank的greyshade主题，在终端中执行如下命令：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git clone git@github.com:shashankmehta/greyshade.git .themes/greyshade
+</span><span class='line'>$ echo "\$greyshade: color;" &gt;&gt; sass/custom/_colors.scss //Substitue 'color' with your highlight color
+</span><span class='line'>$ rake "install[greyshade]"
+</span><span class='line'>$ rake generate</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后，部署到github：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake generate
+</span><span class='line'>git add .
+</span><span class='line'>git commit -am "install greyshade." 
+</span><span class='line'>git push origin source
+</span><span class='line'>rake deploy</span></code></pre></td></tr></table></div></figure>
+
+
+<p>详细内容请参考：<a href="https://github.com/shashankmehta/greyshade"><code>greyshade</code></a></p>
+
+<h3>3、添加多说</h3>
+
+<ul>
+<li>获取short_name</li>
+</ul>
+
+
+<p>去 <a href="http://duoshuo.com"><code>多说网</code></a> 注册账号，并获取站点的short_name</p>
+
+<ul>
+<li>在_config.yml文件中添加如下内容</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># duoshuo comments
+</span><span class='line'>duoshuo_comments: true
+</span><span class='line'>duoshuo_short_name: yourname</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>在source/_layouts/post.html中添加多说评论模块</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>｛% if site.duoshuo_short_name and site.duoshuo_comments == true and page.comments == true %｝
+</span><span class='line'>  &lt;section&gt;
+</span><span class='line'>    &lt;h1&gt;Comments&lt;/h1&gt;
+</span><span class='line'>    &lt;div id="comments" aria-live="polite"&gt;｛% include post/duoshuo.html %｝&lt;/div&gt;
+</span><span class='line'>  &lt;/section&gt;
+</span><span class='line'>｛% endif %｝</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>创建source/_includes/post/duoshuo.html，并填入如下内容</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!-- Duoshuo Comment BEGIN --&gt;
+</span><span class='line'>&lt;div class="ds-thread"&gt;&lt;/div&gt;
+</span><span class='line'>&lt;script type="text/javascript"&gt;
+</span><span class='line'>  var duoshuoQuery = {short_name:"yuxiaopeng"};
+</span><span class='line'>  (function() {
+</span><span class='line'>    var ds = document.createElement('script');
+</span><span class='line'>    ds.type = 'text/javascript';ds.async = true;
+</span><span class='line'>    ds.src = 'http://static.duoshuo.com/embed.js';
+</span><span class='line'>    ds.charset = 'UTF-8';
+</span><span class='line'>    (document.getElementsByTagName('head')[0] 
+</span><span class='line'>    || document.getElementsByTagName('body')[0]).appendChild(ds);
+</span><span class='line'>  })();
+</span><span class='line'>&lt;/script&gt;
+</span><span class='line'>&lt;!-- Duoshuo Comment END --&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>发布到站点</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ rake generate
+</span><span class='line'>$ git add .
+</span><span class='line'>$ git commit -am "添加多说评论" 
+</span><span class='line'>$ git push origin source
+</span><span class='line'>$ rake deploy</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>4、添加百度和Google统计</h3>
+
+<p>从百度统计获取脚本，然后添加到文件<code>source/_includes/after_footer.html</code>文件中
+从google analytics获取跟踪ID，然后将这个ID添加到<code>_config.yml</code>文件的<code>google_analytics_tracking_id</code>后面即可。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Google Analytics
+</span><span class='line'>google_analytics_tracking_id: UA-457s202x-x</span></code></pre></td></tr></table></div></figure>
+
+
+<p>持续更新</p>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
