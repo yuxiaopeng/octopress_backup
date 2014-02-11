@@ -6,7 +6,7 @@ comments: true
 categories: 
 ---
 
-{% img /images/2014/12/github_page_and-octopress.png %}
+{% img /images/2014/02/github_page_and-octopress.png %}
 
 
 ### 1、安装 Git.
