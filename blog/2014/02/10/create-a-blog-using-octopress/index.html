@@ -74,7 +74,7 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 	<h1 class="title" itemprop="name">使用Octopress搭建博客</h1>
-	<div class="entry-content" itemprop="articleBody"><p><img src="/images/2013/11/octopress-logo.png"></p>
+	<div class="entry-content" itemprop="articleBody"><p><img src="/images/2014/12/github_page_and-octopress.png"></p>
 
 <h3>1、安装 Git.</h3>
 
@@ -259,7 +259,7 @@ rake setup_github_pages</p>
 </span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
 
 
-<p>rake preview 自动打开浏览器 编辑Rakefile</p>
+<p>rake preview 自动打开浏览器</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -270,6 +270,52 @@ rake setup_github_pages</p>
 <p>参考：<a href="http://octopress.org/docs/configuring/"><code>Configuring Octopress</code></a></p>
 
 <h3>6、开始使用Octopress写博客</h3>
+
+<p>博客系统搭建好之后，如何撰写博文呢？通过之前的步骤想必你对octopress的精髓有所了解，没有所见即所得的编辑器让你撰写博文，你要做的是使用 rake new_post 命令创建一篇新的文章，然后使用称手的markdown编辑器进行编辑即可。可选择的markdown编辑器很多，vim，sublime text 2，textmate 2，mou等等。我个人喜欢在osx下使用sublime text 2。</p>
+
+<p>终端中输入命令：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake new_post["title"]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Octopress博文存储在source/_posts目录下，按照Jekyll的命名规范对文章进行命名：YYYY-MM-DD-post-title.markdown。文章的名字会被当做url的一部分，而其中的日期用于对博文的区分和排序。打开这个文件内容如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>---
+</span><span class='line'>layout: post
+</span><span class='line'>title: "使用Octopress搭建博客"
+</span><span class='line'>date: 2014-02-10 16:17
+</span><span class='line'>comments: true
+</span><span class='line'>categories: 
+</span><span class='line'>---</span></code></pre></td></tr></table></div></figure>
+
+
+<p>接着我们就可以在这个文件中写我们的博文啦。完成之后，我们可以预览和部署博文。下面是创建并部署博文的一个完整过程：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake new_post["New Post"]
+</span><span class='line'>rake generate
+</span><span class='line'>rake preview
+</span><span class='line'>git add .
+</span><span class='line'>git commit -am "Some comment here." 
+</span><span class='line'>git push origin source
+</span><span class='line'>rake deploy</span></code></pre></td></tr></table></div></figure>
+
+
+<p>参考：<a href="http://octopress.org/docs/blogging/"><code>Blogging Basics</code></a></p>
 </div>
 
 </article>
