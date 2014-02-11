@@ -4,7 +4,7 @@
   <title><![CDATA[Roc's Blog]]></title>
   <link href="http://yuxiaopeng.github.com/atom.xml" rel="self"/>
   <link href="http://yuxiaopeng.github.com/"/>
-  <updated>2014-02-11T14:22:17+08:00</updated>
+  <updated>2014-02-11T14:25:25+08:00</updated>
   <id>http://yuxiaopeng.github.com/</id>
   <author>
     <name><![CDATA[Roc]]></name>
@@ -18,7 +18,7 @@
     <link href="http://yuxiaopeng.github.com/blog/2014/02/10/create-a-blog-using-octopress/"/>
     <updated>2014-02-10T16:17:00+08:00</updated>
     <id>http://yuxiaopeng.github.com/blog/2014/02/10/create-a-blog-using-octopress</id>
-    <content type="html"><![CDATA[<p><img src="http://yuxiaopeng.github.com/images/2014/12/github_page_and-octopress.png"></p>
+    <content type="html"><![CDATA[<p><img src="http://yuxiaopeng.github.com/images/2014/02/github_page_and-octopress.png"></p>
 
 <h3>1、安装 Git.</h3>
 
