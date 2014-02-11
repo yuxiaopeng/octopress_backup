@@ -4,7 +4,7 @@
   <title><![CDATA[Roc's Blog]]></title>
   <link href="http://yuxiaopeng.github.com/atom.xml" rel="self"/>
   <link href="http://yuxiaopeng.github.com/"/>
-  <updated>2014-02-11T10:15:23+08:00</updated>
+  <updated>2014-02-11T10:32:58+08:00</updated>
   <id>http://yuxiaopeng.github.com/</id>
   <author>
     <name><![CDATA[Roc]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[create a blog using octopress]]></title>
+    <title type="html"><![CDATA[使用Octopress搭建博客]]></title>
     <link href="http://yuxiaopeng.github.com/blog/2014/02/10/create-a-blog-using-octopress/"/>
     <updated>2014-02-10T16:17:00+08:00</updated>
     <id>http://yuxiaopeng.github.com/blog/2014/02/10/create-a-blog-using-octopress</id>
