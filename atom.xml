@@ -4,7 +4,7 @@
   <title><![CDATA[Roc's Blog]]></title>
   <link href="http://yuxiaopeng.github.com/atom.xml" rel="self"/>
   <link href="http://yuxiaopeng.github.com/"/>
-  <updated>2014-02-10T15:16:32+08:00</updated>
+  <updated>2014-02-11T10:15:23+08:00</updated>
   <id>http://yuxiaopeng.github.com/</id>
   <author>
     <name><![CDATA[Roc]]></name>
@@ -12,6 +12,196 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[create a blog using octopress]]></title>
+    <link href="http://yuxiaopeng.github.com/blog/2014/02/10/create-a-blog-using-octopress/"/>
+    <updated>2014-02-10T16:17:00+08:00</updated>
+    <id>http://yuxiaopeng.github.com/blog/2014/02/10/create-a-blog-using-octopress</id>
+    <content type="html"><![CDATA[<p><img src="http://yuxiaopeng.github.com/images/2013/11/octopress-logo.png"></p>
+
+<h3>1、安装 Git.</h3>
+
+<p>Mac系统默认已安装<a href="http://git-scm.com"><code>Git</code></a>.在终端输入git &#8211;version，应该可以看到电脑中的git版本</p>
+
+<h3>2、安装 Ruby</h3>
+
+<p>Octopress需要Ruby环境，RVM(Ruby Version Manager)负责安装和管理Ruby的环境。我们先在Terminal中输入如下命令，来安装RVM：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>curl -L https://get.rvm.io | bash -s stable —ruby</span></code></pre></td></tr></table></div></figure>
+
+
+<p>接着安装Ruby 1.9.3，在终端依次运行如下命令：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rvm install 1.9.3
+</span><span class='line'>rvm use 1.9.3
+</span><span class='line'>rvm ruby gems latest</span></code></pre></td></tr></table></div></figure>
+
+
+<p>完成上面的操作之后，运行ruby &#8211;version应该可以看到ruby 1.9.3环境已经安装好了。</p>
+
+<p>参考  <a href="http://octopress.org/docs/setup/rvm/"><code>Installing Ruby With RVM</code></a></p>
+
+<h3>3、安装 Octopress</h3>
+
+<p>使用用git命令将octopress从github上clone到本机，如下命令：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git clone git://github.com/imathis/octopress.git octopress
+</span><span class='line'>cd octopress    # If you use RVM, You'll be asked if you trust the .rvmrc file (say yes).
+</span><span class='line'>ruby --version  # Should report Ruby 1.9.3</span></code></pre></td></tr></table></div></figure>
+
+
+<p>安装相关依赖项：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem install bundler
+</span><span class='line'>rbenv rehash    # If you use rbenv, rehash to be able to run the bundle command
+</span><span class='line'>bundle install</span></code></pre></td></tr></table></div></figure>
+
+
+<p>最后安装默认的Octopress 主题。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> rake install</span></code></pre></td></tr></table></div></figure>
+
+
+<p>参考：<a href="http://octopress.org/docs/setup/"><code>Octopress Setup</code></a></p>
+
+<h3>4、部署到Github Pages</h3>
+
+<p>创建一个新的Github仓库，并以username.github.com命名 ，其中username是你的GitHub上的用户名或组织名称命名的存储库。</p>
+
+<p>为了通过url username.github.com访问到我们github pages页面，需要将源码文件提交到Source分支，将生成好的内容提交到Master分支。 Octopress有一个配置可以实现这些。 在终端输入如下命令：
+rake setup_github_pages</p>
+
+<p>此命令会要求你输入仓库的url，根据提示，进行输入即可。这个命令将实现如下操作：</p>
+
+<p>1、询问和存储您的Github Pages仓库的URL</p>
+
+<p>2、重命名远程仓库imathis/octopress 的 &#8216;origin’ 为 &#8216;octopress’</p>
+
+<p>3、将Github Pages仓库设置为默认的远程origin分支</p>
+
+<p>4、将活动分支由master切换为source</p>
+
+<p>5、根据存储库配置你的博客的url</p>
+
+<p>6、创建一个_deploy目录，用来存放部署到master分支的内容</p>
+
+<p>接下来执行命令：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake generate
+</span><span class='line'>rake deploy</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面的命令首先生成博客文件，并将生成的博客文件拷贝到_deploy/目录下，然后将这些内容添加到git中，并commit和push到仓库的master分支。</p>
+
+<p>现在可以访问http://username.github.com了。注意：有时候可能会有延时，要等几分钟才能打开。
+至此，我们的博客已经完成基本的部署。</p>
+
+<p>不要忘记提交source目录,执行如下命令就可以将source提交到仓库的source分支下。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git add .
+</span><span class='line'>git commit -m 'your message'
+</span><span class='line'>git push origin source</span></code></pre></td></tr></table></div></figure>
+
+
+<p>参考：<a href="http://octopress.org/docs/deploying/github/"><code>Deploying to Github Pages</code></a></p>
+
+<h3>5、配置 Octopress</h3>
+
+<p>Octopress大多数情况下只需要配置<code>_config.yml</code>和<code>Rakefile</code>文件即可。其中Rakefile是跟博客部署相关，一般情况下并不需要修改这个文件。</p>
+
+<p>config.yml是博客重要的一个配置文件，在config.yml文件中有三大配置项：<code>Main Configs</code>、<code>Jekyll &amp; Plugins</code>和<code>3rd Party Settings</code>。</p>
+
+<p>一般，该文件中其中<code>url</code>是必须要填写的，这里的url是在github上创建的仓库地址。另外再修改一下<code>title</code>,<code>subtitle</code>,<code>author</code>，根据需求，开启一些第三方组件服务。</p>
+
+<p>注意格式: 配置项:＋空格＋参数，空格一定不能少，否则会报错。</p>
+
+<p>配置日期格式</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>date_format: "%F %a"         #2014-01-01    
+</span><span class='line'>date_format: "%Y年%m月%d日"    #2014年1月1日</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Jekyll配置</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>excerpt_link: "继续阅读 \&rarr;"  
+</span><span class='line'>permalink: /blog/:title.html/</span></code></pre></td></tr></table></div></figure>
+
+
+<p>侧边栏</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>default_asides: [asides/recent_posts.html, asides/github.html]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用本地时区</p>
+
+<p>将Rakefile里面所有Time.now改为Time.now.localtime</p>
+
+<p>自动打开文件/浏览器</p>
+
+<p>编辑Rakefile
+rake new_post/page 后使用指定编辑器自动打开生成的文件</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Misc Configs 中添加，如果不需要自动打开，则直接使用""
+</span><span class='line'>editor="open"
+</span><span class='line'># open ,使用系统默认编辑器
+</span><span class='line'># open -a Mou，使用Mou打开
+</span><span class='line'># open -a Byword，使用Byword打开
+</span><span class='line'># subl, 使用Sublime Text2打开 
+</span><span class='line'>…
+</span><span class='line'># task :new_post 和 task :new_page 中添加
+</span><span class='line'>if #{editor}
+</span><span class='line'>  system "sleep 1; #{editor} #{filename}"
+</span><span class='line'>end
+</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
+
+
+<p>rake preview 自动打开浏览器</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># task :preview 一段中添加
+</span><span class='line'>system "sleep 2; open http://localhost:#{server_port}/"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>参考：<a href="http://octopress.org/docs/configuring/"><code>Configuring Octopress</code></a></p>
+
+<h3>6、开始使用Octopress写博客</h3>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Hello Github Pages]]></title>
