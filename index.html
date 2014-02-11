@@ -212,7 +212,10 @@ rake setup_github_pages</p>
 
 <p>注意格式: 配置项:＋空格＋参数，空格一定不能少，否则会报错。</p>
 
-<p>配置日期格式</p>
+<ul>
+<li>配置日期格式</li>
+</ul>
+
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -220,7 +223,10 @@ rake setup_github_pages</p>
 </span><span class='line'>date_format: "%Y年%m月%d日"    #2014年1月1日</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Jekyll配置</p>
+<ul>
+<li>Jekyll配置</li>
+</ul>
+
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -228,20 +234,28 @@ rake setup_github_pages</p>
 </span><span class='line'>permalink: /blog/:title.html/</span></code></pre></td></tr></table></div></figure>
 
 
-<p>侧边栏</p>
+<ul>
+<li>侧边栏</li>
+</ul>
+
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>default_asides: [asides/recent_posts.html, asides/github.html]</span></code></pre></td></tr></table></div></figure>
 
 
-<p>使用本地时区</p>
+<ul>
+<li>使用本地时区</li>
+</ul>
+
 
 <p>将Rakefile里面所有Time.now改为Time.now.localtime</p>
 
-<p>自动打开文件/浏览器</p>
+<ul>
+<li>自动打开文件/浏览器（编辑Rakefile）</li>
+</ul>
 
-<p>编辑Rakefile
-rake new_post/page 后使用指定编辑器自动打开生成的文件</p>
+
+<p>rake new_post/page 后使用指定编辑器自动打开生成的文件</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -261,7 +275,7 @@ rake new_post/page 后使用指定编辑器自动打开生成的文件</p>
 </span><span class='line'># open -a Mou，使用Mou打开
 </span><span class='line'># open -a Byword，使用Byword打开
 </span><span class='line'># subl, 使用Sublime Text2打开 
-</span><span class='line'>…
+</span><span class='line'>...
 </span><span class='line'># task :new_post 和 task :new_page 中添加
 </span><span class='line'>if #{editor}
 </span><span class='line'>  system "sleep 1; #{editor} #{filename}"
@@ -269,7 +283,7 @@ rake new_post/page 后使用指定编辑器自动打开生成的文件</p>
 </span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
 
 
-<p>rake preview 自动打开浏览器</p>
+<p>rake preview 自动打开浏览器 编辑Rakefile</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
