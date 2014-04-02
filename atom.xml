@@ -4,7 +4,7 @@
   <title><![CDATA[Roc's Blog]]></title>
   <link href="http://yuxiaopeng.github.com/atom.xml" rel="self"/>
   <link href="http://yuxiaopeng.github.com/"/>
-  <updated>2014-04-02T10:56:04+08:00</updated>
+  <updated>2014-04-02T11:01:30+08:00</updated>
   <id>http://yuxiaopeng.github.com/</id>
   <author>
     <name><![CDATA[Roc]]></name>
@@ -42,7 +42,7 @@
 </ul>
 
 
-<p>下载<a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html"><code>jdk1.7.0_51</code></a></p>
+<p>下载&nbsp;<a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html">jdk1.7.0_51</a></p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -145,7 +145,7 @@
 <h3>2.安装与配置</h3>
 
 <ul>
-<li><a href="http://www.apache.org/dyn/closer.cgi/hadoop/common/"><code>下载hadoop-2.2.0</code></a></li>
+<li>下载&nbsp;<a href="http://www.apache.org/dyn/closer.cgi/hadoop/common/">hadoop-2.2.0</a></li>
 </ul>
 
 
@@ -441,9 +441,9 @@
 </ul>
 
 
-<p>http://master:8088   #通过web查看资源</p>
+<p><a href="http://master:8088/">http://master:8088</a>   #通过web查看资源</p>
 
-<p>http://master:50070   # 查看HDFS状态</p>
+<p><a href="http://master:50070/">http://master:50070</a>   # 查看HDFS状态</p>
 
 <ul>
 <li>验证集群计算，执行Hadoop自带的examples，执行如下命令：</li>
