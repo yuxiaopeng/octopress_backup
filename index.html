@@ -7,13 +7,14 @@
 	<meta name="author" content="Roc">
 
 	
-	<meta name="description" content="Apr 2nd, 2014 Setup-and-configuration-hadoop-environment 1.环境准备 三台服务器：CentOS6.5系统 IP地址如下，分别配置hosts： 1
+	<meta name="description" content="Apr 2nd, 2014 Hadoop集群环境搭建及配置 1.环境准备 三台服务器：CentOS6.5系统，IP地址如下，分别配置hosts： 1
 2
 3
 4
 vi /etc/hosts
 10.2.15.12 master
-10.2.15. &hellip;">
+10.2.15.13 slave1
+10.2.15.14 slave2 &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -102,15 +103,16 @@ vi /etc/hosts
 </div>
 		
 	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/04/02/setup-and-configuration-hadoop-environment/" itemprop="url">Setup-and-configuration-hadoop-environment</a></h1>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/04/02/setup-and-configuration-hadoop-environment/" itemprop="url">Hadoop集群环境搭建及配置</a></h1>
 	<div class="entry-content" itemprop="articleBody">
 		<p><img src="/images/2014/04/hadoop-elephant_logo.png"></p>
 
 <h3>1.环境准备</h3>
 
-<p>三台服务器：CentOS6.5系统</p>
+<ul>
+<li>三台服务器：CentOS6.5系统，IP地址如下，分别配置hosts：</li>
+</ul>
 
-<p>IP地址如下，分别配置hosts：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -122,9 +124,12 @@ vi /etc/hosts
 </span><span class='line'>10.2.15.14  slave2</span></code></pre></td></tr></table></div></figure>
 
 
-<p>JDK安装及Java环境配置</p>
+<ul>
+<li>JDK安装及Java环境配置</li>
+</ul>
 
-<p>下载tar包，解压到/apps/目录</p>
+
+<p>下载<a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html"><code>jdk1.7.0_51</code></a></p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -132,7 +137,9 @@ vi /etc/hosts
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>chown -R root.root jdk1.7.0_51   # 授权
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>tar zxvf  -C /apps/ # 解压到/apps/目录
+</span><span class='line'>chown -R root.root jdk1.7.0_51   # 授权
 </span><span class='line'>vi /etc/profile   # 配置环境变量
 </span><span class='line'>export JAVA_HOME=/apps/jdk1.7.0_51
 </span><span class='line'>export CLASSPATH=.:$JAVA_HOME/jre/lib/rt.jar:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
@@ -140,7 +147,7 @@ vi /etc/hosts
 </span><span class='line'>source /etc/profile  # 使修改生效</span></code></pre></td></tr></table></div></figure>
 
 
-<p>更新 alternatives，选择JDK版本</p>
+<p>更新 alternatives，选择jdk版本</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -148,7 +155,10 @@ vi /etc/hosts
 </span><span class='line'>update-alternatives --config java   # 选择3回车</span></code></pre></td></tr></table></div></figure>
 
 
-<p>创建hadoop用户</p>
+<ul>
+<li>创建hadoop用户</li>
+</ul>
+
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -158,7 +168,10 @@ vi /etc/hosts
 </span><span class='line'>passwd hadoop   # 修改密码</span></code></pre></td></tr></table></div></figure>
 
 
-<p>SSH无密码验证配置</p>
+<ul>
+<li>SSH无密码验证配置</li>
+</ul>
+
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -218,7 +231,10 @@ vi /etc/hosts
 
 <h3>2.安装与配置</h3>
 
-<p><a href="http://www.apache.org/dyn/closer.cgi/hadoop/common/"><code>下载hadoop-2.2.0</code></a></p>
+<ul>
+<li><a href="http://www.apache.org/dyn/closer.cgi/hadoop/common/"><code>下载hadoop-2.2.0</code></a></li>
+</ul>
+
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -238,7 +254,10 @@ vi /etc/hosts
 </span><span class='line'>source /etc/profile   # 生效</span></code></pre></td></tr></table></div></figure>
 
 
-<p>修改hadoop-env.sh、yarn-env.sh环境变量</p>
+<ul>
+<li>修改hadoop-env.sh、yarn-env.sh环境变量</li>
+</ul>
+
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -250,7 +269,10 @@ vi /etc/hosts
 </span><span class='line'>export JAVA_HOME=/apps/jdk1.7.0_51</span></code></pre></td></tr></table></div></figure>
 
 
-<p>修改core-site.xml配置文件</p>
+<ul>
+<li>修改core-site.xml配置文件</li>
+</ul>
+
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -302,7 +324,10 @@ vi /etc/hosts
 </span><span class='line'>&lt;/configuration&gt;</span></code></pre></td></tr></table></div></figure>
 
 
-<p>修改hdfs-site.xml配置文件</p>
+<ul>
+<li>修改hdfs-site.xml配置文件</li>
+</ul>
+
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -350,7 +375,10 @@ vi /etc/hosts
 </span><span class='line'>&lt;/configuration&gt;</span></code></pre></td></tr></table></div></figure>
 
 
-<p>修改mapred-site.xml配置文件</p>
+<ul>
+<li>修改mapred-site.xml配置文件</li>
+</ul>
+
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -382,7 +410,10 @@ vi /etc/hosts
 </span><span class='line'>&lt;configuration&gt;</span></code></pre></td></tr></table></div></figure>
 
 
-<p>修改slaves配置文件</p>
+<ul>
+<li>修改slaves配置文件</li>
+</ul>
+
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -390,7 +421,10 @@ vi /etc/hosts
 </span><span class='line'>slave2</span></code></pre></td></tr></table></div></figure>
 
 
-<p>修改yarn-site.xml配置文件</p>
+<ul>
+<li>修改yarn-site.xml配置文件</li>
+</ul>
+
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -462,9 +496,14 @@ vi /etc/hosts
 </span><span class='line'>scp hadoop slave2:~/apps/</span></code></pre></td></tr></table></div></figure>
 
 
-<p>注意：只需要原样复制即可，不必改动上面的xml配置文件。</p>
+<p><font color=red> 注意：只需要原样复制即可，不必改动上面的xml配置文件。 </font></p>
 
 <h3>3.启动关闭与验证</h3>
+
+<ul>
+<li>启动与关闭</li>
+</ul>
+
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -474,23 +513,37 @@ vi /etc/hosts
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>hdfs namenode -format   #
-</span><span class='line'>start-dfs.sh   # 启动HDFS文件系统
+</pre></td><td class='code'><pre><code class=''><span class='line'>hdfs namenode -format    # 格式化HDFS
+</span><span class='line'>start-dfs.sh    # 启动HDFS文件系统
 </span><span class='line'>jps   # 检查守护进程是否启动
 </span><span class='line'>start-yarn.sh   # 启动新mapreduce架构
 </span><span class='line'>jps   # 检查守护进程是否启动
-</span><span class='line'>start-all.sh   # 也可通过star-all.sh启动所有进程
-</span><span class='line'>stop-all.sh   # 关闭所有进程
-</span><span class='line'>hdfs dfsadmin -report # 查看集群状态</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>start-all.sh    # 也可通过star-all.sh启动所有进程
+</span><span class='line'>stop-all.sh     # 关闭所有进程
+</span><span class='line'>hdfs dfsadmin -report   # 查看集群状态</span></code></pre></td></tr></table></div></figure>
 
 
-<p>浏览器中查看</p>
+<ul>
+<li>浏览器中查看</li>
+</ul>
+
 
 <p>http://master:8088   #通过web查看资源</p>
 
 <p>http://master:50070   # 查看HDFS状态</p>
 
-<p>参考：<a href="http://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-common/ClusterSetup.html"><code>Hadoop Cluster Setup</code></a></p>
+<ul>
+<li>验证集群计算，执行Hadoop自带的examples，执行如下命令：</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.2.0.jar randomwriter out</span></code></pre></td></tr></table></div></figure>
+
+
+<p>至此，Hadoop的集群已经搭建完成，以上内容主要参考<a href="http://hadoop.apache.org"><code>Apache Hadoop</code></a>官网！</p>
+
+<p>详细配置请参考：<a href="http://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-common/ClusterSetup.html"><code>Hadoop Cluster Setup</code></a></p>
 
 		
 		
