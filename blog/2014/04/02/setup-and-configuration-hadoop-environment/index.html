@@ -8,7 +8,14 @@
 
 	
 	<meta name="description" content="Setup-and-configuration-hadoop-environment 1.环境准备 三台服务器：CentOS6.5系统
-IP地址如下，分别配置/etc/hosts： `10.2.15.12 master 10.2.15.13 slave1 10.2.15.14 slave2` &hellip;">
+IP地址如下，分别配置hosts： 1
+2
+3
+4
+vi /etc/hosts
+10.2.15.12 master
+10.2.15.13 slave1
+10.2 &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -80,13 +87,17 @@ IP地址如下，分别配置/etc/hosts： `10.2.15.12 master 10.2.15.13 slave1 
 <h3>1.环境准备</h3>
 
 <p>三台服务器：CentOS6.5系统
-IP地址如下，分别配置/etc/hosts：</p>
+IP地址如下，分别配置hosts：</p>
 
-<p>`10.2.15.12  master</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>vi /etc/hosts
+</span><span class='line'>10.2.15.12  master
+</span><span class='line'>10.2.15.13  slave1
+</span><span class='line'>10.2.15.14  slave2</span></code></pre></td></tr></table></div></figure>
 
-<p>10.2.15.13  slave1</p>
-
-<p>10.2.15.14  slave2`</p>
 
 <p>JDK安装及Java环境配置</p>
 
