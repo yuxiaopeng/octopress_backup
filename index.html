@@ -460,31 +460,31 @@ vi /etc/hosts
 </span><span class='line'>  &lt;property&gt;
 </span><span class='line'>      &lt;name&gt;yarn.resourcemanager.address&lt;/name&gt;
 </span><span class='line'>      &lt;value&gt;master:8032&lt;/value&gt;
-</span><span class='line'>      &lt;/property&gt;
-</span><span class='line'>      &lt;property&gt;
+</span><span class='line'>  &lt;/property&gt;
+</span><span class='line'>  &lt;property&gt;
 </span><span class='line'>      &lt;name&gt;yarn.resourcemanager.scheduler.address&lt;/name&gt;
 </span><span class='line'>      &lt;value&gt;master:8030&lt;/value&gt;
-</span><span class='line'>      &lt;/property&gt;
-</span><span class='line'>      &lt;property&gt;
+</span><span class='line'>  &lt;/property&gt;
+</span><span class='line'>  &lt;property&gt;
 </span><span class='line'>      &lt;name&gt;yarn.resourcemanager.resource-tracker.address&lt;/name&gt;
 </span><span class='line'>      &lt;value&gt;master:8031&lt;/value&gt;
-</span><span class='line'>      &lt;/property&gt;
-</span><span class='line'>      &lt;property&gt;
+</span><span class='line'>  &lt;/property&gt;
+</span><span class='line'>  &lt;property&gt;
 </span><span class='line'>      &lt;name&gt;yarn.resourcemanager.admin.address&lt;/name&gt;
 </span><span class='line'>      &lt;value&gt;master:8033&lt;/value&gt;
-</span><span class='line'>      &lt;/property&gt;
-</span><span class='line'>      &lt;property&gt;
+</span><span class='line'>  &lt;/property&gt;
+</span><span class='line'>  &lt;property&gt;
 </span><span class='line'>      &lt;name&gt;yarn.resourcemanager.webapp.address&lt;/name&gt;
 </span><span class='line'>      &lt;value&gt;master:8088&lt;/value&gt;
-</span><span class='line'>      &lt;/property&gt;
-</span><span class='line'>      &lt;property&gt;
+</span><span class='line'>  &lt;/property&gt;
+</span><span class='line'>  &lt;property&gt;
 </span><span class='line'>      &lt;name&gt;yarn.nodemanager.aux-services&lt;/name&gt;
 </span><span class='line'>      &lt;value&gt;mapreduce_shuffle&lt;/value&gt;
-</span><span class='line'>      &lt;/property&gt;
-</span><span class='line'>      &lt;property&gt;
+</span><span class='line'>  &lt;/property&gt;
+</span><span class='line'>  &lt;property&gt;
 </span><span class='line'>      &lt;name&gt;yarn.nodemanager.aux-services.mapreduce.shuffle.class&lt;/name&gt;
 </span><span class='line'>      &lt;value&gt;org.apache.hadoop.mapred.ShuffleHandler&lt;/value&gt;
-</span><span class='line'>      &lt;/property&gt;
+</span><span class='line'>  &lt;/property&gt;
 </span><span class='line'>&lt;/configuration&gt;</span></code></pre></td></tr></table></div></figure>
 
 
@@ -496,7 +496,7 @@ vi /etc/hosts
 </span><span class='line'>scp hadoop slave2:~/apps/</span></code></pre></td></tr></table></div></figure>
 
 
-<p><font color=red> 注意：只需要原样复制即可，不必改动上面的xml配置文件。 </font></p>
+<p><font color=red size=1> 注意：只需要原样复制即可，不必改动上面的xml配置文件。 </font></p>
 
 <h3>3.启动关闭与验证</h3>
 
