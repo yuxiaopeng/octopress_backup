@@ -4,7 +4,7 @@
   <title><![CDATA[Roc's Blog]]></title>
   <link href="http://yuxiaopeng.github.com/atom.xml" rel="self"/>
   <link href="http://yuxiaopeng.github.com/"/>
-  <updated>2014-04-02T10:23:42+08:00</updated>
+  <updated>2014-04-02T10:27:46+08:00</updated>
   <id>http://yuxiaopeng.github.com/</id>
   <author>
     <name><![CDATA[Roc]]></name>
@@ -22,8 +22,9 @@
 
 <h3>1.环境准备</h3>
 
-<p>三台服务器：CentOS6.5系统
-IP地址如下，分别配置hosts：</p>
+<p>三台服务器：CentOS6.5系统</p>
+
+<p>IP地址如下，分别配置hosts：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -58,10 +59,8 @@ IP地址如下，分别配置hosts：</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>update-alternatives --install /usr/bin/java java /apps/jdk1.7.0_51/bin/java 60
-</span><span class='line'>update-alternatives --config java</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>update-alternatives --config java   # 选择3回车</span></code></pre></td></tr></table></div></figure>
 
-
-<p>选择3回车</p>
 
 <p>创建hadoop用户</p>
 
@@ -74,8 +73,6 @@ IP地址如下，分别配置hosts：</p>
 
 
 <p>SSH无密码验证配置</p>
-
-<p>master执行，</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
