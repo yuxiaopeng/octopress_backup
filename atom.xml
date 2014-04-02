@@ -4,7 +4,7 @@
   <title><![CDATA[Roc's Blog]]></title>
   <link href="http://yuxiaopeng.github.com/atom.xml" rel="self"/>
   <link href="http://yuxiaopeng.github.com/"/>
-  <updated>2014-04-02T11:04:23+08:00</updated>
+  <updated>2014-04-02T11:32:51+08:00</updated>
   <id>http://yuxiaopeng.github.com/</id>
   <author>
     <name><![CDATA[Roc]]></name>
@@ -32,9 +32,9 @@
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>vi /etc/hosts
-</span><span class='line'>10.2.15.12  master
-</span><span class='line'>10.2.15.13  slave1
-</span><span class='line'>10.2.15.14  slave2</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>10.2.15.12  master   #NameNode JobTracker
+</span><span class='line'>10.2.15.13  slave1   #DataNode TaskTracker
+</span><span class='line'>10.2.15.14  slave2   #DataNode TaskTracker</span></code></pre></td></tr></table></div></figure>
 
 
 <ul>
@@ -142,7 +142,7 @@
 </span><span class='line'>ssh slave2   # 验证</span></code></pre></td></tr></table></div></figure>
 
 
-<h3>2.安装与配置</h3>
+<h3>2.Hadoop安装与配置</h3>
 
 <ul>
 <li>下载&nbsp;<a href="http://www.apache.org/dyn/closer.cgi/hadoop/common/">hadoop-2.2.0</a></li>
@@ -168,7 +168,7 @@
 
 
 <ul>
-<li>修改hadoop-env.sh、yarn-env.sh环境变量</li>
+<li>修改hadoop-env.sh、yarn-env.sh Hadoop运行的环境变量</li>
 </ul>
 
 
@@ -183,7 +183,7 @@
 
 
 <ul>
-<li>修改core-site.xml配置文件</li>
+<li>修改core-site.xml配置文件,主要对NameNode地址端口及系统级别的参数配置，如HDFS URL、Hadoop临时目录以及用于rack-aware集群中的配置文件的配置等。</li>
 </ul>
 
 
@@ -238,7 +238,7 @@
 
 
 <ul>
-<li>修改hdfs-site.xml配置文件</li>
+<li>修改hdfs-site.xml配置文件，主要对HDFS相关属性的配置，如文件副本的个数、块大小及是否使用强制权限等。</li>
 </ul>
 
 
@@ -289,7 +289,7 @@
 
 
 <ul>
-<li>修改mapred-site.xml配置文件</li>
+<li>修改mapred-site.xml MapReduce配置文件，主要对JobTracker地址及端口的配置。</li>
 </ul>
 
 
@@ -324,7 +324,7 @@
 
 
 <ul>
-<li>修改slaves配置文件</li>
+<li>修改slaves配置文件，slaves主机列表，可以是alias或IP地址。</li>
 </ul>
 
 
@@ -335,7 +335,7 @@
 
 
 <ul>
-<li>修改yarn-site.xml配置文件</li>
+<li>修改yarn-site.xml配置文件，yarn地址及端口信息配置。</li>
 </ul>
 
 
