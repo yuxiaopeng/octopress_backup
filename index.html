@@ -622,46 +622,7 @@ Notifications和KVO者是Cocoa对观察者模式的实践。尽管两者依赖�
 </tr>
 </tbody>
 </table>
-
-
-<p>  <table>
-  <tr></p>
-
-<pre><code>  &lt;td&gt;Notifications&lt;/td&gt;
-  &lt;td&gt;KVO&lt;/td&gt;
-</code></pre>
-
-  </tr>
-  <tr>
-
-<pre><code>  &lt;td&gt;一个中心对象为所有观察者提供变更通知&lt;/td&gt;
-  &lt;td&gt;被观察的对象直接向观察者发送通知&lt;/td&gt;
-</code></pre>
-
-  </tr>
-  <tr>
-
-<pre><code>  &lt;td&gt;主要从广义上关注程序事件&lt;/td&gt;
-  &lt;td&gt;绑定于特定对象属性的值&lt;/td&gt;
-</code></pre>
-
-  </tr>
-  <tr>
-
-<pre><code>  &lt;td&gt;通知有开销，即使你不使用它们。每次发布一个通知时，它必须对每一个观察系统中进行检查，
-  即使没有人观察该对象（即使没有人正在观察的任何东西）&lt;/td&gt;
-  &lt;td&gt;如果没有实际观察到的任何对象，则零开销&lt;/td&gt;
-</code></pre>
-
-  </tr>
-  <tr>
-
-<pre><code>  &lt;td&gt;主要从广义上关注程序事件&lt;/td&gt;
-  &lt;td&gt;绑定于特定对象属性的值&lt;/td&gt;
-</code></pre>
-
-<p>  </tr>
-</table></p></li>
+</li>
 </ul>
 
 
