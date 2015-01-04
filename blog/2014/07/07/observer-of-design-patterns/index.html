@@ -440,7 +440,8 @@ Cocoa通知机制，遵循广播模型（broadcast model），通过注册成为
 <li>KVO  <br/>
 Cocoa中提供一种称为键值观察的机制，对象可以通过KVO得到其他对象特定属性的变更通知。这种机制在MVC模式的场景中尤为重要。因为它让<strong>View对象可以经由Controller对象观察Model对象的变更</strong>。  <br/>
 这一机制基于NSKeyValueObserving非正式协议，Cocoa通过这个协议为所有遵循协议的对象提供了一种自动化的属性观察能力。要实现自动观察，参与KVO的对象要符合KVC的要求，并且需要符合KVC的存取方法。KVC基于有关非正式协议，通过存取对象属性实现自动观察。  <br/>
-Notifications和KVO者是Cocoa对观察者模式的实践。尽管两者依赖同样的发布-订阅关系，但是它们是为不同的解决方案而设计的。两者的主要差别如下表：<table>
+Notifications和KVO者是Cocoa对观察者模式的实践。尽管两者依赖同样的发布-订阅关系，但是它们是为不同的解决方案而设计的。两者的主要差别如下表：
+  <table>
   <tr>
 
 <pre><code>  &lt;td&gt;Notifications&lt;/td&gt;
@@ -480,6 +481,8 @@ Notifications和KVO者是Cocoa对观察者模式的实践。尽管两者依赖�
 </table></p></li>
 </ul>
 
+
+<p>参考：</p>
 
 <p><a href="http://en.wikipedia.org/wiki/Observer_pattern"><code>Observer Pattern</code></a>  <br/>
 <a href="http://jolestar.com/1278227820000/"><code>流失监听者泄露</code></a>  <br/>
