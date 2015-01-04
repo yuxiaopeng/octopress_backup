@@ -224,7 +224,7 @@ Cocoa中提供一种称为键值观察的机制，对象可以通过KVO得到其
 Notifications和KVO者是Cocoa对观察者模式的实践。尽管两者依赖同样的发布-订阅关系，但是它们是为不同的解决方案而设计的。两者的主要差别如下表：
 <table>
 	<tr>
-		<td>Notifications</td>
+		<td><srong>Notifications</strong></td>
 		<td>KVO</td>
 	</tr>
 	<tr>
