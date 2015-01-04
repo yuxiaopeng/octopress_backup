@@ -4,7 +4,7 @@
   <title><![CDATA[Roc's Blog]]></title>
   <link href="http://yuxiaopeng.github.com/atom.xml" rel="self"/>
   <link href="http://yuxiaopeng.github.com/"/>
-  <updated>2015-01-05T00:04:24+08:00</updated>
+  <updated>2015-01-05T00:07:18+08:00</updated>
   <id>http://yuxiaopeng.github.com/</id>
   <author>
     <name><![CDATA[Roc]]></name>
@@ -504,8 +504,8 @@ Cocoa中提供一种称为键值观察的机制，对象可以通过KVO得到其
 Notifications和KVO者是Cocoa对观察者模式的实践。尽管两者依赖同样的发布-订阅关系，但是它们是为不同的解决方案而设计的。两者的主要差别如下表：<table>
   <tr>
 
-<pre><code>  &lt;td&gt;&lt;strong&gt;Notifications&lt;/strong&gt;&lt;/td&gt;
-  &lt;td&gt;KVO&lt;/td&gt;
+<pre><code>  &lt;td&gt;&lt;b&gt;Notifications&lt;/b&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;b&gt;KVO&lt;/b&gt;&lt;/td&gt;
 </code></pre>
 
   </tr>
