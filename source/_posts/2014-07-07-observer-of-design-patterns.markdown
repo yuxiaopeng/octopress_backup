@@ -224,8 +224,8 @@ Cocoa中提供一种称为键值观察的机制，对象可以通过KVO得到其
 Notifications和KVO者是Cocoa对观察者模式的实践。尽管两者依赖同样的发布-订阅关系，但是它们是为不同的解决方案而设计的。两者的主要差别如下表：
 <table>
 	<tr>
-		<td><em>Notifications</em></td>
-		<td><em>KVO</em></td>
+		<td>Notifications</td>
+		<td>KVO</td>
 	</tr>
 	<tr>
 		<td>一个中心对象为所有观察者提供变更通知</td>
@@ -235,8 +235,9 @@ Notifications和KVO者是Cocoa对观察者模式的实践。尽管两者依赖�
 		<td>主要从广义上关注程序事件</td>
 		<td>绑定于特定对象属性的值</td>
 	</tr>
-		<tr>
-		<td>通知有开销，即使你不使用它们。每次发布一个通知时，它必须对每一个观察系统中进行检查，即使没有人观察该对象（即使没有人正在观察的任何东西）</td>
+	<tr>
+		<td>通知有开销，即使你不使用它们。每次发布一个通知时，它必须对每一个观察系统中进行检查，
+		即使没有人观察该对象（即使没有人正在观察的任何东西）</td>
 		<td>如果没有实际观察到的任何对象，则零开销</td>
 	</tr>
 	<tr>
@@ -245,12 +246,11 @@ Notifications和KVO者是Cocoa对观察者模式的实践。尽管两者依赖�
 	</tr>
 </table>
 
-
 [`Observer Pattern`](http://en.wikipedia.org/wiki/Observer_pattern)  <br/>
 [`流失监听者泄露`](http://jolestar.com/1278227820000/)  <br/>
 [`iOS Design Patterns`](http://www.raywenderlich.com/46988/ios-design-patterns)  <br/>
 [`Key-Value Observer`](http://nshipster.com/key-value-observing/)  <br/>
 [`Patterns in Objective-C: Observer Pattern`](http://www.numbergrinder.com/2008/12/patterns-in-objective-c-observer-pattern/)  <br/>
 [`Notification Programming Topics`](https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/Notifications/Introduction/introNotifications.html) <br/>
-[`Key-Value Coding Programming Guide`](https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/KeyValueCoding/Articles/KeyValueCoding.html)
+[`Key-Value Coding Programming Guide`](https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/KeyValueCoding/Articles/KeyValueCoding.hbr/>
 [`Key-Value Observing Programming Guide`](https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/KeyValueObserving/KeyValueObserving.html#//apple_ref/doc/uid/10000177i)
