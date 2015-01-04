@@ -394,49 +394,45 @@
 <p>iOS作为主要的GUI系统，大量应用了观察者模式，其中的事件响应机制就是观察者的深度应用和实现。Cocoa框架中也不乏观察者模式应用的例子。通知（NSNotification &amp; NSNotificationCenter）和 KVO（Key-Value Observing）是对观察者模式的实践。</p>
 
 <ul>
-<li>NSNotification &amp; NSNotificationCenter  <br/>
+<li><p>NSNotification &amp; NSNotificationCenter  <br/>
 Cocoa通知机制，遵循广播模型（broadcast model），通过注册成为通知中心的观察者对象，当事件发生时观察者会收到消息并做出响应。这种机制使主题与观察者以一种松耦合的方式通信。主题与观察者在通信时无需了解对方的实现。通过发送消息可以达到代码的彻底解耦。  <br/>
 <img src='/images/2014/07/notificationcenter.jpg' />  <br/>
 任何对象都可以观察通知，但要做到这一点，该对象必须注册，以接收通知。在注册时，必须指定一个选择器，以确定由通知传送所调用的方法；方法签名必须只有一个参数：通知对象。注册后，观察者也可以指定发布对象。通知机制中涉及两个重要的类：  <br/>
 1）NSNotification: 这是消息的载体，通过它可以把消息内容传递给观察者。  <br/>
 2）NSNotificationCenter: 实现NSNotificationCenter的原理是一个观察者模式，通过调用静态方法defaultCenter就可以获取这个通知中心的对象，而NSNotificationCenter同时是一个单例模式，这个通知中心的对象会一直存在于一个应用的整个生命周期中。一个NSNotificationCenter可以有许多的通知消息NSNotification，对于每一个NSNotification可以有很多的观察者Observer来接收通知。  <br/>
-注册成为观察者：</li>
-</ul>
+注册成为观察者：</p>
 
+<p>  &#8220;`
+  [[NSNotificationCenter defaultCenter] addObserver:self</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[[NSNotificationCenter defaultCenter] addObserver:self 
-</span><span class='line'>                                       selector:@selector(downloadImage:) 
-</span><span class='line'>                                           name:@"BLDownloadImageNotification" 
-</span><span class='line'>                                         object:nil];</span></code></pre></td></tr></table></div></figure>
+<pre><code>                                      selector:@selector(downloadImage:) 
+                                          name:@"BLDownloadImageNotification" 
+                                      object:nil];
+</code></pre>
 
+<p>  &#8220;`
+  发送消息：</p>
 
-<p>发送消息：</p>
+<p>  &#8220;`
+  [[NSNotificationCenter defaultCenter] postNotificationName:@&#8221;BLDownloadImageNotification&#8221;</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[[NSNotificationCenter defaultCenter] postNotificationName:@"BLDownloadImageNotification"
-</span><span class='line'>                                                    object:self                                                 
-</span><span class='line'>                                                  userInfo:@{@"imageView":coverImage, @"coverUrl":albumCover}];</span></code></pre></td></tr></table></div></figure>
+<pre><code>                                              object:self                                                 
+                                               userInfo:@{@"imageView":coverImage, @"coverUrl":albumCover}];
+</code></pre>
 
+<p>  &#8220;`
+  dealloc中移除观察者：</p>
 
-<p>dealloc中移除观察者：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)dealloc
-</span><span class='line'>{
-</span><span class='line'>    [[NSNotificationCenter defaultCenter] removeObserver:self];
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
+<p>  &#8220;`</p>
 
 <ul>
+<li>(void)dealloc
+{
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+&#8220;`</li>
+</ul>
+</li>
 <li><p>KVO  <br/>
 Cocoa中提供一种称为键值观察的机制，对象可以通过KVO得到其他对象特定属性的变更通知。这种机制在MVC模式的场景中尤为重要。因为它让<strong>View对象可以经由Controller对象观察Model对象的变更</strong>。  <br/>
 这一机制基于NSKeyValueObserving非正式协议，Cocoa通过这个协议为所有遵循协议的对象提供了一种自动化的属性观察能力。要实现自动观察，参与KVO的对象要符合KVC的要求，并且需要符合KVC的存取方法。KVC基于有关非正式协议，通过存取对象属性实现自动观察。  <br/>
