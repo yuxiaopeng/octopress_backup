@@ -4,7 +4,7 @@
   <title><![CDATA[Roc's Blog]]></title>
   <link href="http://yuxiaopeng.github.com/atom.xml" rel="self"/>
   <link href="http://yuxiaopeng.github.com/"/>
-  <updated>2015-01-05T00:30:59+08:00</updated>
+  <updated>2015-01-05T00:31:58+08:00</updated>
   <id>http://yuxiaopeng.github.com/</id>
   <author>
     <name><![CDATA[Roc]]></name>
@@ -520,7 +520,7 @@ Notifications和KVO者是Cocoa对观察者模式的实践。尽管两者依赖�
 <td> 绑定于特定对象属性的值          </td>
 </tr>
 <tr>
-<td>   通知有开销，即使你不使用它们。每次发布一个通知时，它必须对每一个观察系统中进行检查，即使没有人观察该对象（即使没有人正在观察的任何东西）</td>
+<td>   通知有开销，即使你不使用它们。每次发布一个通知时，它必须对每一个观察系统 <br/> 中进行检查，即使没有人观察该对象（即使没有人正在观察的任何东西）</td>
 <td> 如果没有实际观察到的任何对象，则零开销 </td>
 </tr>
 </tbody>
