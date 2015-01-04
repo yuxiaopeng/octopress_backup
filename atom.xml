@@ -4,7 +4,7 @@
   <title><![CDATA[Roc's Blog]]></title>
   <link href="http://yuxiaopeng.github.com/atom.xml" rel="self"/>
   <link href="http://yuxiaopeng.github.com/"/>
-  <updated>2015-01-05T00:33:16+08:00</updated>
+  <updated>2015-01-05T00:35:17+08:00</updated>
   <id>http://yuxiaopeng.github.com/</id>
   <author>
     <name><![CDATA[Roc]]></name>
@@ -529,9 +529,8 @@ Notifications和KVO者是Cocoa对观察者模式的实践。尽管两者依赖�
 </ul>
 
 
-<p>参考：</p>
-
-<p><a href="http://en.wikipedia.org/wiki/Observer_pattern"><code>Observer Pattern</code></a>  <br/>
+<p>参考：  <br/>
+<a href="http://en.wikipedia.org/wiki/Observer_pattern"><code>Observer Pattern</code></a>  <br/>
 <a href="http://jolestar.com/1278227820000/"><code>流失监听者泄露</code></a>  <br/>
 <a href="http://www.raywenderlich.com/46988/ios-design-patterns"><code>iOS Design Patterns</code></a>  <br/>
 <a href="http://nshipster.com/key-value-observing/"><code>Key-Value Observer</code></a>  <br/>
