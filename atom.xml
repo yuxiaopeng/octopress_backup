@@ -4,7 +4,7 @@
   <title><![CDATA[Roc's Blog]]></title>
   <link href="http://yuxiaopeng.github.com/atom.xml" rel="self"/>
   <link href="http://yuxiaopeng.github.com/"/>
-  <updated>2015-01-05T18:15:16+08:00</updated>
+  <updated>2015-01-05T18:19:52+08:00</updated>
   <id>http://yuxiaopeng.github.com/</id>
   <author>
     <name><![CDATA[Roc]]></name>
@@ -14,10 +14,10 @@
 
   
   <entry>
-    <title type="html"><![CDATA[设计模式之委托模式Delegation]]></title>
-    <link href="http://yuxiaopeng.github.com/blog/2014/07/09/delegate-protocol-of-design-pattern/"/>
+    <title type="html"><![CDATA[委托、协议、目标-动作]]></title>
+    <link href="http://yuxiaopeng.github.com/blog/2014/07/09/delegate-protocol-target-action/"/>
     <updated>2014-07-09T18:30:00+08:00</updated>
-    <id>http://yuxiaopeng.github.com/blog/2014/07/09/delegate-protocol-of-design-pattern</id>
+    <id>http://yuxiaopeng.github.com/blog/2014/07/09/delegate-protocol-target-action</id>
     <content type="html"><![CDATA[<h3>1.委托（Delegation）</h3>
 
 <p>委托是一个常用、简单、灵活，但又不好解释的模式，下面我们从以下几个方面来看看什么是委托？</p>
