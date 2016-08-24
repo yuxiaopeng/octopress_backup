@@ -260,10 +260,6 @@ multitask :push do
     puts "\n## Pushing generated #{deploy_dir} website"
     system "git push origin #{deploy_branch} --force"
     puts "\n## Github Pages deploy complete"
-    system "git remote add gitcafe git@gitcafe.com:yuxiaopeng/yuxiaopeng.git >> /dev/null 2>&1"
-    #system "git remote add gitcafe https://gitcafe.com/yuxiaopeng/yuxiaopeng >> /dev/null 2>&1"
-    system "git push -u gitcafe master:gitcafe-pages"
-    puts "\n## Gitcafe-Pages deploy complete"
   end
 end
 
