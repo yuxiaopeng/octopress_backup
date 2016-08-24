@@ -4,10 +4,10 @@
 
 url: http://yuxiaopeng.github.com
 title: Roc's Blog
-subtitle: Test<br>
+subtitle: 这是最好的时代，也是最坏的时代；这是智慧的年代，也是愚昧的年代；这是信仰的时期，也是怀疑的时期；这是光明的季节，也是黑暗的季节；这是希望的春天，也是失望的冬天；大伙儿面前应有尽有，大伙儿面前一无所有；大伙儿正在直奔天堂；大伙儿正在直落地狱。——《双城记》
 author: Roc
 simple_search: http://google.com/search
-description: 临乱世而不惊，<br>处方舟而不躁，<br>喜迎阴晴圆缺，<br>笑傲风霜雨雪！
+description: 
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
 # You can customize the format as defined in
@@ -99,7 +99,7 @@ disqus_short_name:
 disqus_show_comment_count: false
 
 # Google Analytics
-google_analytics_tracking_id:
+google_analytics_tracking_id: UA-45732020-1
 
 # Facebook Like
 facebook_like: false
