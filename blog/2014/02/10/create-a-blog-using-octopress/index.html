@@ -1,0 +1,392 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>使用Octopress搭建博客 - Roc's Blog</title>
+	<meta name="author" content="Roc">
+
+	
+	<meta name="description" content="使用Octopress搭建博客 1、安装 Git. Mac系统默认已安装Git.在终端输入git &#8211;version，应该可以看到电脑中的git版本 2、安装 Ruby Octopress需要Ruby环境，RVM(Ruby Version Manager)负责安装和管理Ruby的环境。 &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Roc's Blog" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://yuxiaopeng.github.com/blog/2014/02/10/create-a-blog-using-octopress/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!-- <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script> -->
+	<!--[if lt IE 9]><script src="/javascripts/html5.js"></script><![endif]-->
+	<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>-->
+	<script src="/javascripts/jquery.min.js"></script>
+	<!--<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>-->
+	<link href='/stylesheets/font.css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<!-- link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css" -->
+<!-- link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css" -->
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">	
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		//document.write("<img src='http://www.gravatar.com/avatar/" + MD5("uxiaopeng@gmail.com") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+	</script>
+</div>
+<h1><a href="/">Roc's Blog</a></h1>
+<p class="subtitle">这是最好的时代，也是最坏的时代；这是智慧的年代，也是愚昧的年代；这是信仰的时期，也是怀疑的时期；这是光明的季节，也是黑暗的季节；这是希望的春天，也是失望的冬天；大伙儿面前应有尽有，大伙儿面前一无所有；大伙儿正在直奔天堂；大伙儿正在直落地狱。——《双城记》</p>
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		<a class="weibo" href="http://www.weibo.com/rooc" title="Weibo">Weibo</a>
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav></header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">使用Octopress搭建博客</h1>
+	<div class="entry-content" itemprop="articleBody"><p><img src="/images/2014/02/github_page_and-octopress.png"></p>
+
+<h3>1、安装 Git.</h3>
+
+<p>Mac系统默认已安装<a href="http://git-scm.com"><code>Git</code></a>.在终端输入git &#8211;version，应该可以看到电脑中的git版本</p>
+
+<h3>2、安装 Ruby</h3>
+
+<p>Octopress需要Ruby环境，RVM(Ruby Version Manager)负责安装和管理Ruby的环境。我们先在Terminal中输入如下命令，来安装RVM：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>curl -L https://get.rvm.io | bash -s stable —ruby</span></code></pre></td></tr></table></div></figure>
+
+
+<p>接着安装Ruby 1.9.3，在终端依次运行如下命令：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rvm install 1.9.3
+</span><span class='line'>rvm use 1.9.3
+</span><span class='line'>rvm ruby gems latest</span></code></pre></td></tr></table></div></figure>
+
+
+<p>完成上面的操作之后，运行ruby &#8211;version应该可以看到ruby 1.9.3环境已经安装好了。</p>
+
+<p>参考  <a href="http://octopress.org/docs/setup/rvm/"><code>Installing Ruby With RVM</code></a></p>
+
+<h3>3、安装 Octopress</h3>
+
+<p>使用用git命令将octopress从github上clone到本机，如下命令：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git clone git://github.com/imathis/octopress.git octopress
+</span><span class='line'>cd octopress    # If you use RVM, You'll be asked if you trust the .rvmrc file (say yes).
+</span><span class='line'>ruby --version  # Should report Ruby 1.9.3</span></code></pre></td></tr></table></div></figure>
+
+
+<p>安装相关依赖项：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem install bundler
+</span><span class='line'>rbenv rehash    # If you use rbenv, rehash to be able to run the bundle command
+</span><span class='line'>bundle install</span></code></pre></td></tr></table></div></figure>
+
+
+<p>最后安装默认的Octopress 主题。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> rake install</span></code></pre></td></tr></table></div></figure>
+
+
+<p>参考：<a href="http://octopress.org/docs/setup/"><code>Octopress Setup</code></a></p>
+
+<h3>4、部署到Github Pages</h3>
+
+<p>创建一个新的Github仓库，并以username.github.com命名 ，其中username是你的GitHub上的用户名或组织名称命名的存储库。</p>
+
+<p>为了通过url username.github.com访问到我们github pages页面，需要将源码文件提交到Source分支，将生成好的内容提交到Master分支。 Octopress有一个配置可以实现这些。 在终端输入如下命令：
+rake setup_github_pages</p>
+
+<p>此命令会要求你输入仓库的url，根据提示，进行输入即可。这个命令将实现如下操作：</p>
+
+<p>1、询问和存储您的Github Pages仓库的URL</p>
+
+<p>2、重命名远程仓库imathis/octopress 的 &#8216;origin’ 为 &#8216;octopress’</p>
+
+<p>3、将Github Pages仓库设置为默认的远程origin分支</p>
+
+<p>4、将活动分支由master切换为source</p>
+
+<p>5、根据存储库配置你的博客的url</p>
+
+<p>6、创建一个_deploy目录，用来存放部署到master分支的内容</p>
+
+<p>接下来执行命令：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake generate
+</span><span class='line'>rake deploy</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面的命令首先生成博客文件，并将生成的博客文件拷贝到_deploy/目录下，然后将这些内容添加到git中，并commit和push到仓库的master分支。</p>
+
+<p>现在可以访问http://username.github.com了。注意：有时候可能会有延时，要等几分钟才能打开。
+至此，我们的博客已经完成基本的部署。</p>
+
+<p>不要忘记提交source目录,执行如下命令就可以将source提交到仓库的source分支下。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git add .
+</span><span class='line'>git commit -m 'your message'
+</span><span class='line'>git push origin source</span></code></pre></td></tr></table></div></figure>
+
+
+<p>参考：<a href="http://octopress.org/docs/deploying/github/"><code>Deploying to Github Pages</code></a></p>
+
+<h3>5、配置 Octopress</h3>
+
+<p>Octopress大多数情况下只需要配置<code>_config.yml</code>和<code>Rakefile</code>文件即可。其中Rakefile是跟博客部署相关，一般情况下并不需要修改这个文件。</p>
+
+<p>config.yml是博客重要的一个配置文件，在config.yml文件中有三大配置项：<code>Main Configs</code>、<code>Jekyll &amp; Plugins</code>和<code>3rd Party Settings</code>。</p>
+
+<p>一般，该文件中其中<code>url</code>是必须要填写的，这里的url是在github上创建的仓库地址。另外再修改一下<code>title</code>,<code>subtitle</code>,<code>author</code>，根据需求，开启一些第三方组件服务。</p>
+
+<p>注意格式: 配置项:＋空格＋参数，空格一定不能少，否则会报错。</p>
+
+<ul>
+<li>配置日期格式</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>date_format: "%F %a"         #2014-01-01    
+</span><span class='line'>date_format: "%Y年%m月%d日"    #2014年1月1日</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Jekyll配置</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>excerpt_link: "继续阅读 &amp;rarr; "
+</span><span class='line'>permalink: /blog/:title.html/</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>侧边栏</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>default_asides: [asides/recent_posts.html, asides/github.html]</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>使用本地时区</li>
+</ul>
+
+
+<p>将Rakefile里面所有Time.now改为Time.now.localtime</p>
+
+<ul>
+<li>自动打开文件/浏览器（编辑Rakefile）</li>
+</ul>
+
+
+<p>rake new_post/page 后使用指定编辑器自动打开生成的文件</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Misc Configs 中添加，如果不需要自动打开，则直接使用""
+</span><span class='line'>editor="open"
+</span><span class='line'># open ,使用系统默认编辑器
+</span><span class='line'># open -a Mou，使用Mou打开
+</span><span class='line'># open -a Byword，使用Byword打开
+</span><span class='line'># subl, 使用Sublime Text2打开 
+</span><span class='line'>...
+</span><span class='line'># task :new_post 和 task :new_page 中添加
+</span><span class='line'>if #{editor}
+</span><span class='line'>  system "sleep 1; #{editor} #{filename}"
+</span><span class='line'>end
+</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
+
+
+<p>rake preview 自动打开浏览器</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># task :preview 一段中添加
+</span><span class='line'>system "sleep 2; open http://localhost:#{server_port}/"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>参考：<a href="http://octopress.org/docs/configuring/"><code>Configuring Octopress</code></a></p>
+
+<h3>6、开始使用Octopress写博客</h3>
+
+<p>博客系统搭建好之后，如何撰写博文呢？通过之前的步骤想必你对octopress的精髓有所了解，没有所见即所得的编辑器让你撰写博文，你要做的是使用 rake new_post 命令创建一篇新的文章，然后使用称手的markdown编辑器进行编辑即可。可选择的markdown编辑器很多，vim，sublime text 2，textmate 2，mou等等。我个人喜欢在osx下使用sublime text 2。</p>
+
+<p>终端中输入命令：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake new_post["title"]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Octopress博文存储在source/_posts目录下，按照Jekyll的命名规范对文章进行命名：YYYY-MM-DD-post-title.markdown。文章的名字会被当做url的一部分，而其中的日期用于对博文的区分和排序。打开这个文件内容如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>---
+</span><span class='line'>layout: post
+</span><span class='line'>title: "使用Octopress搭建博客"
+</span><span class='line'>date: 2014-02-10 16:17
+</span><span class='line'>comments: true
+</span><span class='line'>categories: 
+</span><span class='line'>---</span></code></pre></td></tr></table></div></figure>
+
+
+<p>接着我们就可以在这个文件中写我们的博文啦。完成之后，我们可以预览和部署博文。下面是创建并部署博文的一个完整过程：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake new_post["New Post"]
+</span><span class='line'>rake generate
+</span><span class='line'>rake preview
+</span><span class='line'>git add .
+</span><span class='line'>git commit -am "Some comment here." 
+</span><span class='line'>git push origin source
+</span><span class='line'>rake deploy</span></code></pre></td></tr></table></div></figure>
+
+
+<p>参考：<a href="http://octopress.org/docs/blogging/"><code>Blogging Basics</code></a></p>
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style addthis_16x16_style">
+	
+	
+	
+	
+	
+	<a class="addthis_button_compact"></a>
+	<a class="addthis_counter addthis_bubble_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+
+<section>
+    <!-- <h1>评论</h1> -->
+    <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread" data-author-key=“1”></div>
+<script type="text/javascript">
+    var duoshuoQuery = {short_name:"yuxiaopeng"};
+    (function() {
+     var ds = document.createElement('script');
+     ds.type = 'text/javascript';ds.async = true;
+     ds.src = 'http://static.duoshuo.com/embed.js';
+     ds.charset = 'UTF-8';
+     (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+     })();
+    </script>
+<!-- Duoshuo Comment END -->
+</div>
+</section>
+
+</div>
+			</div>
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2016 - Roc -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a><br/>
+<span class="credit">感谢 <a href="http://gitcafe.com/signup?invited_by=yuxiaopeng" target="_blank">GitCafe</a> 为本站提供存储空间</span>
+</footer>
+			<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-45732020-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+
+		</div>
+	</div>
+</body>
+</html>

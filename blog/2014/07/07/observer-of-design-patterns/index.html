@@ -1,0 +1,557 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>设计模式之观察者模式Observer - Roc's Blog</title>
+	<meta name="author" content="Roc">
+
+	
+	<meta name="description" content="设计模式之观察者模式Observer 1.何为观察者模式（Observer） 观察者模式（又被称为发布/订阅模式Publish-Subscribe或依赖模式Dependents）是软件设计模式的一种。即定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变时， &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Roc's Blog" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://yuxiaopeng.github.com/blog/2014/07/07/observer-of-design-patterns/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!-- <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script> -->
+	<!--[if lt IE 9]><script src="/javascripts/html5.js"></script><![endif]-->
+	<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>-->
+	<script src="/javascripts/jquery.min.js"></script>
+	<!--<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>-->
+	<link href='/stylesheets/font.css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<!-- link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css" -->
+<!-- link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css" -->
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">	
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		//document.write("<img src='http://www.gravatar.com/avatar/" + MD5("uxiaopeng@gmail.com") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+	</script>
+</div>
+<h1><a href="/">Roc's Blog</a></h1>
+<p class="subtitle">这是最好的时代，也是最坏的时代；这是智慧的年代，也是愚昧的年代；这是信仰的时期，也是怀疑的时期；这是光明的季节，也是黑暗的季节；这是希望的春天，也是失望的冬天；大伙儿面前应有尽有，大伙儿面前一无所有；大伙儿正在直奔天堂；大伙儿正在直落地狱。——《双城记》</p>
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		<a class="weibo" href="http://www.weibo.com/rooc" title="Weibo">Weibo</a>
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav></header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">设计模式之观察者模式Observer</h1>
+	<div class="entry-content" itemprop="articleBody"><h3>1.何为观察者模式（Observer）</h3>
+
+<p><strong>观察者模式</strong>（又被称为发布/订阅模式Publish-Subscribe或依赖模式Dependents）是软件设计模式的一种。即定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并被自动更新。在此种模式中，一个目标对象管理所有相依赖于它的观察者对象，并且在它本身的状态改变时主动发出通知。这通常通过调用各观察者所提供的方法来实现。此种模式通常被用来实现分布式事件处理系统。此模式也是MVC模式的关键组成部分。在许多编程中都用到了观察者模式，包括几乎所有的GUI程序都用到了此模式，例如：Mac、iOS、Win操作系统的图形用户界面。</p>
+
+<p>观察者模式可能引起内存泄露（<code>memory leaks</code>），著名的流失监听者泄露问题(<a href="http://en.wikipedia.org/wiki/Lapsed_listener_problem"><code>Lapsed listener problem</code></a>)此总是经常发生在具备垃圾回收特性的编程中，因为此模式需要基于明确的注册和注销主题对象来实现，并且主题对象持有观察者对象的强引用。而观察者对象也可以称为监听者，主题对象持有所有监听者对象的强引用，导致监听者对象内存无法被释放，造成内存泄露。此问题可以通过将主题对象所持有的强引用改为弱引用的方式来防止内存泄露。</p>
+
+<p>减少对象之间的耦合有利于系统的复用，但是同时设计师需要使这些低耦合度的对象之间能够维持行动的协调一致，保证高度的协作。观察者模式是满足这一要求的各种设计方案中最重要的一种。</p>
+
+<h3>2.如何实现观察者（Objective-C）</h3>
+
+<p>实现思路：主题（Subject）持有所有的观察者列表，而观察者（Observer）监听主题对象。主题对象状态发生变化时，会通知所有持有的观察者对象，使它们能够做出响应。结构如下图：</p>
+
+<p><img src='/images/2014/07/Observer_Pattern.png' /></p>
+
+<p>创建Observer观察者协议：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//
+</span><span class='line'>//  Observer.h
+</span><span class='line'>//  Observer
+</span><span class='line'>//
+</span><span class='line'>//  Created by 小鹏 on 14/7/7.
+</span><span class='line'>//  Copyright (c) 2014年 ROC. All rights reserved.
+</span><span class='line'>//
+</span><span class='line'>#import &lt;Foundation/Foundation.h&gt;
+</span><span class='line'>
+</span><span class='line'>@protocol Observer &lt;NSObject&gt;
+</span><span class='line'>
+</span><span class='line'>-(void) notify:(NSString *)message;
+</span><span class='line'>
+</span><span class='line'>@end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>创建Subject主题协议及实现：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//
+</span><span class='line'>//  Subject.h
+</span><span class='line'>//  Observer
+</span><span class='line'>//
+</span><span class='line'>//  Created by 小鹏 on 14/7/7.
+</span><span class='line'>//  Copyright (c) 2014年 ROC. All rights reserved.
+</span><span class='line'>//
+</span><span class='line'>
+</span><span class='line'>#import &lt;Foundation/Foundation.h&gt;
+</span><span class='line'>#import "Observer.h"
+</span><span class='line'>
+</span><span class='line'>@protocol Subject &lt;NSObject&gt;
+</span><span class='line'>
+</span><span class='line'>-(void) addObserver:(id) observer;
+</span><span class='line'>-(void) removeObserver:(id) observer;
+</span><span class='line'>-(void) notifyObservers:(NSString *) message;
+</span><span class='line'>
+</span><span class='line'>@end
+</span><span class='line'>
+</span><span class='line'>@interface Subject : NSObject &lt;Subject&gt;
+</span><span class='line'>
+</span><span class='line'>@property (nonatomic, strong) NSMutableSet *observerCollection;
+</span><span class='line'>
+</span><span class='line'>@end
+</span><span class='line'>
+</span><span class='line'>//
+</span><span class='line'>//  Subject.m
+</span><span class='line'>//  Observer
+</span><span class='line'>//
+</span><span class='line'>//  Created by 小鹏 on 14/7/7.
+</span><span class='line'>//  Copyright (c) 2014年 ROC. All rights reserved.
+</span><span class='line'>//
+</span><span class='line'>
+</span><span class='line'>#import "Subject.h"
+</span><span class='line'>
+</span><span class='line'>@implementation Subject
+</span><span class='line'>
+</span><span class='line'>-(NSMutableSet *) observerCollection
+</span><span class='line'>{
+</span><span class='line'>    if (_observerCollection == nil)
+</span><span class='line'>        _observerCollection = [[NSMutableSet alloc] init];
+</span><span class='line'>    
+</span><span class='line'>    return _observerCollection;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>-(void) addObserver:(id)observer
+</span><span class='line'>{
+</span><span class='line'>    [self.observerCollection addObject:observer];
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>-(void) removeObserver:(id)observer
+</span><span class='line'>{
+</span><span class='line'>    [self.observerCollection removeObject:observer];
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>-(void) notifyObservers:(NSString *)message
+</span><span class='line'>{
+</span><span class='line'>    for (id&lt;Observer&gt; observer in self.observerCollection) {
+</span><span class='line'>        [observer notify:message];
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>@end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>创建Observer实现：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//
+</span><span class='line'>//  ConcreteObserverA.m
+</span><span class='line'>//  Observer
+</span><span class='line'>//
+</span><span class='line'>//  Created by 小鹏 on 14/7/7.
+</span><span class='line'>//  Copyright (c) 2014年 ROC. All rights reserved.
+</span><span class='line'>//
+</span><span class='line'>
+</span><span class='line'>#import "ConcreteObserverA.h"
+</span><span class='line'>
+</span><span class='line'>@implementation ConcreteObserverA
+</span><span class='line'>
+</span><span class='line'>-(void) notify:(NSString *)message
+</span><span class='line'>{
+</span><span class='line'>    NSLog(@"Class is %@,message is : %@", NSStringFromClass([self class]), message);
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>@end
+</span><span class='line'>
+</span><span class='line'>//
+</span><span class='line'>//  ConcreteObserverB.m
+</span><span class='line'>//  Observer
+</span><span class='line'>//
+</span><span class='line'>//  Created by 小鹏 on 14/7/7.
+</span><span class='line'>//  Copyright (c) 2014年 ROC. All rights reserved.
+</span><span class='line'>//
+</span><span class='line'>
+</span><span class='line'>#import "ConcreteObserverB.h"
+</span><span class='line'>
+</span><span class='line'>@implementation ConcreteObserverB
+</span><span class='line'>
+</span><span class='line'>-(void) notify:(NSString *)message
+</span><span class='line'>{
+</span><span class='line'>    NSLog(@"Class is %@ ,message is : %@", NSStringFromClass([self class]), message);
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>@end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>main方法中测试代码：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//
+</span><span class='line'>//  main.m
+</span><span class='line'>//  Observer
+</span><span class='line'>//
+</span><span class='line'>//  Created by 小鹏 on 14/7/7.
+</span><span class='line'>//  Copyright (c) 2014年 ROC. All rights reserved.
+</span><span class='line'>//
+</span><span class='line'>
+</span><span class='line'>#import &lt;Foundation/Foundation.h&gt;
+</span><span class='line'>#import "Subject.h"
+</span><span class='line'>#import "ConcreteObserverA.h"
+</span><span class='line'>#import "ConcreteObserverB.h"
+</span><span class='line'>
+</span><span class='line'>int main(int argc, const char * argv[]) {
+</span><span class='line'>    @autoreleasepool {
+</span><span class='line'>        
+</span><span class='line'>        Subject *subject = [[Subject alloc] init];
+</span><span class='line'>        ConcreteObserverA *observerA = [[ConcreteObserverA alloc] init];
+</span><span class='line'>        ConcreteObserverB *observerB = [[ConcreteObserverB alloc] init];
+</span><span class='line'>        
+</span><span class='line'>        [subject addObserver:observerA];
+</span><span class='line'>        [subject addObserver:observerB];
+</span><span class='line'>        
+</span><span class='line'>        [subject notifyObservers:@"notify event!"];
+</span><span class='line'>    }
+</span><span class='line'>    return 0;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>打印结果：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>2014-07-07 11:13:30.869 Observer[18209:1539966] Class is ConcreteObserverA,message is : notify event!
+</span><span class='line'>2014-07-07 11:13:30.871 Observer[18209:1539966] Class is ConcreteObserverB,message is : notify event!</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>3.应用（Cocoa中的Observer）</h3>
+
+<p>iOS作为主要的GUI系统，大量应用了观察者模式，其中的事件响应机制就是观察者的深度应用和实现。Cocoa框架中也不乏观察者模式应用的例子。通知（NSNotification &amp; NSNotificationCenter）和 KVO（Key-Value Observing）是对观察者模式的实践。</p>
+
+<ul>
+<li>NSNotification &amp; NSNotificationCenter  <br/>
+Cocoa通知机制，遵循广播模型（broadcast model），通过注册成为通知中心的观察者对象，当事件发生时观察者会收到消息并做出响应。这种机制使主题与观察者以一种松耦合的方式通信。主题与观察者在通信时无需了解对方的实现。通过发送消息可以达到代码的彻底解耦。  <br/>
+<img src='/images/2014/07/notificationcenter.jpg' />  <br/>
+任何对象都可以观察通知，但要做到这一点，该对象必须注册，以接收通知。在注册时，必须指定一个选择器，以确定由通知传送所调用的方法；方法签名必须只有一个参数：通知对象。注册后，观察者也可以指定发布对象。通知机制中涉及两个重要的类：  <br/>
+1）NSNotification: 这是消息的载体，通过它可以把消息内容传递给观察者。  <br/>
+2）NSNotificationCenter: 实现NSNotificationCenter的原理是一个观察者模式，通过调用静态方法defaultCenter就可以获取这个通知中心的对象，而NSNotificationCenter同时是一个单例模式，这个通知中心的对象会一直存在于一个应用的整个生命周期中。一个NSNotificationCenter可以有许多的通知消息NSNotification，对于每一个NSNotification可以有很多的观察者Observer来接收通知。  <br/>
+注册成为观察者：</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[[NSNotificationCenter defaultCenter] addObserver:self 
+</span><span class='line'>                                       selector:@selector(downloadImage:) 
+</span><span class='line'>                                           name:@"BLDownloadImageNotification" 
+</span><span class='line'>                                         object:nil];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>发送消息：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[[NSNotificationCenter defaultCenter] postNotificationName:@"BLDownloadImageNotification"
+</span><span class='line'>                                                    object:self                                                 
+</span><span class='line'>                                                  userInfo:@{@"imageView":coverImage, @"coverUrl":albumCover}];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>dealloc中移除观察者：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)dealloc
+</span><span class='line'>{
+</span><span class='line'>    [[NSNotificationCenter defaultCenter] removeObserver:self];
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><p>KVO  <br/>
+Cocoa中提供一种称为键值观察的机制，对象可以通过KVO得到其他对象特定属性的变更通知。这种机制在MVC模式的场景中尤为重要。因为它让<strong>View对象可以经由Controller对象观察Model对象的变更</strong>。  <br/>
+这一机制基于NSKeyValueObserving非正式协议，Cocoa通过这个协议为所有遵循协议的对象提供了一种自动化的属性观察能力。要实现自动观察，参与KVO的对象要符合KVC的要求，并且需要符合KVC的存取方法。KVC基于有关非正式协议，通过存取对象属性实现自动观察。  <br/>
+Notifications和KVO者是Cocoa对观察者模式的实践。尽管两者依赖同样的发布-订阅关系，但是它们是为不同的解决方案而设计的。两者的主要差别如下表：</p>
+
+<table>
+<thead>
+<tr>
+<th>   Notifications                  </th>
+<th>  KVO                        </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>   一个中心对象为所有观察者提供变更通知 </td>
+<td> 被观察的对象直接向观察者发送通知  </td>
+</tr>
+<tr>
+<td>   主要从广义上关注程序事件           </td>
+<td> 绑定于特定对象属性的值          </td>
+</tr>
+<tr>
+<td>   通知有开销，即使你不使用它们。每次发布一个通知时，它必须对每一个观察系统中进行检查，即使没有人观察该对象（即使没有人正在观察的任何东西）</td>
+<td> 如果没有实际观察到的任何对象，则零开销 </td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+
+
+<p>参考：  <br/>
+<a href="http://en.wikipedia.org/wiki/Observer_pattern"><code>Observer Pattern</code></a>  <br/>
+<a href="http://jolestar.com/1278227820000/"><code>流失监听者泄露</code></a>  <br/>
+<a href="http://www.raywenderlich.com/46988/ios-design-patterns"><code>iOS Design Patterns</code></a>  <br/>
+<a href="http://nshipster.com/key-value-observing/"><code>Key-Value Observer</code></a>  <br/>
+<a href="http://www.numbergrinder.com/2008/12/patterns-in-objective-c-observer-pattern/"><code>Patterns in Objective-C: Observer Pattern</code></a>  <br/>
+<a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/Notifications/Introduction/introNotifications.html"><code>Notification Programming Topics</code></a> <br/>
+<a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/KeyValueCoding/Articles/KeyValueCoding.hbr/>%0A[`Key-Value%20Observing%20Programming%20Guide`](https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/KeyValueObserving/KeyValueObserving.html#//apple_ref/doc/uid/10000177i&#8221;><code>Key-Value Coding Programming Guide</code></a></p>
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style addthis_16x16_style">
+	
+	
+	
+	
+	
+	<a class="addthis_button_compact"></a>
+	<a class="addthis_counter addthis_bubble_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+
+<section>
+    <!-- <h1>评论</h1> -->
+    <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread" data-author-key=“1”></div>
+<script type="text/javascript">
+    var duoshuoQuery = {short_name:"yuxiaopeng"};
+    (function() {
+     var ds = document.createElement('script');
+     ds.type = 'text/javascript';ds.async = true;
+     ds.src = 'http://static.duoshuo.com/embed.js';
+     ds.charset = 'UTF-8';
+     (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+     })();
+    </script>
+<!-- Duoshuo Comment END -->
+</div>
+</section>
+
+</div>
+			</div>
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2016 - Roc -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a><br/>
+<span class="credit">感谢 <a href="http://gitcafe.com/signup?invited_by=yuxiaopeng" target="_blank">GitCafe</a> 为本站提供存储空间</span>
+</footer>
+			<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-45732020-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+
+		</div>
+	</div>
+</body>
+</html>

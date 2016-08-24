@@ -1,0 +1,227 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>iOS核心技术之：内存管理之一基本概念 - Roc's Blog</title>
+	<meta name="author" content="Roc">
+
+	
+	<meta name="description" content="iOS核心技术之：内存管理之一基本概念 内存模型 isa指针 在Objective-C语言的内部，每一个对象都有一个名为isa的指针，指向该对象的类。每一个类描述了一系列它的实例的特点，包括成员变量的列表，成员函数的列表等。每一个对象都可以接受消息，而对象能够接收的消息列表是保存在它所对应的类中 &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Roc's Blog" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://yuxiaopeng.github.com/blog/2014/07/01/memory-management-1/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!-- <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script> -->
+	<!--[if lt IE 9]><script src="/javascripts/html5.js"></script><![endif]-->
+	<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>-->
+	<script src="/javascripts/jquery.min.js"></script>
+	<!--<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>-->
+	<link href='/stylesheets/font.css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<!-- link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css" -->
+<!-- link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css" -->
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">	
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		//document.write("<img src='http://www.gravatar.com/avatar/" + MD5("uxiaopeng@gmail.com") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+	</script>
+</div>
+<h1><a href="/">Roc's Blog</a></h1>
+<p class="subtitle">这是最好的时代，也是最坏的时代；这是智慧的年代，也是愚昧的年代；这是信仰的时期，也是怀疑的时期；这是光明的季节，也是黑暗的季节；这是希望的春天，也是失望的冬天；大伙儿面前应有尽有，大伙儿面前一无所有；大伙儿正在直奔天堂；大伙儿正在直落地狱。——《双城记》</p>
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		<a class="weibo" href="http://www.weibo.com/rooc" title="Weibo">Weibo</a>
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav></header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">iOS核心技术之：内存管理之一基本概念</h1>
+	<div class="entry-content" itemprop="articleBody"><h3>内存模型</h3>
+
+<h3>isa指针</h3>
+
+<p>在Objective-C语言的内部，每一个对象都有一个名为isa的指针，指向该对象的类。每一个类描述了一系列它的实例的特点，包括成员变量的列表，成员函数的列表等。每一个对象都可以接受消息，而对象能够接收的消息列表是保存在它所对应的类中。关于isa指针详细内容推荐巧哥的 <a href="http://blog.devtang.com/blog/2013/10/15/objective-c-object-model/"><code>Objective-C对象模型及应用</code></a> 介绍的非常到位并且包含实际应用场景。</p>
+
+<h3>堆内存</h3>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<strong>堆</strong>（heap）是指内存中的一块区域，应用中的所有对象都会保存在堆中。当应用向某个类发送alloc消息时，系统会从堆中分配出一块内存，其大小足够存放相应对象的全部实例变量。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//
+</span><span class='line'>//  Person.h
+</span><span class='line'>//  MemoryManagement
+</span><span class='line'>//
+</span><span class='line'>//  Created by 小鹏 on 14/07/04.
+</span><span class='line'>//  Copyright (c) 2014年 ROC. All rights reserved.
+</span><span class='line'>//
+</span><span class='line'>
+</span><span class='line'>#import &lt;Foundation/Foundation.h&gt;
+</span><span class='line'>
+</span><span class='line'>@interface Person : NSObject
+</span><span class='line'>
+</span><span class='line'>@property (nonatomic, copy) NSString *name;
+</span><span class='line'>@property (nonatomic) int age;
+</span><span class='line'>@property (nonatomic, readonly) NSDate *birthday;
+</span><span class='line'>
+</span><span class='line'>@end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;一个对象永远不会直接保存另一个对象，所有的对象在堆中都是独立存在的。如果需要，一个对象可以保存指向其他对象的引用，即可以将其他对象的地址赋给指针实例变量。</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;Person实例包含5个实例变量，其中3个为指针变量（isa、name、birthday），另一个为int变量（age）。一个int变量会占用4个字节的内存，所以一个Person实例总共会占用16个字节的内存空间，如下图：</p>
+
+<p><img src='/images/2014/07/Person_In_Memory_Size.png' /></p>
+
+<h3>栈内存</h3>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<strong>栈</strong>（stack）是指内存中的另一块区域，和堆是分开的。为这两类内存区域分别取名堆和栈，是为了能够形象地描述这两个概念。堆，包含了大量无序的对象，需要通过指针来保存这些对象在堆中的地址。栈，则会按后进先出（LIFO）的规则保存一组<strong>帧</strong>（frame）。  <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;当程序执行某个方法（或函数）时，会从栈中分配一块内存空间，这块内存空间称为栈帧。栈帧负责保存程序在方法内声明的变量的值。在方法内声明的变量称为<strong>局部变量</strong>（local variable）。  <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;当某个应用启动并运行<code>main</code>函数时，它的栈帧会被保存在栈的底部。当<code>main</code>调用另一个方法（或函数）时，这个方法（或函数）的栈帧会压入栈的顶部。被调用的方法还可以再调用其他方法，依此类推，最终会在栈中形成一个塔状的栈帧序列 。当被调用的方法（或函数）结束时，程序会将其从栈帧中“弹出”并释放。如果同一个方法再次被调用，则应用会创建一个全新的的栈帧，并将其压入栈的顶部。如图：  <br/>
+<img src='/images/2014/07/Person_Method_Stack.png' /></p>
+
+<h3>对象所有权</h3>
+
+<p>指针变量暗含了对其所指向的对象的<strong>所有权</strong>（Ownership）。</p>
+
+<ul>
+<li>当某个方法（或函数）有一个指向某个对象的局部变量时，可以称该方法拥有（own）该变量所指向的对象。</li>
+<li>当某个对象有一个指向其他对象的实例变量时，可以称该对象拥有相应指针所指向的对象。</li>
+</ul>
+
+
+<p>以下情况会使对象失去拥有方：</p>
+
+<ul>
+<li>当程序修改某个指向特定对象的变量，将其指向另一个对象时。</li>
+<li>当程序将某个指向对象的变量设置为nil时。</li>
+<li>当程序释放某个指向特定对象的变量时。</li>
+</ul>
+
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style addthis_16x16_style">
+	
+	
+	
+	
+	
+	<a class="addthis_button_compact"></a>
+	<a class="addthis_counter addthis_bubble_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+
+<section>
+    <!-- <h1>评论</h1> -->
+    <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread" data-author-key=“1”></div>
+<script type="text/javascript">
+    var duoshuoQuery = {short_name:"yuxiaopeng"};
+    (function() {
+     var ds = document.createElement('script');
+     ds.type = 'text/javascript';ds.async = true;
+     ds.src = 'http://static.duoshuo.com/embed.js';
+     ds.charset = 'UTF-8';
+     (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+     })();
+    </script>
+<!-- Duoshuo Comment END -->
+</div>
+</section>
+
+</div>
+			</div>
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2016 - Roc -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a><br/>
+<span class="credit">感谢 <a href="http://gitcafe.com/signup?invited_by=yuxiaopeng" target="_blank">GitCafe</a> 为本站提供存储空间</span>
+</footer>
+			<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-45732020-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,595 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Hadoop集群环境搭建及配置 - Roc's Blog</title>
+	<meta name="author" content="Roc">
+
+	
+	<meta name="description" content="Hadoop集群环境搭建及配置 1.环境准备 三台服务器：CentOS6.5系统，IP地址如下，分别配置hosts： 1
+2
+3
+4
+vi /etc/hosts
+10.2.15.12 master #NameNode JobTracker
+10.2.15.13 slave1 #DataNode &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Roc's Blog" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://yuxiaopeng.github.com/blog/2014/04/02/setup-and-configuration-hadoop-environment/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!-- <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script> -->
+	<!--[if lt IE 9]><script src="/javascripts/html5.js"></script><![endif]-->
+	<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>-->
+	<script src="/javascripts/jquery.min.js"></script>
+	<!--<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>-->
+	<link href='/stylesheets/font.css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<!-- link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css" -->
+<!-- link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css" -->
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">	
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		//document.write("<img src='http://www.gravatar.com/avatar/" + MD5("uxiaopeng@gmail.com") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+	</script>
+</div>
+<h1><a href="/">Roc's Blog</a></h1>
+<p class="subtitle">这是最好的时代，也是最坏的时代；这是智慧的年代，也是愚昧的年代；这是信仰的时期，也是怀疑的时期；这是光明的季节，也是黑暗的季节；这是希望的春天，也是失望的冬天；大伙儿面前应有尽有，大伙儿面前一无所有；大伙儿正在直奔天堂；大伙儿正在直落地狱。——《双城记》</p>
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		<a class="weibo" href="http://www.weibo.com/rooc" title="Weibo">Weibo</a>
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav></header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">Hadoop集群环境搭建及配置</h1>
+	<div class="entry-content" itemprop="articleBody"><p><img src="/images/2014/04/hadoop-elephant_logo.png"></p>
+
+<h3>1.环境准备</h3>
+
+<ul>
+<li>三台服务器：CentOS6.5系统，IP地址如下，分别配置hosts：</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>vi /etc/hosts
+</span><span class='line'>10.2.15.12  master   #NameNode JobTracker
+</span><span class='line'>10.2.15.13  slave1   #DataNode TaskTracker
+</span><span class='line'>10.2.15.14  slave2   #DataNode TaskTracker</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>JDK安装及Java环境配置</li>
+</ul>
+
+
+<p>下载&nbsp;<a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html">jdk1.7.0_51</a></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>tar zxvf  -C /apps/ # 解压到/apps/目录
+</span><span class='line'>chown -R root.root jdk1.7.0_51   # 授权
+</span><span class='line'>vi /etc/profile   # 配置环境变量
+</span><span class='line'>export JAVA_HOME=/apps/jdk1.7.0_51
+</span><span class='line'>export CLASSPATH=.:$JAVA_HOME/jre/lib/rt.jar:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+</span><span class='line'>export PATH=$PATH:$JAVA_HOME/bin
+</span><span class='line'>source /etc/profile  # 使修改生效</span></code></pre></td></tr></table></div></figure>
+
+
+<p>更新 alternatives，选择jdk版本</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>update-alternatives --install /usr/bin/java java /apps/jdk1.7.0_51/bin/java 60
+</span><span class='line'>update-alternatives --config java   # 选择3回车</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>创建hadoop用户</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>groupadd hadoop   # 添加组
+</span><span class='line'>useradd -g hadoop -d /home/hadoop hadoop   # 添加用户
+</span><span class='line'>passwd hadoop   # 修改密码</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>SSH无密码验证配置</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mkdir ~/.ssh
+</span><span class='line'>su - hadoop
+</span><span class='line'>cd ~/.ssh
+</span><span class='line'>ssh-keygen -t  rsa       # 一直回车生成密钥
+</span><span class='line'>cat id_rsa.pub &gt;&gt; authorized_keys   # 将公钥id_rsa.pub追加到授权的key里面去
+</span><span class='line'>svervice sshd restart   # 重启SSH服务
+</span><span class='line'>ssh slave1   # ssh到slave1
+</span><span class='line'>mkdir ~/.ssh   # 创建.ssh目录
+</span><span class='line'>ssh slave2   # ssh到slave2
+</span><span class='line'>mkdir ~/.ssh   # 创建.ssh目录
+</span><span class='line'>exit
+</span><span class='line'>exit    # 返回到master
+</span><span class='line'>scp authorized_keys slave1:~/.ssh/   # copy授权key到slave1
+</span><span class='line'>scp authorized_keys slave2:~/.ssh/   # copy授权key到slave2
+</span><span class='line'>vi /etc/ssh/sshd_config   #开启RSA认证
+</span><span class='line'>RSAAuthentication yes
+</span><span class='line'>PubkeyAuthentication yes
+</span><span class='line'>AuthorizedKeysFile      .ssh/authorized_keys
+</span><span class='line'>ssh slave1   # ssh到slave1
+</span><span class='line'>chmod 700 ~/.ssh #目录权限必须设置700
+</span><span class='line'>ssh slave2   # ssh到slave2
+</span><span class='line'>chmod 700 ~/.ssh #目录权限必须设置700
+</span><span class='line'>exit
+</span><span class='line'>exit    # 返回到master
+</span><span class='line'>ssh salve1   # 验证
+</span><span class='line'>exit
+</span><span class='line'>ssh slave2   # 验证</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>2.Hadoop安装与配置</h3>
+
+<ul>
+<li>下载&nbsp;<a href="http://www.apache.org/dyn/closer.cgi/hadoop/common/">hadoop-2.2.0</a></li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mkdir /apps/hadoop  # 创建hadoop目录作为安装hadoop的home目录
+</span><span class='line'>tar zxvf hadoop-2.2.0.tar.gz -C /apps/hadoop   # 解压到hadoop目录
+</span><span class='line'>chown hadoop.hadoop -R /home/hadoop/hadoop-2.3.0/   # 授权
+</span><span class='line'>vi /etc/profile   #添加hadoop变量，方便使用，不必每次操作cd到bin目录
+</span><span class='line'>HADOOP_HOME=/home/hadoop/hadoop-2.2.0/
+</span><span class='line'>PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin
+</span><span class='line'>export HADOOP_HOME PATH
+</span><span class='line'>source /etc/profile   # 生效</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>修改hadoop-env.sh、yarn-env.sh Hadoop运行的环境变量</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>vi hadoop-env.sh
+</span><span class='line'>export JAVA_HOME=/apps/jdk1.7.0_51
+</span><span class='line'>vi yarn-env.sh 
+</span><span class='line'>export JAVA_HOME=/apps/jdk1.7.0_51</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>修改core-site.xml配置文件,主要对NameNode地址端口及系统级别的参数配置，如HDFS URL、Hadoop临时目录以及用于rack-aware集群中的配置文件的配置等。</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;configuration&gt;
+</span><span class='line'>  &lt;property&gt;
+</span><span class='line'>      &lt;name&gt;fs.default.name&lt;/name&gt;
+</span><span class='line'>      &lt;value&gt;hdfs://master:9000/&lt;/value&gt;
+</span><span class='line'>      &lt;description&gt;The name of the default file system. A URI whose scheme and authority determine the FileSystem implementation. The uri's scheme determines the config property (fs.SCHEME.impl) naming the FileSystem implementation class. The uri's authority is used to determine the host, port, etc. for a filesystem.&lt;/description&gt;
+</span><span class='line'>  &lt;/property&gt;
+</span><span class='line'>    &lt;property&gt;
+</span><span class='line'>      &lt;name&gt;io.file.buffer.size&lt;/name&gt;
+</span><span class='line'>        &lt;value&gt;131072&lt;/value&gt;
+</span><span class='line'>  &lt;/property&gt;
+</span><span class='line'>    &lt;property&gt;
+</span><span class='line'>        &lt;name&gt;hadoop.tmp.dir&lt;/name&gt;
+</span><span class='line'>        &lt;value&gt;/apps/hadoop/tmp&lt;/value&gt;
+</span><span class='line'>        &lt;description&gt;A base for other temporary directories.&lt;/description&gt;
+</span><span class='line'>    &lt;/property&gt;
+</span><span class='line'>    &lt;property&gt;
+</span><span class='line'>        &lt;name&gt;hadoop.proxyuser.hduser.hosts&lt;/name&gt;
+</span><span class='line'>        &lt;value&gt;*&lt;/value&gt;
+</span><span class='line'>    &lt;/property&gt;
+</span><span class='line'>    &lt;property&gt;
+</span><span class='line'>        &lt;name&gt;hadoop.proxyuser.hduser.groups&lt;/name&gt;
+</span><span class='line'>        &lt;value&gt;*&lt;/value&gt;
+</span><span class='line'>    &lt;/property&gt;
+</span><span class='line'>&lt;/configuration&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>修改hdfs-site.xml配置文件，主要对HDFS相关属性的配置，如文件副本的个数、块大小及是否使用强制权限等。</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;configuration&gt;
+</span><span class='line'>  &lt;property&gt;
+</span><span class='line'>      &lt;name&gt;dfs.namenode.name.dir&lt;/name&gt;
+</span><span class='line'>        &lt;value&gt;file://${hadoop.tmp.dir}/dfs/name&lt;/value&gt;
+</span><span class='line'>    &lt;/property&gt;
+</span><span class='line'>    &lt;property&gt;
+</span><span class='line'>        &lt;name&gt;dfs.datanode.data.dir&lt;/name&gt;
+</span><span class='line'>        &lt;value&gt;file://${hadoop.tmp.dir}/dfs/data&lt;/value&gt;
+</span><span class='line'>    &lt;/property&gt;
+</span><span class='line'>    &lt;property&gt;
+</span><span class='line'>        &lt;name&gt;hadoop.tmp.dir&lt;/name&gt;
+</span><span class='line'>        &lt;value&gt;/apps/hadoop/hdfs/tmp/&lt;/value&gt;
+</span><span class='line'>    &lt;/property&gt;
+</span><span class='line'>    &lt;property&gt;
+</span><span class='line'>        &lt;name&gt;dfs.replication&lt;/name&gt;   #数据副本数量，默认3，我们是两台设置2
+</span><span class='line'>        &lt;value&gt;2&lt;/value&gt;    
+</span><span class='line'>    &lt;/property&gt;
+</span><span class='line'>    &lt;property&gt;
+</span><span class='line'>        &lt;name&gt;dfs.webhdfs.enabled&lt;/name&gt;
+</span><span class='line'>        &lt;value&gt;true&lt;/value&gt;
+</span><span class='line'>     &lt;/property&gt;
+</span><span class='line'>&lt;/configuration&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>修改mapred-site.xml MapReduce配置文件，主要对JobTracker地址及端口的配置。</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;configuration&gt;
+</span><span class='line'>  &lt;property&gt;
+</span><span class='line'>      &lt;name&gt;mapreduce.framework.name&lt;/name&gt;
+</span><span class='line'>        &lt;value&gt;yarn&lt;/value&gt;
+</span><span class='line'>    &lt;/property&gt;
+</span><span class='line'>    &lt;property&gt;
+</span><span class='line'>      &lt;name&gt;mapreduce.jobhistory.address&lt;/name&gt;
+</span><span class='line'>        &lt;value&gt;master:10020&lt;/value&gt;
+</span><span class='line'>    &lt;/property&gt;
+</span><span class='line'>    &lt;property&gt;
+</span><span class='line'>        &lt;name&gt;mapreduce.jobhistory.webapp.address&lt;/name&gt;
+</span><span class='line'>        &lt;value&gt;master:19888&lt;/value&gt;
+</span><span class='line'>    &lt;/property&gt;
+</span><span class='line'>&lt;configuration&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>修改slaves配置文件，slaves主机列表，可以是alias或IP地址。</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>slave1
+</span><span class='line'>slave2</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>修改yarn-site.xml配置文件，yarn地址及端口信息配置。</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;configuration&gt;
+</span><span class='line'>  &lt;property&gt;
+</span><span class='line'>      &lt;name&gt;yarn.resourcemanager.address&lt;/name&gt;
+</span><span class='line'>      &lt;value&gt;master:8032&lt;/value&gt;
+</span><span class='line'>  &lt;/property&gt;
+</span><span class='line'>  &lt;property&gt;
+</span><span class='line'>      &lt;name&gt;yarn.resourcemanager.scheduler.address&lt;/name&gt;
+</span><span class='line'>      &lt;value&gt;master:8030&lt;/value&gt;
+</span><span class='line'>  &lt;/property&gt;
+</span><span class='line'>  &lt;property&gt;
+</span><span class='line'>      &lt;name&gt;yarn.resourcemanager.resource-tracker.address&lt;/name&gt;
+</span><span class='line'>      &lt;value&gt;master:8031&lt;/value&gt;
+</span><span class='line'>  &lt;/property&gt;
+</span><span class='line'>  &lt;property&gt;
+</span><span class='line'>      &lt;name&gt;yarn.resourcemanager.admin.address&lt;/name&gt;
+</span><span class='line'>      &lt;value&gt;master:8033&lt;/value&gt;
+</span><span class='line'>  &lt;/property&gt;
+</span><span class='line'>  &lt;property&gt;
+</span><span class='line'>      &lt;name&gt;yarn.resourcemanager.webapp.address&lt;/name&gt;
+</span><span class='line'>      &lt;value&gt;master:8088&lt;/value&gt;
+</span><span class='line'>  &lt;/property&gt;
+</span><span class='line'>  &lt;property&gt;
+</span><span class='line'>      &lt;name&gt;yarn.nodemanager.aux-services&lt;/name&gt;
+</span><span class='line'>      &lt;value&gt;mapreduce_shuffle&lt;/value&gt;
+</span><span class='line'>  &lt;/property&gt;
+</span><span class='line'>  &lt;property&gt;
+</span><span class='line'>      &lt;name&gt;yarn.nodemanager.aux-services.mapreduce.shuffle.class&lt;/name&gt;
+</span><span class='line'>      &lt;value&gt;org.apache.hadoop.mapred.ShuffleHandler&lt;/value&gt;
+</span><span class='line'>  &lt;/property&gt;
+</span><span class='line'>&lt;/configuration&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>scp hadoop slave1:~/apps/   # 复制到其他节点slave1、slave2
+</span><span class='line'>scp hadoop slave2:~/apps/</span></code></pre></td></tr></table></div></figure>
+
+
+<p><font color=red size=1> 注意：只需要原样复制即可，不必改动上面的xml配置文件。 </font></p>
+
+<h3>3.启动关闭与验证</h3>
+
+<ul>
+<li>启动与关闭</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>hdfs namenode -format    # 格式化HDFS
+</span><span class='line'>start-dfs.sh    # 启动HDFS文件系统
+</span><span class='line'>jps   # 检查守护进程是否启动
+</span><span class='line'>start-yarn.sh   # 启动新mapreduce架构
+</span><span class='line'>jps   # 检查守护进程是否启动
+</span><span class='line'>start-all.sh    # 也可通过star-all.sh启动所有进程
+</span><span class='line'>stop-all.sh     # 关闭所有进程
+</span><span class='line'>hdfs dfsadmin -report   # 查看集群状态</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>浏览器中查看</li>
+</ul>
+
+
+<p><a href="http://master:8088/">http://master:8088</a>   &nbsp;&nbsp;&nbsp;&nbsp; #通过web查看资源</p>
+
+<p><a href="http://master:50070/">http://master:50070</a>  &nbsp;&nbsp; # 查看HDFS状态</p>
+
+<ul>
+<li>验证集群计算，执行Hadoop自带的examples，执行如下命令：</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.2.0.jar randomwriter out</span></code></pre></td></tr></table></div></figure>
+
+
+<p>至此，Hadoop的集群已经搭建完成，以上内容主要参考<a href="http://hadoop.apache.org"><code>Apache Hadoop</code></a>官网！</p>
+
+<p>详细配置请参考：<a href="http://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-common/ClusterSetup.html"><code>Hadoop Cluster Setup</code></a></p>
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style addthis_16x16_style">
+	
+	
+	
+	
+	
+	<a class="addthis_button_compact"></a>
+	<a class="addthis_counter addthis_bubble_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+
+<section>
+    <!-- <h1>评论</h1> -->
+    <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread" data-author-key=“1”></div>
+<script type="text/javascript">
+    var duoshuoQuery = {short_name:"yuxiaopeng"};
+    (function() {
+     var ds = document.createElement('script');
+     ds.type = 'text/javascript';ds.async = true;
+     ds.src = 'http://static.duoshuo.com/embed.js';
+     ds.charset = 'UTF-8';
+     (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+     })();
+    </script>
+<!-- Duoshuo Comment END -->
+</div>
+</section>
+
+</div>
+			</div>
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2016 - Roc -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a><br/>
+<span class="credit">感谢 <a href="http://gitcafe.com/signup?invited_by=yuxiaopeng" target="_blank">GitCafe</a> 为本站提供存储空间</span>
+</footer>
+			<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-45732020-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+
+		</div>
+	</div>
+</body>
+</html>

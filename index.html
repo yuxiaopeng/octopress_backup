@@ -1,0 +1,2952 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Roc's Blog</title>
+	<meta name="author" content="Roc">
+
+	
+	<meta name="description" content="May 11th, 2015 Display Animated GIF in iOS 众所周知，iOS不支持播放GIF格式的动图。问题的原因有几种说法：一种说法是因为最初MacOS不支持Flash，而GIF恰巧是Flash的一种导出格式，所以iOS也就不支持GIF了； &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Roc's Blog" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://yuxiaopeng.github.com/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!-- <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script> -->
+	<!--[if lt IE 9]><script src="/javascripts/html5.js"></script><![endif]-->
+	<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>-->
+	<script src="/javascripts/jquery.min.js"></script>
+	<!--<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>-->
+	<link href='/stylesheets/font.css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<!-- link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css" -->
+<!-- link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css" -->
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">	
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		//document.write("<img src='http://www.gravatar.com/avatar/" + MD5("uxiaopeng@gmail.com") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+	</script>
+</div>
+<h1><a href="/">Roc's Blog</a></h1>
+<p class="subtitle">这是最好的时代，也是最坏的时代；这是智慧的年代，也是愚昧的年代；这是信仰的时期，也是怀疑的时期；这是光明的季节，也是黑暗的季节；这是希望的春天，也是失望的冬天；大伙儿面前应有尽有，大伙儿面前一无所有；大伙儿正在直奔天堂；大伙儿正在直落地狱。——《双城记》</p>
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		<a class="weibo" href="http://www.weibo.com/rooc" title="Weibo">Weibo</a>
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav></header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner">
+<div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-11T15:46:00+08:00" data-updated="true" itemprop="datePublished">May 11<span>th</span>, 2015</time></div>
+		<div class="tags">
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2015/05/11/display-animated-gif-in-ios/" itemprop="url">Display Animated GIF in iOS</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>众所周知，iOS不支持播放GIF格式的动图。问题的原因有几种说法：一种说法是因为最初MacOS不支持Flash，而GIF恰巧是Flash的一种导出格式，所以iOS也就不支持GIF了；另外一种说法是因GIF格式太老，近几年出现的HTML5完全可以取代Flash以及GIF，所以iOS设计之初就不支持GIF。其实真正的原因只有设计iOS系统的人知道。暂且不管这其中的原因，先来看看如何支持GIF动图：</p>
+
+<h3>GIF格式</h3>
+
+<p>先从<a href="http://zh.wikipedia.org/wiki/GIF"><code>GIF</code></a>格式说起，GIF是一种位图格式，与<a href="http://en.wikipedia.org/wiki/Vector_graphics"><code>矢量图</code></a>相反，它是一种压缩格式，因其体积小而成像相对清晰，广泛用于网络传输。从GIF格式的结构来看，一张完整的GIF图片包含了若干帧，你可以将其视为与zip格式类似的方式将其压缩到一个文件中，当显示时再将其一帧一帧的展示出来，可以在Mac OS X中打开一张GIF图看一下多帧的效果，如下截图：</p>
+
+<p>第1帧：</p>
+
+<p><img src="/images/2015/05/gif_frame_1.png"></p>
+
+<p>第45帧：</p>
+
+<p><img src="/images/2015/05/gif_frame_2.png"></p>
+
+<p>这样就比较清晰了，其实支持GIF动图，也就是能够把GIF格式压缩的多帧图按照顺序进行展示，并循环这个过程。</p>
+
+<h3>相关概念</h3>
+
+<p>简单介绍一下GIF的几个概念：</p>
+
+<ul>
+<li>frame（帧）：一个GIF可以简单认为是多张image组成的动画，一帧就是其中一张图片image；</li>
+<li>frameCount（帧数）：表示GIF有多少帧；</li>
+<li>loopCount（播放次数）：有些GIF播放到一定次数就停止了，如果为0就代表GIF一直循环播放；</li>
+<li>delayTime（延迟时间）：每一帧播放的时间，也就是说这帧显示到delayTime就转到下一帧。</li>
+</ul>
+
+
+<p>所以GIF播放主要就是把每一帧image解析出来，然后每一帧显示它对应的delaytime，然后再显示下一张，如此循环下去。</p>
+
+<h3>实现展示GIF动图</h3>
+
+<p>iOS上实现GIF播放动图有几种方式：基于ImageIO.framework框架、通过UIWebView实现、使用UIImageView的Animating相关方法</p>
+
+<ul>
+<li>基于ImageIO.framework框架</li>
+</ul>
+
+
+<p>这种方式最直接有效，通过ImageIO的CGImageSourceRef读取GIF图片数据，取得CGImageSourceGetCount即frameCount，通过CGImageSourceCreateImageAtIndex方法遍历每一帧的image，同时通过CGImageProperties的kCGImagePropertyGIFDelayTime累计总的delayTime，最后通过UIImage的animatedImageWithImages:duration得到一个animatedImage，在此引用SDWebImage中的UIImage+GIF这个Category，这个Category是引用自LBGIFImage这个开源项目，代码如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//
+</span><span class='line'>//  UIImage+GIF.m
+</span><span class='line'>//  LBGIFImage
+</span><span class='line'>//
+</span><span class='line'>//  Created by Laurin Brandner on 06.01.12.
+</span><span class='line'>//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+</span><span class='line'>//
+</span><span class='line'>
+</span><span class='line'>#import "UIImage+GIF.h"
+</span><span class='line'>#import &lt;ImageIO/ImageIO.h&gt;
+</span><span class='line'>
+</span><span class='line'>@implementation UIImage (GIF)
+</span><span class='line'>
+</span><span class='line'>+ (UIImage *)sd_animatedGIFWithData:(NSData *)data
+</span><span class='line'>{
+</span><span class='line'>    if (!data)
+</span><span class='line'>    {
+</span><span class='line'>        return nil;
+</span><span class='line'>    }
+</span><span class='line'>    
+</span><span class='line'>    CGImageSourceRef source = CGImageSourceCreateWithData((__bridge CFDataRef)data, NULL);
+</span><span class='line'>    
+</span><span class='line'>    size_t count = CGImageSourceGetCount(source);
+</span><span class='line'>
+</span><span class='line'>    UIImage *animatedImage;
+</span><span class='line'>
+</span><span class='line'>    if (count &lt;= 1)
+</span><span class='line'>    {
+</span><span class='line'>        animatedImage = [[UIImage alloc] initWithData:data];
+</span><span class='line'>    }
+</span><span class='line'>    else
+</span><span class='line'>    {
+</span><span class='line'>        NSMutableArray *images = [NSMutableArray array];
+</span><span class='line'>
+</span><span class='line'>        NSTimeInterval duration = 0.0f;
+</span><span class='line'>
+</span><span class='line'>        for (size_t i = 0; i &lt; count; i++)
+</span><span class='line'>        {
+</span><span class='line'>            CGImageRef image = CGImageSourceCreateImageAtIndex(source, i, NULL);
+</span><span class='line'>
+</span><span class='line'>            NSDictionary *frameProperties = CFBridgingRelease(CGImageSourceCopyPropertiesAtIndex(source, i, NULL));
+</span><span class='line'>            duration += [[[frameProperties objectForKey:(NSString*)kCGImagePropertyGIFDictionary] objectForKey:(NSString*)kCGImagePropertyGIFDelayTime] doubleValue];
+</span><span class='line'>
+</span><span class='line'>            [images addObject:[UIImage imageWithCGImage:image scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp]];
+</span><span class='line'>
+</span><span class='line'>            CGImageRelease(image);
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        if (!duration)
+</span><span class='line'>        {
+</span><span class='line'>            duration = (1.0f/10.0f)*count;
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        animatedImage = [UIImage animatedImageWithImages:images duration:duration];
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    CFRelease(source);
+</span><span class='line'>
+</span><span class='line'>    return animatedImage;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>通过UIWebView实现
+这种方式与在webview上展示其他格式的静态图片一样，代码如下：</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NSString *path = [[NSBundle mainBundle] pathForResource:@"run" ofType:@"gif"];
+</span><span class='line'>NSData *gifData = [NSData dataWithContentsOfFile:path];
+</span><span class='line'>UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 120, 100, 100)];
+</span><span class='line'>[webView loadData:gifData MIMEType:@"image/gif" textEncodingName:nil baseURL:nil];
+</span><span class='line'>[self.view addSubview:webView];</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>使用UIImageView的Animating相关方法
+此种方式是将GIF预先转换成单帧图，使用单帧图名称初始化一个数组，设置animationDuration，通过startAnimating方法进行展示，代码如下：</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>UIImageView *gifImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 240, 100, 100)];
+</span><span class='line'>NSArray *gifArray = [NSArray arrayWithObjects:[UIImage imageNamed:@"1"],
+</span><span class='line'>                     [UIImage imageNamed:@"2"],
+</span><span class='line'>                     [UIImage imageNamed:@"3"],
+</span><span class='line'>                     [UIImage imageNamed:@"4"],
+</span><span class='line'>                     [UIImage imageNamed:@"5"],
+</span><span class='line'>                     [UIImage imageNamed:@"6"],
+</span><span class='line'>                     [UIImage imageNamed:@"7"],
+</span><span class='line'>                     [UIImage imageNamed:@"8"],
+</span><span class='line'>                     [UIImage imageNamed:@"9"],
+</span><span class='line'>                     [UIImage imageNamed:@"10"],nil];
+</span><span class='line'>gifImageView.animationImages = gifArray; 
+</span><span class='line'>gifImageView.animationDuration = 5; 
+</span><span class='line'>gifImageView.animationRepeatCount = 999;
+</span><span class='line'>[gifImageView startAnimating];
+</span><span class='line'>[self.view addSubview:gifImageView];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这种方式有个限制条件是事先需要将GIF图转为单帧图，所以此方式适合做一次性处理，如果放到动态加载图片的程序中，还需要写个将GIF图解码为单帧图的函数。</p>
+
+<p>综合上面三种方式可知，第一种方式实际是使用了CoreGraphics的相关API，将GIF数据解析为单帧图再将其转换为animatedImage，整个流程实际是进行数据解析和转换的过程；第二种是通过UIWebView以保持原有帧速的方式实现；第三种方式，实际是使用了定时器来控制图片的播放从而模拟成动图。第一种和第三种方式在模拟的帧速不准确时，可能与原图效果不符。而第一种方式使用了CoreGraphics相对更底层的API，这种方式可能性能更高一些，也是目前使用最多的方式。</p>
+
+<p>一些开源GIF项目也都是使用第一种方式实现的，GitHub上有几个star较多的项目，对几个比较受欢迎的项目简单做了一下对比：</p>
+
+<ul>
+<li><a href="https://github.com/Flipboard/FLAnimatedImage"><code>FLAnimatedImage</code></a></li>
+</ul>
+
+
+<p>Flipboard团队出品，一直在维护。特点是兼容性好，如果项目中同时使用其他第三方框架建议使用，不用担心冲突问题，因为只需要在需要支持GIF图的代码中使用此框架的Image和ImageView相关方法即可，不会影响其他代码。</p>
+
+<ul>
+<li><a href="https://github.com/mattt/AnimatedGIFImageSerialization"><code>AnimatedGIFImageSerialization</code></a></li>
+</ul>
+
+
+<p>出自著名的AFNetworking作者mattt大神之手，与AFN一样，因其重写了UIImage相关方法，使用方便，只需要将头文件引入即可使UIImage支持GIF，还可以将数据序列化为NSData，但缺点是引入此框架后会将整个项目的UIImage方法替换为提重写后的方法，有可能与其他代码产生冲突。</p>
+
+<ul>
+<li><a href="https://github.com/rs/SDWebImage"><code>SDWebImage 的 UIImage+GIF</code></a></li>
+</ul>
+
+
+<p>特点是简单易用，在需要支持GIF的位置加上一个方法即可，不必担心冲突。</p>
+
+<p>参考：</p>
+
+<p><a href="http://engineering.flipboard.com/2014/05/animated-gif/"><code>How Flipboard plays animated GIFs on iOS</code></a></p>
+
+<p><a href="http://www.tanhao.me/pieces/1019.html/"><code>CGImageSource对图像数据读取任务的抽象</code></a></p>
+
+<p><a href="http://bytelee.me/blog/2013/05/16/ios-giftu-pian-de-yu-lan-yi-ji-sheng-cheng/"><code>GIF图片的预览以及生成</code></a></p>
+
+<p><a href="http://www.tuicool.com/articles/RZJRrmb"><code>iOS由ImageIO.framework实现gif的系统解码</code></a></p>
+
+<p><a href="https://github.com/yuxiaopeng/GIF"><code>我对几个受欢迎开源项目的对比_Github</code></a></p>
+
+<p>【完】</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-09T18:30:00+08:00" data-updated="true" itemprop="datePublished">Jul 9<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/07/09/delegate-protocol-of-design-pattern/" itemprop="url">设计模式之委托模式Delegation</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h3>1.什么是委托模式（Delegation）</h3>
+
+<p>委托是指给一个对象提供机会对另一个对象中的变化做出反应或者影响另一个对象的行为。即有两个对象参与处理同一个请求，接受请求的对象将请求委托给另一个对象来处理。其基本思想是：两个对象协同解决问题。一个对象非常普通，并且打算在广泛的情形中重用。它存储指向另一个对象（即它的委托）的引用，并在关键时刻给委托发消息。消息可能只是通知委托发生了某件事情，给委托提供机会执行额外的处理，或者消息可能要求委托提供一些关键的信息以控制所发生的事情。委托模式是一项基本技巧，许多其他的模式，如状态模式、策略模式、访问者模式本质上是在更特殊的场合采用了委托模式。委托模式使得我们可以用聚合来替代继承。</p>
+
+<p>在Cocoa中，委托是一种很常见的设计模式，很多类者有delegate属性。</p>
+
+<p>委托是一种面向对象的<strong>回调</strong>（callbacks）机制。传统意义上的回调是指在某个特定事件发生前就设置好的函数。当相应的事件发生时，程序就会调用该函数。某些对象需要为多个事件设置回调。以CLLocationManager对象为例，当该对象发现新的位置，或者发生错误时都会使用回调。</p>
+
+<p>Objective-C没有内建的机制能让两个或多个回调函数协同工作并分享信息。委托解决了这个问题：单个委托对象可以接收针对某个特定对象的全部事件消息。委托对象可以根据需要，保存、修改、使用和转发相关的信息。</p>
+
+<p>下面用通俗的话说说委托模式是干什么用的。实际上Objective-C中的委托模式，类似于Java中的回调机制，或者说监听器机制。也类似JavaScript语言里面的onclick事件和函数的作用。比如要实现点击一个按钮之后做什么事情，这里有一个视图类和一个控制器类，无论你是使用什么语言和开发工具。视图类能知道用户什么时候点击了按钮，但是不知道点击了以后做什么；控制类知道点击按钮后做什么，而不知道何时用户会点击。那么，可以将控制类委托给视图类，当点击的时候视图类调用控制类。</p>
+
+<p>如果使用过Java的Swing等做本地图形界面开发，应该知道在视图类中包含了大量的（匿名）内部类，或者叫注册监听器，这些机制起到和Objective-C委托类似的功效。可以这样理解：监听器、（匿名）内部类是实现怎么做的部分，但是不知道何时会发生事情；视图类是实何时响应事件的部分，在事件发生时调用监听器或（匿名）内部类。</p>
+
+<p>写个简单的示例，是在main方法里写的，模拟一下委托在视图和控制中的作用。这里面，我有一个屏幕（Screen）类，就把它当视图吧。需求是当点击屏幕的时候爆炸。那么我有个动作（Action）类，它会实现爆炸动作。</p>
+
+<p> 委托方法通常包括3种动词：should、will、did。</p>
+
+<p>should表示一个动作发生前，通常带有返回值，可以在动作发生之前改变对象状态。
+will在动作发生前，委托可以对动作做出响应，但不带有返回值。
+did在动作发生后做出的响应。</p>
+
+<p>从方法的定义我们不难看出委托模式能够起到两方面的作用：</p>
+
+<p>第一：委托协助对象主体完成某项操作，将需要定制化的操作通过委托对象来自定义实现，达到和子类化对象主体同样的作用。
+第二：事件监听，委托对象监听对象主体的某些重要事件，对事件做出具体响应或广播事件交给需要作出响应的对象。</p>
+
+<p>个人理解采用委托模式的好处在于：</p>
+
+<p>1、避免子类化带来的过多的子类以及子类与父类的耦合
+2、通过委托传递消息机制实现分层解耦</p>
+
+<p>委托模式的实现思路：</p>
+
+<p>1、通常是在对象主体包含一个委托对象的弱引用：</p>
+
+<p>2、委托对象的实现有两种方式：正式协议和非正式协议，对象主体在协议中定义委托方法，委托对象可以选择实现其中某些委托方法，因此如果通过正式协议定义委托方法需要使用@option。
+3、连接对象主体和委托，无非就是通过setDelegate:(id)obj来实现。</p>
+
+<p>4、触发委托方法。</p>
+
+<h3>2.什么是协议（protocol）</h3>
+
+<p>凡是支付委托的对象，其背后都有一个相应的协议，声明可以向该对象的委托对象发送的消息。委托对象需要根据这个协议，为其“感兴趣”的事件实现相应的方法。如果某个类实现了某个协议中的方法，就称这个类遵守（conform）该协议。</p>
+
+<p>针对CLLocationManager的委托对象，相应的协议部分示例代码如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@protocol CLLocationManagerDelegate &lt;NSObject&gt;
+</span><span class='line'>
+</span><span class='line'>@optional
+</span><span class='line'>
+</span><span class='line'>- (void)locationManager:(CLLocationManager *)manager
+</span><span class='line'>  didUpdateToLocation:(CLLocation *)newLocation
+</span><span class='line'>         fromLocation:(CLLocation *)oldLocation;
+</span><span class='line'>         
+</span><span class='line'>- (void)locationManager:(CLLocationManager *)manager
+</span><span class='line'>       didUpdateHeading:(CLHeading *)newHeading;
+</span><span class='line'>       
+</span><span class='line'>- (BOOL)locationManagerShouldDisplayHeadingCalibration:(CLLocationManager *)manager;
+</span><span class='line'>
+</span><span class='line'>- (void)locationManager:(CLLocationManager *)manager
+</span><span class='line'>  didEnterRegion:(CLRegion *)region;
+</span><span class='line'>  
+</span><span class='line'>- (void)locationManager:(CLLocationManager *)manager
+</span><span class='line'>  didFailWithError:(NSError *)error;
+</span><span class='line'>@end
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>协议不是类，只是一组方法。不能为协议创建实例，或者添加实例变量。协议自身不实现方法，需要由遵守相应协议的类来实现。用于委托的协议称为委托协议（delegate protocols）。</p>
+
+<h3>3.目标-动作与委托</h3>
+
+<p>目标-动作（target-action）是一另外一种面向对象的回调模式。其工作方式为：当某个特定的事件发生（如按下按钮）时，发生事件的一方向指定的目标对象发送一个之前设置好的动作消息。针对不同的事件（例如轻按、连按或按住不放），需要创建不同的目标-动作。使用委托时，只要设置一个委托对象，就可以向该对象发送不同的事件消息。委托对象要为其“关心”的每一个事件实现相应的方法，如下图：  <br/>
+<img src='/images/2014/07/delegate_target_action.png' /></p>
+
+<p>代码编写有个这样的原则：能不用继承就不用继承，能使用委托实现的就不使用继承。两个类有明显示的层级关系时使用继承，没有明显的层级关系，仅仅是为了在一个类中使用另一个类的方法时应该使用委托。
+根据《重构》一书称：现在有滥用继承的趋势，JDK 中 Stack 就是一个滥用继承的典型！
+java.util.Stack 继承自 java.util.Vector，其实 Stack 与 Vector 在用途上完全是风马牛不相及的两个容器。</p>
+
+<p>参考：
+http://developer.apple.com/library/ios/#documentation/General/Conceptual/DevPedia-CocoaCore/Delegation.html</p>
+
+<p>http://developer.apple.com/library/ios/#documentation/Cocoa/Conceptual/CocoaFundamentals/CommunicatingWithObjects/CommunicateWithObjects.html#//apple_ref/doc/uid/TP40002974-CH7-SW18
+<a href="http://en.wikipedia.org/wiki/Delegation_pattern"><code>Delegation pattern</code></a></p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-07T19:30:00+08:00" data-updated="true" itemprop="datePublished">Jul 7<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/07/07/observer-of-design-patterns/" itemprop="url">设计模式之观察者模式Observer</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h3>1.何为观察者模式（Observer）</h3>
+
+<p><strong>观察者模式</strong>（又被称为发布/订阅模式Publish-Subscribe或依赖模式Dependents）是软件设计模式的一种。即定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并被自动更新。在此种模式中，一个目标对象管理所有相依赖于它的观察者对象，并且在它本身的状态改变时主动发出通知。这通常通过调用各观察者所提供的方法来实现。此种模式通常被用来实现分布式事件处理系统。此模式也是MVC模式的关键组成部分。在许多编程中都用到了观察者模式，包括几乎所有的GUI程序都用到了此模式，例如：Mac、iOS、Win操作系统的图形用户界面。</p>
+
+<p>观察者模式可能引起内存泄露（<code>memory leaks</code>），著名的流失监听者泄露问题(<a href="http://en.wikipedia.org/wiki/Lapsed_listener_problem"><code>Lapsed listener problem</code></a>)此总是经常发生在具备垃圾回收特性的编程中，因为此模式需要基于明确的注册和注销主题对象来实现，并且主题对象持有观察者对象的强引用。而观察者对象也可以称为监听者，主题对象持有所有监听者对象的强引用，导致监听者对象内存无法被释放，造成内存泄露。此问题可以通过将主题对象所持有的强引用改为弱引用的方式来防止内存泄露。</p>
+
+<p>减少对象之间的耦合有利于系统的复用，但是同时设计师需要使这些低耦合度的对象之间能够维持行动的协调一致，保证高度的协作。观察者模式是满足这一要求的各种设计方案中最重要的一种。</p>
+
+<h3>2.如何实现观察者（Objective-C）</h3>
+
+<p>实现思路：主题（Subject）持有所有的观察者列表，而观察者（Observer）监听主题对象。主题对象状态发生变化时，会通知所有持有的观察者对象，使它们能够做出响应。结构如下图：</p>
+
+<p><img src='/images/2014/07/Observer_Pattern.png' /></p>
+
+<p>创建Observer观察者协议：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//
+</span><span class='line'>//  Observer.h
+</span><span class='line'>//  Observer
+</span><span class='line'>//
+</span><span class='line'>//  Created by 小鹏 on 14/7/7.
+</span><span class='line'>//  Copyright (c) 2014年 ROC. All rights reserved.
+</span><span class='line'>//
+</span><span class='line'>#import &lt;Foundation/Foundation.h&gt;
+</span><span class='line'>
+</span><span class='line'>@protocol Observer &lt;NSObject&gt;
+</span><span class='line'>
+</span><span class='line'>-(void) notify:(NSString *)message;
+</span><span class='line'>
+</span><span class='line'>@end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>创建Subject主题协议及实现：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//
+</span><span class='line'>//  Subject.h
+</span><span class='line'>//  Observer
+</span><span class='line'>//
+</span><span class='line'>//  Created by 小鹏 on 14/7/7.
+</span><span class='line'>//  Copyright (c) 2014年 ROC. All rights reserved.
+</span><span class='line'>//
+</span><span class='line'>
+</span><span class='line'>#import &lt;Foundation/Foundation.h&gt;
+</span><span class='line'>#import "Observer.h"
+</span><span class='line'>
+</span><span class='line'>@protocol Subject &lt;NSObject&gt;
+</span><span class='line'>
+</span><span class='line'>-(void) addObserver:(id) observer;
+</span><span class='line'>-(void) removeObserver:(id) observer;
+</span><span class='line'>-(void) notifyObservers:(NSString *) message;
+</span><span class='line'>
+</span><span class='line'>@end
+</span><span class='line'>
+</span><span class='line'>@interface Subject : NSObject &lt;Subject&gt;
+</span><span class='line'>
+</span><span class='line'>@property (nonatomic, strong) NSMutableSet *observerCollection;
+</span><span class='line'>
+</span><span class='line'>@end
+</span><span class='line'>
+</span><span class='line'>//
+</span><span class='line'>//  Subject.m
+</span><span class='line'>//  Observer
+</span><span class='line'>//
+</span><span class='line'>//  Created by 小鹏 on 14/7/7.
+</span><span class='line'>//  Copyright (c) 2014年 ROC. All rights reserved.
+</span><span class='line'>//
+</span><span class='line'>
+</span><span class='line'>#import "Subject.h"
+</span><span class='line'>
+</span><span class='line'>@implementation Subject
+</span><span class='line'>
+</span><span class='line'>-(NSMutableSet *) observerCollection
+</span><span class='line'>{
+</span><span class='line'>    if (_observerCollection == nil)
+</span><span class='line'>        _observerCollection = [[NSMutableSet alloc] init];
+</span><span class='line'>    
+</span><span class='line'>    return _observerCollection;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>-(void) addObserver:(id)observer
+</span><span class='line'>{
+</span><span class='line'>    [self.observerCollection addObject:observer];
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>-(void) removeObserver:(id)observer
+</span><span class='line'>{
+</span><span class='line'>    [self.observerCollection removeObject:observer];
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>-(void) notifyObservers:(NSString *)message
+</span><span class='line'>{
+</span><span class='line'>    for (id&lt;Observer&gt; observer in self.observerCollection) {
+</span><span class='line'>        [observer notify:message];
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>@end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>创建Observer实现：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//
+</span><span class='line'>//  ConcreteObserverA.m
+</span><span class='line'>//  Observer
+</span><span class='line'>//
+</span><span class='line'>//  Created by 小鹏 on 14/7/7.
+</span><span class='line'>//  Copyright (c) 2014年 ROC. All rights reserved.
+</span><span class='line'>//
+</span><span class='line'>
+</span><span class='line'>#import "ConcreteObserverA.h"
+</span><span class='line'>
+</span><span class='line'>@implementation ConcreteObserverA
+</span><span class='line'>
+</span><span class='line'>-(void) notify:(NSString *)message
+</span><span class='line'>{
+</span><span class='line'>    NSLog(@"Class is %@,message is : %@", NSStringFromClass([self class]), message);
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>@end
+</span><span class='line'>
+</span><span class='line'>//
+</span><span class='line'>//  ConcreteObserverB.m
+</span><span class='line'>//  Observer
+</span><span class='line'>//
+</span><span class='line'>//  Created by 小鹏 on 14/7/7.
+</span><span class='line'>//  Copyright (c) 2014年 ROC. All rights reserved.
+</span><span class='line'>//
+</span><span class='line'>
+</span><span class='line'>#import "ConcreteObserverB.h"
+</span><span class='line'>
+</span><span class='line'>@implementation ConcreteObserverB
+</span><span class='line'>
+</span><span class='line'>-(void) notify:(NSString *)message
+</span><span class='line'>{
+</span><span class='line'>    NSLog(@"Class is %@ ,message is : %@", NSStringFromClass([self class]), message);
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>@end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>main方法中测试代码：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//
+</span><span class='line'>//  main.m
+</span><span class='line'>//  Observer
+</span><span class='line'>//
+</span><span class='line'>//  Created by 小鹏 on 14/7/7.
+</span><span class='line'>//  Copyright (c) 2014年 ROC. All rights reserved.
+</span><span class='line'>//
+</span><span class='line'>
+</span><span class='line'>#import &lt;Foundation/Foundation.h&gt;
+</span><span class='line'>#import "Subject.h"
+</span><span class='line'>#import "ConcreteObserverA.h"
+</span><span class='line'>#import "ConcreteObserverB.h"
+</span><span class='line'>
+</span><span class='line'>int main(int argc, const char * argv[]) {
+</span><span class='line'>    @autoreleasepool {
+</span><span class='line'>        
+</span><span class='line'>        Subject *subject = [[Subject alloc] init];
+</span><span class='line'>        ConcreteObserverA *observerA = [[ConcreteObserverA alloc] init];
+</span><span class='line'>        ConcreteObserverB *observerB = [[ConcreteObserverB alloc] init];
+</span><span class='line'>        
+</span><span class='line'>        [subject addObserver:observerA];
+</span><span class='line'>        [subject addObserver:observerB];
+</span><span class='line'>        
+</span><span class='line'>        [subject notifyObservers:@"notify event!"];
+</span><span class='line'>    }
+</span><span class='line'>    return 0;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>打印结果：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>2014-07-07 11:13:30.869 Observer[18209:1539966] Class is ConcreteObserverA,message is : notify event!
+</span><span class='line'>2014-07-07 11:13:30.871 Observer[18209:1539966] Class is ConcreteObserverB,message is : notify event!</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>3.应用（Cocoa中的Observer）</h3>
+
+<p>iOS作为主要的GUI系统，大量应用了观察者模式，其中的事件响应机制就是观察者的深度应用和实现。Cocoa框架中也不乏观察者模式应用的例子。通知（NSNotification &amp; NSNotificationCenter）和 KVO（Key-Value Observing）是对观察者模式的实践。</p>
+
+<ul>
+<li>NSNotification &amp; NSNotificationCenter  <br/>
+Cocoa通知机制，遵循广播模型（broadcast model），通过注册成为通知中心的观察者对象，当事件发生时观察者会收到消息并做出响应。这种机制使主题与观察者以一种松耦合的方式通信。主题与观察者在通信时无需了解对方的实现。通过发送消息可以达到代码的彻底解耦。  <br/>
+<img src='/images/2014/07/notificationcenter.jpg' />  <br/>
+任何对象都可以观察通知，但要做到这一点，该对象必须注册，以接收通知。在注册时，必须指定一个选择器，以确定由通知传送所调用的方法；方法签名必须只有一个参数：通知对象。注册后，观察者也可以指定发布对象。通知机制中涉及两个重要的类：  <br/>
+1）NSNotification: 这是消息的载体，通过它可以把消息内容传递给观察者。  <br/>
+2）NSNotificationCenter: 实现NSNotificationCenter的原理是一个观察者模式，通过调用静态方法defaultCenter就可以获取这个通知中心的对象，而NSNotificationCenter同时是一个单例模式，这个通知中心的对象会一直存在于一个应用的整个生命周期中。一个NSNotificationCenter可以有许多的通知消息NSNotification，对于每一个NSNotification可以有很多的观察者Observer来接收通知。  <br/>
+注册成为观察者：</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[[NSNotificationCenter defaultCenter] addObserver:self 
+</span><span class='line'>                                       selector:@selector(downloadImage:) 
+</span><span class='line'>                                           name:@"BLDownloadImageNotification" 
+</span><span class='line'>                                         object:nil];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>发送消息：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[[NSNotificationCenter defaultCenter] postNotificationName:@"BLDownloadImageNotification"
+</span><span class='line'>                                                    object:self                                                 
+</span><span class='line'>                                                  userInfo:@{@"imageView":coverImage, @"coverUrl":albumCover}];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>dealloc中移除观察者：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)dealloc
+</span><span class='line'>{
+</span><span class='line'>    [[NSNotificationCenter defaultCenter] removeObserver:self];
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><p>KVO  <br/>
+Cocoa中提供一种称为键值观察的机制，对象可以通过KVO得到其他对象特定属性的变更通知。这种机制在MVC模式的场景中尤为重要。因为它让<strong>View对象可以经由Controller对象观察Model对象的变更</strong>。  <br/>
+这一机制基于NSKeyValueObserving非正式协议，Cocoa通过这个协议为所有遵循协议的对象提供了一种自动化的属性观察能力。要实现自动观察，参与KVO的对象要符合KVC的要求，并且需要符合KVC的存取方法。KVC基于有关非正式协议，通过存取对象属性实现自动观察。  <br/>
+Notifications和KVO者是Cocoa对观察者模式的实践。尽管两者依赖同样的发布-订阅关系，但是它们是为不同的解决方案而设计的。两者的主要差别如下表：</p>
+
+<table>
+<thead>
+<tr>
+<th>   Notifications                  </th>
+<th>  KVO                        </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>   一个中心对象为所有观察者提供变更通知 </td>
+<td> 被观察的对象直接向观察者发送通知  </td>
+</tr>
+<tr>
+<td>   主要从广义上关注程序事件           </td>
+<td> 绑定于特定对象属性的值          </td>
+</tr>
+<tr>
+<td>   通知有开销，即使你不使用它们。每次发布一个通知时，它必须对每一个观察系统中进行检查，即使没有人观察该对象（即使没有人正在观察的任何东西）</td>
+<td> 如果没有实际观察到的任何对象，则零开销 </td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+
+
+<p>参考：  <br/>
+<a href="http://en.wikipedia.org/wiki/Observer_pattern"><code>Observer Pattern</code></a>  <br/>
+<a href="http://jolestar.com/1278227820000/"><code>流失监听者泄露</code></a>  <br/>
+<a href="http://www.raywenderlich.com/46988/ios-design-patterns"><code>iOS Design Patterns</code></a>  <br/>
+<a href="http://nshipster.com/key-value-observing/"><code>Key-Value Observer</code></a>  <br/>
+<a href="http://www.numbergrinder.com/2008/12/patterns-in-objective-c-observer-pattern/"><code>Patterns in Objective-C: Observer Pattern</code></a>  <br/>
+<a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/Notifications/Introduction/introNotifications.html"><code>Notification Programming Topics</code></a> <br/>
+<a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/KeyValueCoding/Articles/KeyValueCoding.hbr/>%0A[`Key-Value%20Observing%20Programming%20Guide`](https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/KeyValueObserving/KeyValueObserving.html#//apple_ref/doc/uid/10000177i&#8221;><code>Key-Value Coding Programming Guide</code></a></p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-04T18:01:00+08:00" data-updated="true" itemprop="datePublished">Jul 4<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/07/04/memory-management-2/" itemprop="url">iOS核心技术之：内存管理之二手动内存管理</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h3>1.关于内存管理</h3>
+
+<p>应用程序内存管理是：“在程序运行时开辟内存空间、使用内存空间，并在程序完成时释放内存空间的过程”。写得好的程序，会尽可能少占用内存。在Objectiv-C中，内存管理被看做是在很多数据和代码中分配受限内存资源所有权（Ownership）的一种方式。虽然内存管理通常被认为是针对单个对象级别进行的，但实际上我们的任务是管理“对象图”(Object Graph)，你需要确保除了你实际需要的对象之外，内存中没有其它的对象。</p>
+
+<p><img src='/images/2014/07/memory_management_2x.png' width='600' /></p>
+
+<ul>
+<li>Objective-C提供了两种内存管理方式：  <br/>
+1）Manual Retain-Release（<strong>MRR</strong>），通过跟踪程序所拥有的对象来“显式”地管理内存。这种方式采用了一种称为“引用计数”的模型来实现，该模型由Foundation框架的NSObject类和运行时环境（Runtime Environment）共同提供。  <br/>
+2）Automatic Reference Counting（<strong>ARC</strong>），自动引用计数，这种方式采用和MRR相同的引用计数系统，但是在编译时（Compile-time）编译器自动插入适当的内存管理的方法。在新的项目中，强烈建议开发者使用ARC方式管理内存。这样开发者不需要理解内存管理的底层实现。不过，理解底层实现对开发高性能的应用程序很有帮助同时对于开发者的自身技术提高也很有帮助。</li>
+<li>防止内存泄漏或过早释放的最佳实践：  <br/>
+引起内存管理的问题主要分为两类：  <br/>
+1）<strong>过早释放</strong>：如果某个对象有至少一个拥有方，就必须保留不能释放。如果释放了某个对象，但是其他对象或方法仍然有指向该对象的指针（准确地说，是指向该对象被释放前的地址），那么应用就有可能在运行时出错。当程序向一个已经不存在的对象发送消息时，就会发生崩溃。这类错误称为过早释放。  <br/>
+2）<strong>内存泄漏</strong>：如果某个对象没有拥有方，就应该将其释放掉。没有拥有方的对象是孤立的，程序无法向其发送消息。保留这样的对象只会浪费宝贵的内存空间，导致内存泄漏（memory leak）问题。</li>
+</ul>
+
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 从引用计数的角度考虑内存管理，常常会适得其反，因为开发者会过度关注内存管理的实施细则方面，而忽略了实际目标。所以，作为开发者应该从对象所有权（Ownership）和对象图（Object Graph）的角度进行内存管理。</p>
+
+<h3>2.内存管理策略</h3>
+
+<p>通过引用计数来进行内存管理的基本模型是由NSObject协议（Protocol）中的方法以及标准的方法命名规范来实现的。NSObject还定义了一个dealloc方法，该方法会在对象需要被释放的时候自动调用。</p>
+
+<ul>
+<li><p>引用计数系统机制  <br/>
+&nbsp;&nbsp;&nbsp;&nbsp; 可以用开关房间的灯为例来说明引用计数的机制，此处引自《Pro Multithreading and Memory Management for iOS and OS X with ARC， Grand Central Dispatch， and Blocks》一书。  <br/>
+&nbsp;&nbsp;&nbsp;&nbsp; 当上班进入办公室时需要照明，此时需要开灯；而当下班离开办公室时不需要照明，此时需要关灯，如图1-1所示：  <br/>
+<img src='/images/2014/07/reference_counting_1.png' width='600px'/>  <br/>
+&nbsp;&nbsp;&nbsp;&nbsp; 假设办公室里的照明设备只有一个。上班进入办公室的人需要照明，所以要把灯打开。而对于下班离开办公室的人来说，已经不需要照明了，所以要把灯关掉。若是很多人上下班，每个人都开灯或是关灯，那么办公室的情况又将如何呢？最早下班离开的人如果关了灯，那就会像图 1-2 那样，办公室里还没走的所有人都将处于一片黑暗之中。  <br/>
+<img src='/images/2014/07/reference_counting_2.png' width='600'/>  <br/>
+解决这一问题的办法是使办公室在还有至少1人的情况下保持开灯状态，而在无人时保持关灯状态。  <br/>
+(1)最早进入办公室的人开灯。  <br/>
+(2)之后进入办公室的人，需要照明。  <br/>
+(3)下班离开办公室的人，不需要照明。  <br/>
+(4)最后离开办公室的人关灯(此时已无人需要照明)。  <br/>
+为判断是否还有人在办公室里，这里导入计数功能来计算“需要照明的人数”。下面让我们
+来看看这一功能是如何运作的吧。  <br/>
+(1)第一个人进入办公室，“需要照明的人数”加 1。计数值从 0 变成了 1，因此要开灯。  <br/>
+(2)之后每当有人进入办公室，“需要照明的人数”就加 1。如计数值从 1 变成 2。   <br/>
+(3)每当有人下班离开办公室，“需要照明的人数”就减 1。如计数值从 2 变成 1。   <br/>
+(4)最后一个人下班离开办公室时，“需要照明的人数”减 1。计数值从 1 变成了 0，因此要关灯。  <br/>
+这样就能在不需要照明的时候保持关灯状态。办公室中仅有的照明设备得到了很好的管理，如图1-3所示。  <br/>
+<img src="/images/2014/07/reference_counting_3.png" width="600px" />  <br/>
+&nbsp;&nbsp;&nbsp;&nbsp; 在Objective-C中，“对象”相当于办公室的照明设备。在现实世界中办公室的照明设备只有一个，但在Objective-C的世界里，虽然计算机资源有限，但一台计算机可以同时处理好几个对象。  <br/>
+&nbsp;&nbsp;&nbsp;&nbsp; 此外，“对象的使用环境”相当于上班进入办公室的人。虽然这里的“环境”有时也指在运 行中的程序代码、变量、变量作用域、对象等，但在概念上就是使用对象的环境。上班进入办公 室的人对办公室照明设备发出的动作，与Objective-C中的对应关系则如表1-1所示。  <br/> <img src="/images/2014/07/reference_counting_table_1.png" width="600px" />  <br/> &nbsp;&nbsp;&nbsp;&nbsp; 使用计数功能计算需要照明的人数，使办公室的照明得到了很好的管理。同样，使用引用计 数功能，对象也就能够得到很好的管理，这就是 Objective-C 的内存管理。如图1-4所示。  <br/>
+<img src='/images/2014/07/reference_counting_4.png' width='600'/>  <br/></p></li>
+<li><p>基本内存管理策略  <br/>
+内存管理的模型，是基于对象的所有权。只要一个对象有所有者，它就会在内存中一直存在；如果这个对象没有了所有者，那么系统就会自动将其销毁。为了更清晰地描述何时拥有一个对象、何时释放一个对象的所有权，Cocoa遵循下面的策略：  <br/>
+1）<strong>自己生成的对象，自己所持有。</strong>  <br/>
+如果使用下面名称作为开头的方法来创建对象，那么你将拥有这个对象：<code>alloc</code>、<code>new</code>、<code>copy</code>、 <code>mutableCopy</code>。比如，alloc方法、newObject方法、或者mutableCopy等方法。  <br/>
+2）<strong>非自己生成的对象，自己也能持有。</strong>  <br/>
+如果你在一个方法体中，得到了一个对象，那么这个对象在本方法内部是一直都有效的。而且你还可以在本方法中将这个对象作为返回值返回给方法的调用者。在下面两种状况下，你需要用retain获得一个对象的所有权:在实现存取方法(getter and setter)或<code>init</code>方法时，希望将一个自己所持有的对象作为成员变量（property）来存储时；防止对象被其他操作释放掉，从而变为无效的对象。  <br/>
+3）<strong>自己持有的对象不再需要时释放。</strong>  <br/>
+通过向对象发送<code>release</code>消息或者<code>autorelease</code>消息来放弃一个对象的所有权。用Cocoa的术语说，所谓放弃所有权，就是<code>release</code>一个对象的引用。  <br/>
+4）<strong>自己正在使用的对象，不要释放。</strong>  <br/>
+5）<strong>非自己持有的对象无法释放。</strong></p></li>
+</ul>
+
+
+<p>例:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>    Person *aPerson = [[Person alloc] init];
+</span><span class='line'>    // ...
+</span><span class='line'>    NSString *name = aPerson.fullName;
+</span><span class='line'>    // ...
+</span><span class='line'>    [aPerson release];
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; Person对象通过<code>alloc</code>方法创建，因此当不再使用该对象时，需要通过向这个Person对象发送<code>release</code>消息来释放。Person的name因为不是使用获取对象所有权的方法来得到的，所以也不必<code>release</code>。请注意，这里用的是<code>release</code>而非<code>autorelease</code>方法。</p>
+
+<h3>3.内存管理实践</h3>
+
+<ul>
+<li>使用访问器方法使得内存管理变得简单<br/>
+如果一个类有一个对象类型的成员变量，在使用这个对象的时候，必须保证被设为值的这个对象没有被<code>dealloc</code>。因此，必须在<code>set</code>值的时候获得该对象的所有权。并放弃正在使用对象的所有权。<br/>有时，这些听起来很老套和繁琐，但如果统一使用访问器方法来实现，内存管理有问题的几率将大大减少。如果在代码中对实例变量到处使用<code>retain</code>和<code>release</code>，几乎可以肯定的说：这是错误的。
+来看一个需要设置值的Counter对象：</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@interface Counter : NSObject
+</span><span class='line'>
+</span><span class='line'>@property (nonatomic， retain) NSNumber *count;
+</span><span class='line'>
+</span><span class='line'>@end;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;这里的属性count定义了两个存取器方法。通常而言，这些方法由编译器来合成，但如果你知道这些方法的实现，对理解问题还是会有帮助的。  <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;在<code>get</code>方法中，只是返回实例变量，所以不必<code>retain</code>和<code>release</code>:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (NSNumber *)count {
+</span><span class='line'>    return _count;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;在<code>set</code>方法中，必须需要考虑的是:新的值可能随时被<code>dealloc</code>。因此必须通过发送<code>retain</code>消息来取得对新值的所有权，进而保证不会<code>dealloc</code>。你还必须对旧值发送<code>release</code>消息。（在Objective-c中，对一个 nil发送消息是没问题。因此就算_count还没有值，也不会出错。）你必须在调用<code>[newCount retain]</code>之后再(对旧值)发送<code>release</code>，因为如果出现意外将会被<code>dealloc</code>。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)setCount:(NSNumber *)newCount {
+</span><span class='line'>    [newCount retain];
+</span><span class='line'>    [_count release];
+</span><span class='line'>    // Make the new assignment.
+</span><span class='line'>    _count = newCount;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>使用访问器方法来设置属性值  <br/>
+假如要实现一个计数器的reset方法。有几个可行的做法，第一种做法就是调用<code>alloc</code>来新建一个NSNumber 类型的变量，然后再对应发送一个<code>release</code>消息。</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)reset {
+</span><span class='line'>    NSNumber *zero = [[NSNumber alloc] initWithInteger:0];
+</span><span class='line'>    [self setCount:zero];
+</span><span class='line'>    [zero release];
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;第二种做法是使用convenience constructor来创建一个新的NSNumber对象。这种情况下不需要<code>release</code>和<code>retain</code>。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)reset {
+</span><span class='line'>    NSNumber *zero = [NSNumber numberWithInteger:0];
+</span><span class='line'>    [self setCount:zero];
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;请注意，上面这些都用到了<code>set</code>方法。
+下面的做法，对于简单的情况而言，肯定是没问题的。但是，因为它的实现绕开了<code>set</code>方法， 那么在特定情况下(比如当你忘记了<code>retain</code>或者<code>release</code>;再比如，当实例变量的内存管理发生了变化。)会导致内存泄露:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)reset {
+</span><span class='line'>    NSNumber *zero = [[NSNumber alloc] initWithInteger:0];
+</span><span class='line'>    [_count release];
+</span><span class='line'>    _count = zero;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>还需要注意的是，如果你使用了Key-Value Observing，这样来修改变量是不适合于KVO编程的。</p>
+
+<ul>
+<li>在初始化方法和dealloc方法中不要使用访问器方法  <br/>
+初始化和<code>dealloc</code>方法中是唯一不应该使用存取方法的地方，使用一个number对象来将counter初始化为0，这样来实现<code>init</code>方法即可：</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- init {
+</span><span class='line'>    self = [super init];
+</span><span class='line'>    if (self) {
+</span><span class='line'>        _count = [[NSNumber alloc] initWithInteger:0];
+</span><span class='line'>    }
+</span><span class='line'>    return self;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果不是counter这个实例变量初始化为固定值，你需要实现一个<code>initWithCount:</code>方法：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- initWithCount:(NSNumber *)startingCount {
+</span><span class='line'>    self = [super init];
+</span><span class='line'>    if (self) {
+</span><span class='line'>        _count = [startingCount copy];
+</span><span class='line'>    }
+</span><span class='line'>    return self;
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>由于Counter类有一个对象类型的实例变量，所以必须实现<code>dealloc</code>方法。这个方法中必须释放实例变量的所有权，并且最后调用基类的<code>dealloc</code>方法：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)dealloc {
+</span><span class='line'>    [_count release];
+</span><span class='line'>    [super dealloc];
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><p>使用弱引用来避免retain循环<br/>
+<code>retain</code>操作创建了一个对这个对象的强引用。只有这个对象的所有强引用都被释放后，这个对象才能够被销毁。这就有可能形成这样一个问题，就是我们常说的<code>retain</code>循环：当两个对象互相包含一个执行对方的强引用（可能不是直接引用对方，可能是通过其他对象形成的一条强引用链）。<br/>
+图一举例说明了一个潜在的<code>retain</code>循环。Document对象中包含每一页的Page对象的引用。而每个Page对象又包含一个属性，这个属性用来跟踪自己是属于哪个Document对象。如果Document对象拥有Page对象的强引用，而Page对象也拥有对Document对象的强引用，这两个对象就再也不能被释放了。Document对象的引用计数只有当Page对象是否后才能清零，而Page对象也只有在Document对象被销毁后才能被释放。<br/>
+图1：  <br/>
+<img src='/images/2014/07/retaincycles_2x.png' width='300' /> <br/>
+解决这个问题的途径是使用弱引用。弱引用是指一种非拥有的对象，源对象只拥有指向目的对象的引用，但并没有对这个引用执行retain操作。<br/>
+为了保证对象图的完整，必须要有强引用（如果整个关系图中只有弱引用，page对象或paragraph对象就没有所有者，那么就会自动被销毁）。 Cocoa建立了一个规约：父对象拥有对子对象的强引用，子对象拥有对父对象的 弱引用。<br/>
+因此，在图一中，Document对象拥有对Page对象的强引用（需要执行<code>retain</code>操作），而Page对象拥有对Document对象的弱引用（不要执行<code>retain</code>操作）。<br/>
+在Cocoa中有很多弱引用的例子，包括<code>table data sources</code>，<code>outline view items</code>，<code>notification observers</code>，还有其他如<code>targets</code>与<code>delegates</code>。<br/>
+在向一个弱引用的对象发送消息时，必须小心。如果在这个对象被销毁后向其发送消息，程序会崩溃。你必须明确知道什么情况下这个对象是有效的。在大多数情况下，弱引用对象为了防止循环引用，我们只关心引用它的对象，当它将要销毁的时候，需要通知引用它的对象，这个对象已经被销毁了。举例来说，当你在<code>notification center</code>注册了一个对象，消息中心保存了对这个对象的弱引用，当有消息时来时，会通知这个对象。当这个对象被销毁后，你也必须在消息中心将其注销，以防止消息中心将消息发送到已经已经不存在的对象上。同样，当一个代理（<code>delegate</code>）对象被销毁时，你必须在引用该代理的对象中使用<code>setDelegate:</code>消息，将其设置为<code>nil</code>。一般来说，这些消息都应在对象的<code>dealloc</code>方法中被调用。</p></li>
+<li><p>避免销毁正在使用的对象<br/>
+Cocoa的内存管理原则规定，一般返回的对象需要在其调用函数的作用域范围内一直有效。并且，当需要将这个返回的对象作为当前方法的返回值返回时，也不用担心它会因为离开作用域被释放掉。对你的程序来说，<code>getter</code>方法返回实例变量的缓存值或计算值是都没有关系。真正重要的是，当你需要使用这个对象时，对象仍然是有效的。<br/>
+偶尔有些例外，主要是下面两种情况：<br>
+1）当一个对象被基本集合类删除时：</p></li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>heisenObject = [array objectAtIndex:n];
+</span><span class='line'>[array removeObjectAtIndex:n];
+</span><span class='line'>// heisenObject could now be invalid.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;当对象从基本集合类移除，集合类发送一个release(而不是autorelease)消息。如果集合类是对象的唯一拥有者，被移除的对象(例子中heisenObject)就被立即销毁。<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;2）当父对象被销毁时：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>id parent = &lt;#create a parent object#&gt;;
+</span><span class='line'>// ...
+</span><span class='line'>heisenObject = [parent child] ;
+</span><span class='line'>[parent release]; // Or， for example: self.parent = nil;
+</span><span class='line'>// heisenObject could now be invalid.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;某些情况，开发者从其他对象获得一个对象，直接或见解释放父对象。release父对象导致被销毁，父对象又是子对象的唯一拥有者，子对象将同时被销毁。<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;防止这些情况，当开发者收到heisenObject时retain，使用完release掉，比如：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>heisenObject = [[array objectAtIndex:n] retain];
+</span><span class='line'>[array removeObjectAtIndex:n];
+</span><span class='line'>// Use heisenObject...
+</span><span class='line'>[heisenObject release];</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>不要对稀缺资源进行dealloc <br/>
+不要在<code>dealloc</code>函数中管理<code>file descriptor</code>、<code>network connections</code>、<code>buffer</code>和<code>caches</code>这些资源。通常，开发者不应设计带有dealloc这样的类。由于程序的bug或程序崩溃等，dealloc可能延迟调用。<br/>
+如果你的类中有控制稀有资源的实例变量，你应当将你的类设计成：当你不再需要这些资源，通知该实例变量清理该资源，并发送<code>release</code>方法，然后系统自动调用<code>dealloc</code>方法，来清理资源，这样即便系统没有适时调用<code>dealloc</code>方法，你也不会因为没有清理资源而造成问题。<br/>
+如果你想依赖<code>dealloc</code>方法来进行系统资源的内存管理，可能会出现如下问题：<br/>
+1）对象图的顺序依赖性可能遭到破坏<br/>
+对象图的销毁在内在机制上是无序的，如果一个对象被意外<code>autorelease</code>而不是<code>release</code>掉了，对象销毁顺序就会发生变化，从而导致无法预期的错误。<br>
+2）稀有资源未回收<br/>
+内存泄漏造成的Bug应该是固定的，但它们通常不会立即致命。如果稀有资源没有在应该释放的时候释放，就可能导致严重的问题。比如你的应用程序耗尽了系统文件描述符，用户就可能再也无法保存任何数据了。<br/>
+3）在错误的线程上执行清理逻辑 <br/>
+如果一个对象在非预期的时间被自动释放了，它可能在任意一个线程的自动释放资源池中被销毁。这种情况很容易就会造成严重的错误。</li>
+<li>集合拥有它所包含的对象<br/>
+当你添加一个对象到集合(如，<code>array</code>，<code>dictionary</code>和<code>set</code>)，集合获得对象的所有权。对象被移除的时候或者集合本身<code>release</code>的时候，集合会释放对象的所有权。如果要建一个存放数字的数组，可以按下面方法来做：</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NSMutableArray *array = &lt;#Get a mutable array#&gt;;
+</span><span class='line'>NSUInteger i;
+</span><span class='line'>// ...
+</span><span class='line'>for (i = 0; i &lt; 10; i++) {
+</span><span class='line'>    NSNumber *convenienceNumber = [NSNumber numberWithInteger:i];
+</span><span class='line'>    [array addObject:convenienceNumber];
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;这种情况，开发者没有调用<code>alloc</code>，所以无需掉用<code>release</code>。也没有必要<code>retain</code>新的<code>convenienceNumber</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NSMutableArray *array = &lt;#Get a mutable array#&gt;;
+</span><span class='line'>NSUInteger i;
+</span><span class='line'>// ...
+</span><span class='line'>for (i = 0; i &lt; 10; i++) {
+</span><span class='line'>    NSNumber *allocedNumber = [[NSNumber alloc] initWithInteger:i];
+</span><span class='line'>    [array addObject:allocedNumber];
+</span><span class='line'>    [allocedNumber release];
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;在这个例子中，我们在<code>for</code>循环内部向<code>allocedNumber</code>发送了与<code>alloc</code>相对应的<code>release</code>消息。因为 <code>Array</code>的<code>addObject:</code>方法实际上对这个对象做了<code>retain</code>处理，那么这个对象(<code>allocedNumber</code>)不 会因此而被<code>dealloc</code>。
+为了理解这条规则，把你自己想象成集合类的设计者。你必须要保证，在你设计 的集合类中的所有对象都不会平白无故的被释放，因此你必须在添加它们时执行<code>retain</code>操作。当你要删除这个对象时，为了平衡<code>retain</code>操作，需要对其执行<code>release</code>，并且在你的集合类的<code>dealloc</code>方法中，应当释放你还拥有的成员对象。</p>
+
+<ul>
+<li>对象所有权策略是基于引用计数实现的 <br/>
+所有权策略是通过引用计数来实现的，通常称之为“retain count”。每个对象都有一个 retain count。<br/>当新建一个对象时，它的retain计数为1;<br/>发送<code>retain</code>消息给一个对象时，它的retain计数加1;<br/>发送<code>release</code>消息给一个对象时，它的retain计数减1;<br/>发送<code>autorelease</code>消息，它的retain计数将在未来某个时候减1;<br/>如果retain计数是0，就会被<code>dealloc</code>。<br/><font color='red'> 重要: </font> 不要显式调用对象的<code>retainCount</code>，这个数值有时候会造成对你的误导：实际上你不知道有些系统框架的对象会对你关注的那个对象进行<code>retain</code>。在调试内存问题的时候，你只需要遵守所有权规则就行了。</li>
+</ul>
+
+
+<h3>4.工具</h3>
+
+<ul>
+<li>Xcode有一个方便的自带工具Clang Static Analyzer
+打开项目，选择菜单 <code>Product</code> > <code>Analyze</code> 或者使用快捷键 <strong>⇧⌘B</strong> ，打开Analyzer工具。其他详细使用方法参考：<br/><a href="http://blog.manbolo.com/2014/04/15/automated-static-code-analysis-with-xcode-5.1-and-jenkins"><code>Automated Static Code Analysis with Xcode 5.1 and Jenkins</code></a><br/>
+<a href="http://clang-analyzer.llvm.org/xcode.html"><code>Running the analyzer within Xcode</code></a></li>
+<li>还可以使用Instruments来跟踪引用计数事件并寻找 <a href="https://developer.apple.com/library/mac/documentation/DeveloperTools/Conceptual/InstrumentsUserGuide/GatheringDatafortheFirstTime/GatheringDatafortheFirstTime.html"><code>Collecting Data on Your App</code></a></li>
+</ul>
+
+
+<p>参考：
+<a href="https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/MemoryMgmt/Articles/MemoryMgmt.html"><code>Advanced Memory Management Programming Guide</code></a></p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-03T18:36:00+08:00" data-updated="true" itemprop="datePublished">Jul 3<span>rd</span>, 2014</time></div>
+		<div class="tags">
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/07/03/adapter-of-design-patterns/" itemprop="url">设计模式之适配器模式Adapter</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h3>1.何为适配器模式（Adapter）</h3>
+
+<p>将一个类的接口转换成客户希望的另外一个接口。Adapter模式使得原本由于接口不兼容而不能一起工作的那些类可以一起工作（Adapter有助于两个不兼容的接口一起工作）。
+简单的说，就是需要的东西就在面前，但却不能使用，而短时间又无法改造它，于是我们就想办法适配它。适配器主要应用于希望复用一些现存的类，但是接口又与复用环境要求不一致的情况，比如在需要对早期代码复用一些功能等应用上很有实际价值。</p>
+
+<h3>2.如何实现适配器（Objective-C）</h3>
+
+<p>Delegate是Objective-C的语言特性，使用它可以定义适配器模式的实例接口。协议本质上是一系列的非关联与类方法声明（等同于Java中的接口Interface）。如果你想让一个对象与其他对象沟通，但对象的接口互不兼容，你可以定义一个协议，然后对象可以通过协议接口将消息发送到其它对象。</p>
+
+<p><font color='red'> 注：</font> Delegate的设计并不完全匹配于适配器模式的描述。但它实现了该模式的目标是：允许类用不兼容的接口一起工作。</p>
+
+<p>实现Adapter模式的思路是：  <br/>
+第一种称为类适配器，主要通过继承和协议实现，首先需要有定义了客户端要使用的一套行为的协议，然后要用具体的适配器类实现这个协议。适配器类同时也要继承被适配者，它们之间的关系如图：</p>
+
+<p><img src="/images/2014/07/Class_Adapter.jpg">  <br>
+第二种称为对象适配器，与类适配器不同，对象适配器不继承被适配者，而是组合了一个对它的引用。实现为对象适配器时，它们的关系如图：</p>
+
+<p><img src="/images/2014/07/Object_Adapter.jpg"></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//  Adapter
+</span><span class='line'>//  Target.h
+</span><span class='line'>
+</span><span class='line'>#import &lt;Foundation/Foundation.h&gt;
+</span><span class='line'>@interface Target : NSObject
+</span><span class='line'>
+</span><span class='line'>@end
+</span><span class='line'>
+</span><span class='line'>@protocol Target &lt;NSObject&gt;
+</span><span class='line'>
+</span><span class='line'>- (void)request;
+</span><span class='line'>
+</span><span class='line'>@end
+</span><span class='line'>
+</span><span class='line'>#import "Target.h"
+</span><span class='line'>@implementation Target
+</span><span class='line'>
+</span><span class='line'>@end
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>//  Adaptee.h
+</span><span class='line'>
+</span><span class='line'>#import &lt;Foundation/Foundation.h&gt;
+</span><span class='line'>@interface Adaptee : NSObject
+</span><span class='line'>- (void)specificRequest;
+</span><span class='line'>@end
+</span><span class='line'>
+</span><span class='line'>#import "Adaptee.h"
+</span><span class='line'>@implementation Adaptee
+</span><span class='line'>- (void)specificRequest
+</span><span class='line'>{
+</span><span class='line'>    NSLog(@"Adaptee specificRequest method invoked!");
+</span><span class='line'>}
+</span><span class='line'>@end
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>//  Adapter.h
+</span><span class='line'>
+</span><span class='line'>#import &lt;Foundation/Foundation.h&gt;
+</span><span class='line'>#import "Adaptee.h"
+</span><span class='line'>#import "Target.h"
+</span><span class='line'>@interface Adapter : NSObject &lt;Target&gt;
+</span><span class='line'>@property Adaptee *adaptee;
+</span><span class='line'>-(void)adapteeRequest;
+</span><span class='line'>@end
+</span><span class='line'>
+</span><span class='line'>#import "Adapter.h"
+</span><span class='line'>@implementation Adapter
+</span><span class='line'>-(void)request
+</span><span class='line'>{
+</span><span class='line'>    NSLog(@"Target Protocal request method invoked!");
+</span><span class='line'>}
+</span><span class='line'>-(void)adapteeRequest
+</span><span class='line'>{
+</span><span class='line'>    _adaptee = [[Adaptee alloc] init];
+</span><span class='line'>    [_adaptee specificRequest];
+</span><span class='line'>}
+</span><span class='line'>@end
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>3.应用（Cocoa中的Adapter）</h3>
+
+<p>待续&#8230;</p>
+
+<p>参考：  <br />
+<a href="http://en.wikipedia.org/wiki/Adapter_pattern"><code>Adapter_pattern</code></a>  <br />
+<a href="https://developer.apple.com/legacy/library/documentation/Cocoa/Conceptual/CocoaFundamentals/CocoaDesignPatterns/CocoaDesignPatterns.html#//apple_ref/doc/uid/TP40002974-CH6-SW5"><code>Cocoa Design Patterns</code></a>  <br/>
+<a href="https://github.com/linktoming/notes-ios/wiki/iOS-Design-Patterns"><code>iOS Design Patterns</code></a>  <br/>
+<a href="http://www.codeproject.com/Articles/42915/Adapter-Design-Pattern"><code>Adapter Design Pattern</code></a>  <br/>
+<a href="http://www.raywenderlich.com/46988/ios-design-patterns"><code>iOS Design Patterns</code></a></p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-02T17:28:00+08:00" data-updated="true" itemprop="datePublished">Jul 2<span>nd</span>, 2014</time></div>
+		<div class="tags">
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/07/02/singleton-of-design-patterns/" itemprop="url">设计模式之单例模式Singleton</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p><img src="/images/2014/07/singleton.jpg"></p>
+
+<h3>1.何为单例模式（Singleton）</h3>
+
+<p>保证一个类仅有一个实例，并提供一个访问它的全局访问点。
+一个全局变量使得一个对象可以被访问，但它不能防止实例化多个对象。一个更好的办法是，让类自身负责保存它的唯一实例。这个类可以保证没有其他实例可以被创建（通过截取创建新对象的请求），并且它可以提供一个访问该实例的方法。这就是Singleton模式。</p>
+
+<h3>2.如何实现单例（Objective-C）</h3>
+
+<p>实现单例模式的思路是：一个类能返回对象一个引用(永远是同一个)和一个获得该实例的方法（必须是静态方法）；当我们调用这个方法时，如果类持有的引用不为空就返回这个引用，如果类保持的引用为空就创建该类的实例并将实例的引用赋予该类保持的引用；同时我们还将该类的构造函数定义为私有方法，这样其他处的代码就无法通过调用该类的构造函数来实例化该类的对象，只有通过该类提供的静态方法来得到该类的唯一实例。</p>
+
+<p>在Objective-C中要实现一个单例需要以下步骤：</p>
+
+<ul>
+<li>在单例类中声明一个单例类的静态实例，并初始化为nil；</li>
+<li>在单例类中实现一个类工厂方法（方法名类似“sharedInstance” 或者“sharedManager”），当唯一实例为nil时首先创建再返回这个唯一实例，如果唯一实例已经创建则直接返回这个唯一实例；</li>
+<li>覆盖 <code>allocWithZone:</code> 方法，以防止复制生成实例副本，而只生成这个共享的唯一实例；</li>
+<li>覆盖 <code>release</code>， <code>retain</code>， <code>retainCount</code>， <code>autorelease</code> 内存管理方法，其中在retain和autorelease什么都不做只是返回自己，release的时候什么都不做，将retainCount设为NSUInteger的极大值。</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/* Singleton.h */
+</span><span class='line'>#import &lt;Foundation/Foundation&gt;
+</span><span class='line'>
+</span><span class='line'>@interface Singleton : NSObject
+</span><span class='line'>+ (Singleton *)instance;
+</span><span class='line'>@end
+</span><span class='line'>
+</span><span class='line'>/* Singleton.m */
+</span><span class='line'>#import "Singleton.h"
+</span><span class='line'>static Singleton *instance = nil;
+</span><span class='line'>
+</span><span class='line'>@implementation Singleton
+</span><span class='line'>
+</span><span class='line'>+ (Singleton *)instance {
+</span><span class='line'>    if (!instance) {
+</span><span class='line'>        instance = [[super allocWithZone:NULL] init];
+</span><span class='line'>    }
+</span><span class='line'>    return instance;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>+ (id)allocWithZone:(NSZone *)zone {
+</span><span class='line'>    return [self instance];
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>- (id)copyWithZone:(NSZone *)zone {
+</span><span class='line'>    return self;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>- (id)init {
+</span><span class='line'>    if (instance) {
+</span><span class='line'>        return instance;
+</span><span class='line'>    }
+</span><span class='line'>    self = [super init];
+</span><span class='line'>    return self;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>- (id)retain {
+</span><span class='line'>    return self;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>- (oneway void)release {
+</span><span class='line'>    // Do nothing
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>- (id)autorelease {
+</span><span class='line'>    return self;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>- (NSUInteger)retainCount {
+</span><span class='line'>    return NSUIntegerMax;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>@end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这是一种很标准的Singleton实现，不过这种实现并不是线程安全的。</p>
+
+<p><font color='red'>注：</font> 单例模式在多线程的应用场合下必须小心使用。如果当唯一实例尚未创建时，有两个线程同时调用创建方法，那么它们同时没有检测到唯一实例的存在，从而同时各自创建了一个实例，这样就有两个实例被构造出来，从而违反了单例模式中实例唯一的原则。 解决这个问题的办法是为指示类是否已经实例化的变量提供一个互斥锁(虽然这样会降低效率)。</p>
+
+<p>加入线程安全的单例实现：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/* Singleton.h */
+</span><span class='line'>#import &lt;Foundation/Foundation&gt;
+</span><span class='line'>
+</span><span class='line'>@interface Singleton : NSObject
+</span><span class='line'>+ (Singleton *)instance;
+</span><span class='line'>@end
+</span><span class='line'>
+</span><span class='line'>/* Singleton.m */
+</span><span class='line'>#import "Singleton.h"
+</span><span class='line'>static Singleton *instance = nil;
+</span><span class='line'>
+</span><span class='line'>@implementation Singleton
+</span><span class='line'>
+</span><span class='line'>+ (Singleton *)instance {
+</span><span class='line'>    @synchronized(self) {
+</span><span class='line'>      if (!instance) {
+</span><span class='line'>          instance = [[super allocWithZone:NULL] init];
+</span><span class='line'>      }
+</span><span class='line'>    }
+</span><span class='line'>    return instance;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>+ (id)allocWithZone:(NSZone *)zone {
+</span><span class='line'>   @synchronized(self) {  
+</span><span class='line'>      return [self instance];
+</span><span class='line'>     }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>- (id)copyWithZone:(NSZone *)zone {
+</span><span class='line'>    return self;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>- (id)init {
+</span><span class='line'>    if (instance) {
+</span><span class='line'>        return instance;
+</span><span class='line'>    }
+</span><span class='line'>    self = [super init];
+</span><span class='line'>    return self;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>- (id)retain {
+</span><span class='line'>    return self;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>- (oneway void)release {
+</span><span class='line'>    // Do nothing
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>- (id)autorelease {
+</span><span class='line'>    return self;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>- (NSUInteger)retainCount {
+</span><span class='line'>    return NSUIntegerMax;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>@end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这是一种线程安全的单例实现，但以上两种实现方式都是手动管理内存的方式，iOS5之后ARC技术被引入并普遍被使用，下面给出结合GCD实现ARC单例：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#import &lt;Foundation/Foundation.h&gt;
+</span><span class='line'>
+</span><span class='line'>@interface Singleton : NSObject
+</span><span class='line'>
+</span><span class='line'>+(instancetype) sharedInstance;
+</span><span class='line'>
+</span><span class='line'>@end
+</span><span class='line'>
+</span><span class='line'>#import "MySingleton.h"
+</span><span class='line'>
+</span><span class='line'>@implementation Singleton
+</span><span class='line'>
+</span><span class='line'>+(instancetype) sharedInstance {
+</span><span class='line'>    static dispatch_once_t pred;
+</span><span class='line'>    static id shared = nil;
+</span><span class='line'>    dispatch_once(&pred, ^{
+</span><span class='line'>        shared = [[super alloc] initUniqueInstance];
+</span><span class='line'>    });
+</span><span class='line'>    return shared;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>-(instancetype) initUniqueInstance {
+</span><span class='line'>    return [super init];
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>@end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用block <code>dispatch_once</code>，正如其名称所暗示的，在应用程序生命周期内，这方法只执行一次，这将确保仅创建一个实例，这也是快速和线程安全的：不需要检查<code>synchronized</code>或<code>nil</code>。以上就是ARC下结合GCD的一个单例的代码。</p>
+
+<p>再进一步，还可以写一个方便调用的宏，如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>+ (id)sharedInstance
+</span><span class='line'>{
+</span><span class='line'>  DEFINE_SHARED_INSTANCE_USING_BLOCK(^{
+</span><span class='line'>    return [[self alloc] init];
+</span><span class='line'>  });
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>3.应用（Cocoa中的Singleton）</h3>
+
+<p>在Cocoa框架中，有许多单例模式的应用，例如：NSFileManager，NSWorkspace。而UIKit框架中，同样不乏单例模式的应用，例如：UIApplication和UIAccelerometer。按照惯例，这些单例类都是通过形如sharedClassType的工厂方法返回一个共享实例。Cocoa框架的例子是<code>sharedFileManager</code>，<code>sharedColorPanel</code>和<code>sharedWorkspace</code>。我们经常使用的<code>[NSUserDefaults standardUserDefaults]</code>，<code>[UIScreen mainScreen]</code> 也是单例的两个应用。</p>
+
+<p>参考：  <br/>
+<a href="http://lukeredpath.co.uk/blog/2011/07/01/a-note-on-objective-c-singletons/"><code>A note on Objective-C singletons</code></a>  <br/>
+<a href="https://developer.apple.com/library/mac/documentation/General/Conceptual/DevPedia-CocoaCore/Singleton.html"><code>Singleton of Cocoa Core Competencies</code></a>  <br/>
+<a href="https://developer.apple.com/legacy/library/documentation/Cocoa/Conceptual/CocoaFundamentals/CocoaObjects/CocoaObjects.html#//apple_ref/doc/uid/TP40002974-CH4-SW32"><code>Creating a Singleton Instance</code></a>  <br/>
+<a href="http://www.galloway.me.uk/tutorials/singleton-classes/"><code>Singletons in Objective-C</code></a>  <br/>
+<a href="http://stackoverflow.com/questions/7997594/singleton-with-arc"><code>Singleton with ARC</code></a>  <br/>
+<a href="http://zh.wikipedia.org/zh/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F"><code>单例模式</code></a></p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-01T18:30:00+08:00" data-updated="true" itemprop="datePublished">Jul 1<span>st</span>, 2014</time></div>
+		<div class="tags">
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/07/01/memory-management-1/" itemprop="url">iOS核心技术之：内存管理之一基本概念</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h3>内存模型</h3>
+
+<h3>isa指针</h3>
+
+<p>在Objective-C语言的内部，每一个对象都有一个名为isa的指针，指向该对象的类。每一个类描述了一系列它的实例的特点，包括成员变量的列表，成员函数的列表等。每一个对象都可以接受消息，而对象能够接收的消息列表是保存在它所对应的类中。关于isa指针详细内容推荐巧哥的 <a href="http://blog.devtang.com/blog/2013/10/15/objective-c-object-model/"><code>Objective-C对象模型及应用</code></a> 介绍的非常到位并且包含实际应用场景。</p>
+
+<h3>堆内存</h3>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<strong>堆</strong>（heap）是指内存中的一块区域，应用中的所有对象都会保存在堆中。当应用向某个类发送alloc消息时，系统会从堆中分配出一块内存，其大小足够存放相应对象的全部实例变量。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//
+</span><span class='line'>//  Person.h
+</span><span class='line'>//  MemoryManagement
+</span><span class='line'>//
+</span><span class='line'>//  Created by 小鹏 on 14/07/04.
+</span><span class='line'>//  Copyright (c) 2014年 ROC. All rights reserved.
+</span><span class='line'>//
+</span><span class='line'>
+</span><span class='line'>#import &lt;Foundation/Foundation.h&gt;
+</span><span class='line'>
+</span><span class='line'>@interface Person : NSObject
+</span><span class='line'>
+</span><span class='line'>@property (nonatomic, copy) NSString *name;
+</span><span class='line'>@property (nonatomic) int age;
+</span><span class='line'>@property (nonatomic, readonly) NSDate *birthday;
+</span><span class='line'>
+</span><span class='line'>@end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;一个对象永远不会直接保存另一个对象，所有的对象在堆中都是独立存在的。如果需要，一个对象可以保存指向其他对象的引用，即可以将其他对象的地址赋给指针实例变量。</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;Person实例包含5个实例变量，其中3个为指针变量（isa、name、birthday），另一个为int变量（age）。一个int变量会占用4个字节的内存，所以一个Person实例总共会占用16个字节的内存空间，如下图：</p>
+
+<p><img src='/images/2014/07/Person_In_Memory_Size.png' /></p>
+
+<h3>栈内存</h3>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<strong>栈</strong>（stack）是指内存中的另一块区域，和堆是分开的。为这两类内存区域分别取名堆和栈，是为了能够形象地描述这两个概念。堆，包含了大量无序的对象，需要通过指针来保存这些对象在堆中的地址。栈，则会按后进先出（LIFO）的规则保存一组<strong>帧</strong>（frame）。  <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;当程序执行某个方法（或函数）时，会从栈中分配一块内存空间，这块内存空间称为栈帧。栈帧负责保存程序在方法内声明的变量的值。在方法内声明的变量称为<strong>局部变量</strong>（local variable）。  <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;当某个应用启动并运行<code>main</code>函数时，它的栈帧会被保存在栈的底部。当<code>main</code>调用另一个方法（或函数）时，这个方法（或函数）的栈帧会压入栈的顶部。被调用的方法还可以再调用其他方法，依此类推，最终会在栈中形成一个塔状的栈帧序列 。当被调用的方法（或函数）结束时，程序会将其从栈帧中“弹出”并释放。如果同一个方法再次被调用，则应用会创建一个全新的的栈帧，并将其压入栈的顶部。如图：  <br/>
+<img src='/images/2014/07/Person_Method_Stack.png' /></p>
+
+<h3>对象所有权</h3>
+
+<p>指针变量暗含了对其所指向的对象的<strong>所有权</strong>（Ownership）。</p>
+
+<ul>
+<li>当某个方法（或函数）有一个指向某个对象的局部变量时，可以称该方法拥有（own）该变量所指向的对象。</li>
+<li>当某个对象有一个指向其他对象的实例变量时，可以称该对象拥有相应指针所指向的对象。</li>
+</ul>
+
+
+<p>以下情况会使对象失去拥有方：</p>
+
+<ul>
+<li>当程序修改某个指向特定对象的变量，将其指向另一个对象时。</li>
+<li>当程序将某个指向对象的变量设置为nil时。</li>
+<li>当程序释放某个指向特定对象的变量时。</li>
+</ul>
+
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-02T09:06:00+08:00" data-updated="true" itemprop="datePublished">Apr 2<span>nd</span>, 2014</time></div>
+		<div class="tags">
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/04/02/setup-and-configuration-hadoop-environment/" itemprop="url">Hadoop集群环境搭建及配置</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p><img src="/images/2014/04/hadoop-elephant_logo.png"></p>
+
+<h3>1.环境准备</h3>
+
+<ul>
+<li>三台服务器：CentOS6.5系统，IP地址如下，分别配置hosts：</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>vi /etc/hosts
+</span><span class='line'>10.2.15.12  master   #NameNode JobTracker
+</span><span class='line'>10.2.15.13  slave1   #DataNode TaskTracker
+</span><span class='line'>10.2.15.14  slave2   #DataNode TaskTracker</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>JDK安装及Java环境配置</li>
+</ul>
+
+
+<p>下载&nbsp;<a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html">jdk1.7.0_51</a></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>tar zxvf  -C /apps/ # 解压到/apps/目录
+</span><span class='line'>chown -R root.root jdk1.7.0_51   # 授权
+</span><span class='line'>vi /etc/profile   # 配置环境变量
+</span><span class='line'>export JAVA_HOME=/apps/jdk1.7.0_51
+</span><span class='line'>export CLASSPATH=.:$JAVA_HOME/jre/lib/rt.jar:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+</span><span class='line'>export PATH=$PATH:$JAVA_HOME/bin
+</span><span class='line'>source /etc/profile  # 使修改生效</span></code></pre></td></tr></table></div></figure>
+
+
+<p>更新 alternatives，选择jdk版本</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>update-alternatives --install /usr/bin/java java /apps/jdk1.7.0_51/bin/java 60
+</span><span class='line'>update-alternatives --config java   # 选择3回车</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>创建hadoop用户</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>groupadd hadoop   # 添加组
+</span><span class='line'>useradd -g hadoop -d /home/hadoop hadoop   # 添加用户
+</span><span class='line'>passwd hadoop   # 修改密码</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>SSH无密码验证配置</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mkdir ~/.ssh
+</span><span class='line'>su - hadoop
+</span><span class='line'>cd ~/.ssh
+</span><span class='line'>ssh-keygen -t  rsa       # 一直回车生成密钥
+</span><span class='line'>cat id_rsa.pub &gt;&gt; authorized_keys   # 将公钥id_rsa.pub追加到授权的key里面去
+</span><span class='line'>svervice sshd restart   # 重启SSH服务
+</span><span class='line'>ssh slave1   # ssh到slave1
+</span><span class='line'>mkdir ~/.ssh   # 创建.ssh目录
+</span><span class='line'>ssh slave2   # ssh到slave2
+</span><span class='line'>mkdir ~/.ssh   # 创建.ssh目录
+</span><span class='line'>exit
+</span><span class='line'>exit    # 返回到master
+</span><span class='line'>scp authorized_keys slave1:~/.ssh/   # copy授权key到slave1
+</span><span class='line'>scp authorized_keys slave2:~/.ssh/   # copy授权key到slave2
+</span><span class='line'>vi /etc/ssh/sshd_config   #开启RSA认证
+</span><span class='line'>RSAAuthentication yes
+</span><span class='line'>PubkeyAuthentication yes
+</span><span class='line'>AuthorizedKeysFile      .ssh/authorized_keys
+</span><span class='line'>ssh slave1   # ssh到slave1
+</span><span class='line'>chmod 700 ~/.ssh #目录权限必须设置700
+</span><span class='line'>ssh slave2   # ssh到slave2
+</span><span class='line'>chmod 700 ~/.ssh #目录权限必须设置700
+</span><span class='line'>exit
+</span><span class='line'>exit    # 返回到master
+</span><span class='line'>ssh salve1   # 验证
+</span><span class='line'>exit
+</span><span class='line'>ssh slave2   # 验证</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>2.Hadoop安装与配置</h3>
+
+<ul>
+<li>下载&nbsp;<a href="http://www.apache.org/dyn/closer.cgi/hadoop/common/">hadoop-2.2.0</a></li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mkdir /apps/hadoop  # 创建hadoop目录作为安装hadoop的home目录
+</span><span class='line'>tar zxvf hadoop-2.2.0.tar.gz -C /apps/hadoop   # 解压到hadoop目录
+</span><span class='line'>chown hadoop.hadoop -R /home/hadoop/hadoop-2.3.0/   # 授权
+</span><span class='line'>vi /etc/profile   #添加hadoop变量，方便使用，不必每次操作cd到bin目录
+</span><span class='line'>HADOOP_HOME=/home/hadoop/hadoop-2.2.0/
+</span><span class='line'>PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin
+</span><span class='line'>export HADOOP_HOME PATH
+</span><span class='line'>source /etc/profile   # 生效</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>修改hadoop-env.sh、yarn-env.sh Hadoop运行的环境变量</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>vi hadoop-env.sh
+</span><span class='line'>export JAVA_HOME=/apps/jdk1.7.0_51
+</span><span class='line'>vi yarn-env.sh 
+</span><span class='line'>export JAVA_HOME=/apps/jdk1.7.0_51</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>修改core-site.xml配置文件,主要对NameNode地址端口及系统级别的参数配置，如HDFS URL、Hadoop临时目录以及用于rack-aware集群中的配置文件的配置等。</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;configuration&gt;
+</span><span class='line'>  &lt;property&gt;
+</span><span class='line'>      &lt;name&gt;fs.default.name&lt;/name&gt;
+</span><span class='line'>      &lt;value&gt;hdfs://master:9000/&lt;/value&gt;
+</span><span class='line'>      &lt;description&gt;The name of the default file system. A URI whose scheme and authority determine the FileSystem implementation. The uri's scheme determines the config property (fs.SCHEME.impl) naming the FileSystem implementation class. The uri's authority is used to determine the host, port, etc. for a filesystem.&lt;/description&gt;
+</span><span class='line'>  &lt;/property&gt;
+</span><span class='line'>    &lt;property&gt;
+</span><span class='line'>      &lt;name&gt;io.file.buffer.size&lt;/name&gt;
+</span><span class='line'>        &lt;value&gt;131072&lt;/value&gt;
+</span><span class='line'>  &lt;/property&gt;
+</span><span class='line'>    &lt;property&gt;
+</span><span class='line'>        &lt;name&gt;hadoop.tmp.dir&lt;/name&gt;
+</span><span class='line'>        &lt;value&gt;/apps/hadoop/tmp&lt;/value&gt;
+</span><span class='line'>        &lt;description&gt;A base for other temporary directories.&lt;/description&gt;
+</span><span class='line'>    &lt;/property&gt;
+</span><span class='line'>    &lt;property&gt;
+</span><span class='line'>        &lt;name&gt;hadoop.proxyuser.hduser.hosts&lt;/name&gt;
+</span><span class='line'>        &lt;value&gt;*&lt;/value&gt;
+</span><span class='line'>    &lt;/property&gt;
+</span><span class='line'>    &lt;property&gt;
+</span><span class='line'>        &lt;name&gt;hadoop.proxyuser.hduser.groups&lt;/name&gt;
+</span><span class='line'>        &lt;value&gt;*&lt;/value&gt;
+</span><span class='line'>    &lt;/property&gt;
+</span><span class='line'>&lt;/configuration&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>修改hdfs-site.xml配置文件，主要对HDFS相关属性的配置，如文件副本的个数、块大小及是否使用强制权限等。</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;configuration&gt;
+</span><span class='line'>  &lt;property&gt;
+</span><span class='line'>      &lt;name&gt;dfs.namenode.name.dir&lt;/name&gt;
+</span><span class='line'>        &lt;value&gt;file://${hadoop.tmp.dir}/dfs/name&lt;/value&gt;
+</span><span class='line'>    &lt;/property&gt;
+</span><span class='line'>    &lt;property&gt;
+</span><span class='line'>        &lt;name&gt;dfs.datanode.data.dir&lt;/name&gt;
+</span><span class='line'>        &lt;value&gt;file://${hadoop.tmp.dir}/dfs/data&lt;/value&gt;
+</span><span class='line'>    &lt;/property&gt;
+</span><span class='line'>    &lt;property&gt;
+</span><span class='line'>        &lt;name&gt;hadoop.tmp.dir&lt;/name&gt;
+</span><span class='line'>        &lt;value&gt;/apps/hadoop/hdfs/tmp/&lt;/value&gt;
+</span><span class='line'>    &lt;/property&gt;
+</span><span class='line'>    &lt;property&gt;
+</span><span class='line'>        &lt;name&gt;dfs.replication&lt;/name&gt;   #数据副本数量，默认3，我们是两台设置2
+</span><span class='line'>        &lt;value&gt;2&lt;/value&gt;    
+</span><span class='line'>    &lt;/property&gt;
+</span><span class='line'>    &lt;property&gt;
+</span><span class='line'>        &lt;name&gt;dfs.webhdfs.enabled&lt;/name&gt;
+</span><span class='line'>        &lt;value&gt;true&lt;/value&gt;
+</span><span class='line'>     &lt;/property&gt;
+</span><span class='line'>&lt;/configuration&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>修改mapred-site.xml MapReduce配置文件，主要对JobTracker地址及端口的配置。</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;configuration&gt;
+</span><span class='line'>  &lt;property&gt;
+</span><span class='line'>      &lt;name&gt;mapreduce.framework.name&lt;/name&gt;
+</span><span class='line'>        &lt;value&gt;yarn&lt;/value&gt;
+</span><span class='line'>    &lt;/property&gt;
+</span><span class='line'>    &lt;property&gt;
+</span><span class='line'>      &lt;name&gt;mapreduce.jobhistory.address&lt;/name&gt;
+</span><span class='line'>        &lt;value&gt;master:10020&lt;/value&gt;
+</span><span class='line'>    &lt;/property&gt;
+</span><span class='line'>    &lt;property&gt;
+</span><span class='line'>        &lt;name&gt;mapreduce.jobhistory.webapp.address&lt;/name&gt;
+</span><span class='line'>        &lt;value&gt;master:19888&lt;/value&gt;
+</span><span class='line'>    &lt;/property&gt;
+</span><span class='line'>&lt;configuration&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>修改slaves配置文件，slaves主机列表，可以是alias或IP地址。</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>slave1
+</span><span class='line'>slave2</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>修改yarn-site.xml配置文件，yarn地址及端口信息配置。</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;configuration&gt;
+</span><span class='line'>  &lt;property&gt;
+</span><span class='line'>      &lt;name&gt;yarn.resourcemanager.address&lt;/name&gt;
+</span><span class='line'>      &lt;value&gt;master:8032&lt;/value&gt;
+</span><span class='line'>  &lt;/property&gt;
+</span><span class='line'>  &lt;property&gt;
+</span><span class='line'>      &lt;name&gt;yarn.resourcemanager.scheduler.address&lt;/name&gt;
+</span><span class='line'>      &lt;value&gt;master:8030&lt;/value&gt;
+</span><span class='line'>  &lt;/property&gt;
+</span><span class='line'>  &lt;property&gt;
+</span><span class='line'>      &lt;name&gt;yarn.resourcemanager.resource-tracker.address&lt;/name&gt;
+</span><span class='line'>      &lt;value&gt;master:8031&lt;/value&gt;
+</span><span class='line'>  &lt;/property&gt;
+</span><span class='line'>  &lt;property&gt;
+</span><span class='line'>      &lt;name&gt;yarn.resourcemanager.admin.address&lt;/name&gt;
+</span><span class='line'>      &lt;value&gt;master:8033&lt;/value&gt;
+</span><span class='line'>  &lt;/property&gt;
+</span><span class='line'>  &lt;property&gt;
+</span><span class='line'>      &lt;name&gt;yarn.resourcemanager.webapp.address&lt;/name&gt;
+</span><span class='line'>      &lt;value&gt;master:8088&lt;/value&gt;
+</span><span class='line'>  &lt;/property&gt;
+</span><span class='line'>  &lt;property&gt;
+</span><span class='line'>      &lt;name&gt;yarn.nodemanager.aux-services&lt;/name&gt;
+</span><span class='line'>      &lt;value&gt;mapreduce_shuffle&lt;/value&gt;
+</span><span class='line'>  &lt;/property&gt;
+</span><span class='line'>  &lt;property&gt;
+</span><span class='line'>      &lt;name&gt;yarn.nodemanager.aux-services.mapreduce.shuffle.class&lt;/name&gt;
+</span><span class='line'>      &lt;value&gt;org.apache.hadoop.mapred.ShuffleHandler&lt;/value&gt;
+</span><span class='line'>  &lt;/property&gt;
+</span><span class='line'>&lt;/configuration&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>scp hadoop slave1:~/apps/   # 复制到其他节点slave1、slave2
+</span><span class='line'>scp hadoop slave2:~/apps/</span></code></pre></td></tr></table></div></figure>
+
+
+<p><font color=red size=1> 注意：只需要原样复制即可，不必改动上面的xml配置文件。 </font></p>
+
+<h3>3.启动关闭与验证</h3>
+
+<ul>
+<li>启动与关闭</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>hdfs namenode -format    # 格式化HDFS
+</span><span class='line'>start-dfs.sh    # 启动HDFS文件系统
+</span><span class='line'>jps   # 检查守护进程是否启动
+</span><span class='line'>start-yarn.sh   # 启动新mapreduce架构
+</span><span class='line'>jps   # 检查守护进程是否启动
+</span><span class='line'>start-all.sh    # 也可通过star-all.sh启动所有进程
+</span><span class='line'>stop-all.sh     # 关闭所有进程
+</span><span class='line'>hdfs dfsadmin -report   # 查看集群状态</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>浏览器中查看</li>
+</ul>
+
+
+<p><a href="http://master:8088/">http://master:8088</a>   &nbsp;&nbsp;&nbsp;&nbsp; #通过web查看资源</p>
+
+<p><a href="http://master:50070/">http://master:50070</a>  &nbsp;&nbsp; # 查看HDFS状态</p>
+
+<ul>
+<li>验证集群计算，执行Hadoop自带的examples，执行如下命令：</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.2.0.jar randomwriter out</span></code></pre></td></tr></table></div></figure>
+
+
+<p>至此，Hadoop的集群已经搭建完成，以上内容主要参考<a href="http://hadoop.apache.org"><code>Apache Hadoop</code></a>官网！</p>
+
+<p>详细配置请参考：<a href="http://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-common/ClusterSetup.html"><code>Hadoop Cluster Setup</code></a></p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-11T14:51:00+08:00" data-updated="true" itemprop="datePublished">Feb 11<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/02/11/ocotopress-personalized-configuration/" itemprop="url">Ocotopress个性化配置</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p><img src="/images/2014/02/octopress.png"></p>
+
+<h3>1、添加个人域名</h3>
+
+<p>octopress目录下，执行命令：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>echo 'yourdomain.com' &gt;&gt; source/CNAME</span></code></pre></td></tr></table></div></figure>
+
+
+<p>此命令会在octopress的source目录创建一个名为CNAME的文件文件，内容为<code>yourdomain.com</code>，完成之后，执行如下命令将CNAME部署到github：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake generate
+</span><span class='line'>git add .
+</span><span class='line'>git commit -am "add CNAME." 
+</span><span class='line'>git push origin source
+</span><span class='line'>rake deploy</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后在你的DNS服务商，如 dnspod.cn，添加相应的CNAME指向 <code>yourname.github.com</code>。如果你要使用顶级域名，如 <a href="http://yuxiaopeng.com"><code>http://yuxiaopeng.com</code></a> 访问你的博客，则需要使用A记录指向 <code>204.232.175.78</code>。</p>
+
+<p>详细内容请参考：<a href="http://octopress.org/docs/deploying/github/"><code>Custom Domains</code></a></p>
+
+<h3>2、安装主题</h3>
+
+<p>本博使用shashank的greyshade主题，在终端中执行如下命令：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git clone git@github.com:shashankmehta/greyshade.git .themes/greyshade
+</span><span class='line'>$ echo "\$greyshade: color;" &gt;&gt; sass/custom/_colors.scss //Substitue 'color' with your highlight color
+</span><span class='line'>$ rake "install[greyshade]"
+</span><span class='line'>$ rake generate</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后，部署到github：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake generate
+</span><span class='line'>git add .
+</span><span class='line'>git commit -am "install greyshade." 
+</span><span class='line'>git push origin source
+</span><span class='line'>rake deploy</span></code></pre></td></tr></table></div></figure>
+
+
+<p>详细内容请参考：<a href="https://github.com/shashankmehta/greyshade"><code>greyshade</code></a></p>
+
+<h3>3、添加多说</h3>
+
+<ul>
+<li>获取short_name</li>
+</ul>
+
+
+<p>去 <a href="http://duoshuo.com"><code>多说网</code></a> 注册账号，并获取站点的short_name</p>
+
+<ul>
+<li>在_config.yml文件中添加如下内容</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># duoshuo comments
+</span><span class='line'>duoshuo_comments: true
+</span><span class='line'>duoshuo_short_name: yourname</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>在source/_layouts/post.html中添加多说评论模块</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>｛% if site.duoshuo_short_name and site.duoshuo_comments == true and page.comments == true %｝
+</span><span class='line'>  &lt;section&gt;
+</span><span class='line'>    &lt;h1&gt;Comments&lt;/h1&gt;
+</span><span class='line'>    &lt;div id="comments" aria-live="polite"&gt;｛% include post/duoshuo.html %｝&lt;/div&gt;
+</span><span class='line'>  &lt;/section&gt;
+</span><span class='line'>｛% endif %｝</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>创建source/_includes/post/duoshuo.html，并填入如下内容</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!-- Duoshuo Comment BEGIN --&gt;
+</span><span class='line'>&lt;div class="ds-thread"&gt;&lt;/div&gt;
+</span><span class='line'>&lt;script type="text/javascript"&gt;
+</span><span class='line'>  var duoshuoQuery = {short_name:"yuxiaopeng"};
+</span><span class='line'>  (function() {
+</span><span class='line'>    var ds = document.createElement('script');
+</span><span class='line'>    ds.type = 'text/javascript';ds.async = true;
+</span><span class='line'>    ds.src = 'http://static.duoshuo.com/embed.js';
+</span><span class='line'>    ds.charset = 'UTF-8';
+</span><span class='line'>    (document.getElementsByTagName('head')[0] 
+</span><span class='line'>    || document.getElementsByTagName('body')[0]).appendChild(ds);
+</span><span class='line'>  })();
+</span><span class='line'>&lt;/script&gt;
+</span><span class='line'>&lt;!-- Duoshuo Comment END --&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>发布到站点</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ rake generate
+</span><span class='line'>$ git add .
+</span><span class='line'>$ git commit -am "添加多说评论" 
+</span><span class='line'>$ git push origin source
+</span><span class='line'>$ rake deploy</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>4、添加百度和Google统计</h3>
+
+<p>从百度统计获取脚本，然后添加到文件<code>source/_includes/after_footer.html</code>文件中
+从google analytics获取跟踪ID，然后将这个ID添加到<code>_config.yml</code>文件的<code>google_analytics_tracking_id</code>后面即可。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Google Analytics
+</span><span class='line'>google_analytics_tracking_id: UA-457s202x-x</span></code></pre></td></tr></table></div></figure>
+
+
+<p>持续更新</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-10T16:17:00+08:00" data-updated="true" itemprop="datePublished">Feb 10<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/02/10/create-a-blog-using-octopress/" itemprop="url">使用Octopress搭建博客</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p><img src="/images/2014/02/github_page_and-octopress.png"></p>
+
+<h3>1、安装 Git.</h3>
+
+<p>Mac系统默认已安装<a href="http://git-scm.com"><code>Git</code></a>.在终端输入git &#8211;version，应该可以看到电脑中的git版本</p>
+
+<h3>2、安装 Ruby</h3>
+
+<p>Octopress需要Ruby环境，RVM(Ruby Version Manager)负责安装和管理Ruby的环境。我们先在Terminal中输入如下命令，来安装RVM：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>curl -L https://get.rvm.io | bash -s stable —ruby</span></code></pre></td></tr></table></div></figure>
+
+
+<p>接着安装Ruby 1.9.3，在终端依次运行如下命令：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rvm install 1.9.3
+</span><span class='line'>rvm use 1.9.3
+</span><span class='line'>rvm ruby gems latest</span></code></pre></td></tr></table></div></figure>
+
+
+<p>完成上面的操作之后，运行ruby &#8211;version应该可以看到ruby 1.9.3环境已经安装好了。</p>
+
+<p>参考  <a href="http://octopress.org/docs/setup/rvm/"><code>Installing Ruby With RVM</code></a></p>
+
+<h3>3、安装 Octopress</h3>
+
+<p>使用用git命令将octopress从github上clone到本机，如下命令：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git clone git://github.com/imathis/octopress.git octopress
+</span><span class='line'>cd octopress    # If you use RVM, You'll be asked if you trust the .rvmrc file (say yes).
+</span><span class='line'>ruby --version  # Should report Ruby 1.9.3</span></code></pre></td></tr></table></div></figure>
+
+
+<p>安装相关依赖项：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem install bundler
+</span><span class='line'>rbenv rehash    # If you use rbenv, rehash to be able to run the bundle command
+</span><span class='line'>bundle install</span></code></pre></td></tr></table></div></figure>
+
+
+<p>最后安装默认的Octopress 主题。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> rake install</span></code></pre></td></tr></table></div></figure>
+
+
+<p>参考：<a href="http://octopress.org/docs/setup/"><code>Octopress Setup</code></a></p>
+
+<h3>4、部署到Github Pages</h3>
+
+<p>创建一个新的Github仓库，并以username.github.com命名 ，其中username是你的GitHub上的用户名或组织名称命名的存储库。</p>
+
+<p>为了通过url username.github.com访问到我们github pages页面，需要将源码文件提交到Source分支，将生成好的内容提交到Master分支。 Octopress有一个配置可以实现这些。 在终端输入如下命令：
+rake setup_github_pages</p>
+
+<p>此命令会要求你输入仓库的url，根据提示，进行输入即可。这个命令将实现如下操作：</p>
+
+<p>1、询问和存储您的Github Pages仓库的URL</p>
+
+<p>2、重命名远程仓库imathis/octopress 的 &#8216;origin’ 为 &#8216;octopress’</p>
+
+<p>3、将Github Pages仓库设置为默认的远程origin分支</p>
+
+<p>4、将活动分支由master切换为source</p>
+
+<p>5、根据存储库配置你的博客的url</p>
+
+<p>6、创建一个_deploy目录，用来存放部署到master分支的内容</p>
+
+<p>接下来执行命令：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake generate
+</span><span class='line'>rake deploy</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面的命令首先生成博客文件，并将生成的博客文件拷贝到_deploy/目录下，然后将这些内容添加到git中，并commit和push到仓库的master分支。</p>
+
+<p>现在可以访问http://username.github.com了。注意：有时候可能会有延时，要等几分钟才能打开。
+至此，我们的博客已经完成基本的部署。</p>
+
+<p>不要忘记提交source目录,执行如下命令就可以将source提交到仓库的source分支下。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git add .
+</span><span class='line'>git commit -m 'your message'
+</span><span class='line'>git push origin source</span></code></pre></td></tr></table></div></figure>
+
+
+<p>参考：<a href="http://octopress.org/docs/deploying/github/"><code>Deploying to Github Pages</code></a></p>
+
+<h3>5、配置 Octopress</h3>
+
+<p>Octopress大多数情况下只需要配置<code>_config.yml</code>和<code>Rakefile</code>文件即可。其中Rakefile是跟博客部署相关，一般情况下并不需要修改这个文件。</p>
+
+<p>config.yml是博客重要的一个配置文件，在config.yml文件中有三大配置项：<code>Main Configs</code>、<code>Jekyll &amp; Plugins</code>和<code>3rd Party Settings</code>。</p>
+
+<p>一般，该文件中其中<code>url</code>是必须要填写的，这里的url是在github上创建的仓库地址。另外再修改一下<code>title</code>,<code>subtitle</code>,<code>author</code>，根据需求，开启一些第三方组件服务。</p>
+
+<p>注意格式: 配置项:＋空格＋参数，空格一定不能少，否则会报错。</p>
+
+<ul>
+<li>配置日期格式</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>date_format: "%F %a"         #2014-01-01    
+</span><span class='line'>date_format: "%Y年%m月%d日"    #2014年1月1日</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Jekyll配置</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>excerpt_link: "继续阅读 &amp;rarr; "
+</span><span class='line'>permalink: /blog/:title.html/</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>侧边栏</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>default_asides: [asides/recent_posts.html, asides/github.html]</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>使用本地时区</li>
+</ul>
+
+
+<p>将Rakefile里面所有Time.now改为Time.now.localtime</p>
+
+<ul>
+<li>自动打开文件/浏览器（编辑Rakefile）</li>
+</ul>
+
+
+<p>rake new_post/page 后使用指定编辑器自动打开生成的文件</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Misc Configs 中添加，如果不需要自动打开，则直接使用""
+</span><span class='line'>editor="open"
+</span><span class='line'># open ,使用系统默认编辑器
+</span><span class='line'># open -a Mou，使用Mou打开
+</span><span class='line'># open -a Byword，使用Byword打开
+</span><span class='line'># subl, 使用Sublime Text2打开 
+</span><span class='line'>...
+</span><span class='line'># task :new_post 和 task :new_page 中添加
+</span><span class='line'>if #{editor}
+</span><span class='line'>  system "sleep 1; #{editor} #{filename}"
+</span><span class='line'>end
+</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
+
+
+<p>rake preview 自动打开浏览器</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># task :preview 一段中添加
+</span><span class='line'>system "sleep 2; open http://localhost:#{server_port}/"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>参考：<a href="http://octopress.org/docs/configuring/"><code>Configuring Octopress</code></a></p>
+
+<h3>6、开始使用Octopress写博客</h3>
+
+<p>博客系统搭建好之后，如何撰写博文呢？通过之前的步骤想必你对octopress的精髓有所了解，没有所见即所得的编辑器让你撰写博文，你要做的是使用 rake new_post 命令创建一篇新的文章，然后使用称手的markdown编辑器进行编辑即可。可选择的markdown编辑器很多，vim，sublime text 2，textmate 2，mou等等。我个人喜欢在osx下使用sublime text 2。</p>
+
+<p>终端中输入命令：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake new_post["title"]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Octopress博文存储在source/_posts目录下，按照Jekyll的命名规范对文章进行命名：YYYY-MM-DD-post-title.markdown。文章的名字会被当做url的一部分，而其中的日期用于对博文的区分和排序。打开这个文件内容如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>---
+</span><span class='line'>layout: post
+</span><span class='line'>title: "使用Octopress搭建博客"
+</span><span class='line'>date: 2014-02-10 16:17
+</span><span class='line'>comments: true
+</span><span class='line'>categories: 
+</span><span class='line'>---</span></code></pre></td></tr></table></div></figure>
+
+
+<p>接着我们就可以在这个文件中写我们的博文啦。完成之后，我们可以预览和部署博文。下面是创建并部署博文的一个完整过程：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake new_post["New Post"]
+</span><span class='line'>rake generate
+</span><span class='line'>rake preview
+</span><span class='line'>git add .
+</span><span class='line'>git commit -am "Some comment here." 
+</span><span class='line'>git push origin source
+</span><span class='line'>rake deploy</span></code></pre></td></tr></table></div></figure>
+
+
+<p>参考：<a href="http://octopress.org/docs/blogging/"><code>Blogging Basics</code></a></p>
+
+		
+		
+	</div>
+
+</article>
+
+</div>
+<nav id="pagenavi">
+    
+    
+        <a href="/blog/page/2/" class="next">Next</a>
+    
+    <div class="center"><a href="/blog/archives">Blog Archives</a></div>
+</nav></div>
+			</div>
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2016 - Roc -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a><br/>
+<span class="credit">感谢 <a href="http://gitcafe.com/signup?invited_by=yuxiaopeng" target="_blank">GitCafe</a> 为本站提供存储空间</span>
+</footer>
+			<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-45732020-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+
+		</div>
+	</div>
+</body>
+</html>
