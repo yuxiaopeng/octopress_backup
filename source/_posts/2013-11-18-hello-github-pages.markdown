@@ -6,7 +6,7 @@ comments: true
 categories: 
 ---
 
-{% img /images/2013/11/octopress-logo.png %}
+![](/images/2013/11/octopress-logo.png)
 
 ###大家好，我是Roc，欢迎大家关注我的小站！
 
@@ -83,3 +83,4 @@ rake preview
 ```
 rake deploy
 ```
+
