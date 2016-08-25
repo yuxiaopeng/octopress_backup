@@ -14,11 +14,11 @@ categories:
 
 第1帧：
 
-{% img /images/2015/05/gif_frame_1.png %}
+![](/images/2015/05/gif_frame_1.png)
 
 第45帧：
 
-{% img /images/2015/05/gif_frame_2.png %}
+![](/images/2015/05/gif_frame_2.png)
 
 这样就比较清晰了，其实支持GIF动图，也就是能够把GIF格式压缩的多帧图按照顺序进行展示，并循环这个过程。
 
@@ -168,3 +168,4 @@ Flipboard团队出品，一直在维护。特点是兼容性好，如果项目�
 [`我对几个受欢迎开源项目的对比_Github`](https://github.com/yuxiaopeng/GIF)
 
 【完】
+

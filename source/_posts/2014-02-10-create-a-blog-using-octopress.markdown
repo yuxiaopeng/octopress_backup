@@ -6,7 +6,7 @@ comments: true
 categories: 
 ---
 
-{% img /images/2014/02/github_page_and-octopress.png %}
+![](/images/2014/02/github_page_and-octopress.png)
 
 
 ### 1、安装 Git.
@@ -206,3 +206,4 @@ rake deploy
 ```
 
 参考：[`Blogging Basics`](http://octopress.org/docs/blogging/)
+

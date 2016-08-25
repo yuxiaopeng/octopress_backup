@@ -18,10 +18,10 @@ Delegate是Objective-C的语言特性，使用它可以定义适配器模式的�
 实现Adapter模式的思路是：  <br/>
 第一种称为类适配器，主要通过继承和协议实现，首先需要有定义了客户端要使用的一套行为的协议，然后要用具体的适配器类实现这个协议。适配器类同时也要继承被适配者，它们之间的关系如图：
 
-{% img /images/2014/07/Class_Adapter.jpg %}  <br>
+![](/images/2014/07/Class_Adapter.jpg)  <br>
 第二种称为对象适配器，与类适配器不同，对象适配器不继承被适配者，而是组合了一个对它的引用。实现为对象适配器时，它们的关系如图：
 
-{% img /images/2014/07/Object_Adapter.jpg %}
+![](/images/2014/07/Object_Adapter.jpg)
 
 ```
 //  Adapter
@@ -95,3 +95,4 @@ Delegate是Objective-C的语言特性，使用它可以定义适配器模式的�
 [`iOS Design Patterns`](https://github.com/linktoming/notes-ios/wiki/iOS-Design-Patterns)  <br/>
 [`Adapter Design Pattern`](http://www.codeproject.com/Articles/42915/Adapter-Design-Pattern)  <br/>
 [`iOS Design Patterns`](http://www.raywenderlich.com/46988/ios-design-patterns)
+

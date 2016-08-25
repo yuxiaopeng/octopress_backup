@@ -6,7 +6,7 @@ comments: true
 categories: 
 ---
 
-{% img /images/2014/02/octopress.png %}
+![](/images/2014/02/octopress.png)
 
 ### 1、添加个人域名
 
@@ -119,3 +119,4 @@ google_analytics_tracking_id: UA-457s202x-x
 ```
 
 持续更新
+

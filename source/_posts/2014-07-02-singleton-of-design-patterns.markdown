@@ -5,7 +5,7 @@ date: 2014-07-02 17:28
 comments: true
 categories: 
 ---
-{% img /images/2014/07/singleton.jpg %}
+![](/images/2014/07/singleton.jpg)
 
 ### 1.何为单例模式（Singleton）
 保证一个类仅有一个实例，并提供一个访问它的全局访问点。
@@ -196,3 +196,4 @@ static Singleton *instance = nil;
 [`Singletons in Objective-C`](http://www.galloway.me.uk/tutorials/singleton-classes/)  <br/>
 [`Singleton with ARC`](http://stackoverflow.com/questions/7997594/singleton-with-arc)  <br/>
 [`单例模式`](http://zh.wikipedia.org/zh/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F)
+

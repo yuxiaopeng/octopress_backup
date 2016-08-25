@@ -6,7 +6,7 @@ comments: true
 categories: 
 ---
 
-{% img /images/2014/04/hadoop-elephant_logo.png %}
+![](/images/2014/04/hadoop-elephant_logo.png)
 
 ### 1.环境准备
 
@@ -263,3 +263,5 @@ bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.2.0.jar random
 至此，Hadoop的集群已经搭建完成，以上内容主要参考[`Apache Hadoop`](http://hadoop.apache.org)官网！
 
 详细配置请参考：[`Hadoop Cluster Setup`](http://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-common/ClusterSetup.html)
+
+
